@@ -3,673 +3,548 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SAVEAN STORE | Style That Saves - Premium Luxury Fashion</title>
-    <meta name="description" content="Discover premium luxury fashion at SAVEAN STORE. Shop our exclusive collection of clothing, shoes, bags, and accessories. Style That Saves.">
-    <meta property="og:title" content="SAVEAN STORE | Premium Luxury Fashion">
-    <meta property="og:description" content="Shop the ultimate luxury monochrome fashion experience. High quality, structured design, and timeless style.">
+    <meta name="description" content="SAVEAN STORE - Style That Saves. Premium monochrome fashion marketplace for Men, Women, Shoes, Bags, and Luxury Accessories.">
+    <title>SAVEAN STORE | Style That Saves</title>
+    
+    <meta property="og:title" content="SAVEAN STORE | Style That Saves">
+    <meta property="og:description" content="Premium monochrome fashion marketplace for Men, Women, Shoes, Bags, and Luxury Accessories.">
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://www.saveanstore.com">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <div id="preloader">
-        <div class="spinner"></div>
-    </div>
-
-    <div class="announcement-bar">
-        <p>FREE SHIPPING ON ALL ORDERS OVER Rs. 10,000 | USE CODE: SAVEANMONO</p>
+    <div class="loader-container" id="loader">
+        <div class="loader"></div>
     </div>
 
     <header class="main-header">
         <div class="header-container">
-            <button class="mobile-menu-toggle" aria-label="Open Menu">
-                <span></span><span></span><span></span>
+            <button class="mobile-menu-toggle" id="menuToggle" aria-label="Toggle Menu">
+                <i class="fa-solid fa-bars"></i>
             </button>
             
             <div class="logo">
-                <a href="#" class="nav-trigger" data-target="home-view">SAVEAN STORE</a>
+                <a href="#" onclick="switchView('home')">SAVEAN STORE</a>
+                <span class="tagline">Style That Saves</span>
             </div>
 
-            <nav class="desktop-nav">
+            <nav class="nav-menu" id="navMenu">
+                <button class="close-menu" id="closeMenu"><i class="fa-solid fa-xmark"></i></button>
                 <ul>
-                    <li><a href="#" class="nav-trigger active" data-target="home-view">Home</a></li>
-                    <li><a href="#" class="nav-trigger" data-target="shop-view">Shop</a></li>
-                    <li><a href="#" class="nav-trigger" data-target="dashboard-view">Account</a></li>
+                    <li><a href="#" onclick="switchView('home')" class="nav-link active">Home</a></li>
+                    <li><a href="#" onclick="switchView('shop'); filterCategory('all')" class="nav-link">Shop All</a></li>
+                    <li><a href="#" onclick="switchView('shop'); filterCategory('Men')" class="nav-link">Men</a></li>
+                    <li><a href="#" onclick="switchView('shop'); filterCategory('Women')" class="nav-link">Women</a></li>
+                    <li><a href="#" onclick="switchView('shop'); filterCategory('Shoes')" class="nav-link">Shoes</a></li>
+                    <li><a href="#" onclick="switchView('shop'); filterCategory('Accessories')" class="nav-link">Accessories</a></li>
                 </ul>
             </nav>
 
             <div class="header-actions">
-                <div class="search-box">
-                    <input type="text" id="global-search" placeholder="Search curated fashion...">
-                    <button id="search-btn" aria-label="Search">&#128269;</button>
+                <div class="search-container">
+                    <input type="text" id="globalSearch" placeholder="Search curated fashion..." onkeyup="handleSearch(event)">
+                    <button onclick="triggerSearch()"><i class="fa-solid fa-magnifying-glass"></i></button>
                 </div>
-                <button class="icon-btn nav-trigger" data-target="dashboard-view" aria-label="Account">&#128100;</button>
-                <button class="icon-btn nav-trigger" data-target="wishlist-view" aria-label="Wishlist">
-                    &#9825;<span class="badge" id="wishlist-count">0</span>
+                <button class="action-btn" onclick="switchView('account')" title="Account"><i class="fa-solid fa-user"></i></button>
+                <button class="action-btn" onclick="switchView('wishlist')" title="Wishlist">
+                    <i class="fa-solid fa-heart"></i>
+                    <span class="badge" id="wishlistCount">0</span>
                 </button>
-                <button class="icon-btn nav-trigger" data-target="cart-view" aria-label="Cart">
-                    &#128092;<span class="badge" id="cart-count">0</span>
+                <button class="action-btn" onclick="switchView('cart')" title="Cart">
+                    <i class="fa-solid fa-bag-shopping"></i>
+                    <span class="badge" id="cartCount">0</span>
                 </button>
             </div>
         </div>
     </header>
 
-    <div class="mobile-drawer" id="mobile-drawer">
-        <div class="drawer-header">
-            <h3>MENU</h3>
-            <button class="close-drawer" id="close-drawer">&times;</button>
-        </div>
-        <ul class="drawer-links">
-            <li><a href="#" class="nav-trigger" data-target="home-view">Home</a></li>
-            <li><a href="#" class="nav-trigger" data-target="shop-view">Shop All Products</a></li>
-            <li><a href="#" class="nav-trigger" data-target="dashboard-view">My Account / Dashboard</a></li>
-            <li><a href="#" class="nav-trigger" data-target="wishlist-view">My Wishlist</a></li>
-            <li><a href="#" class="nav-trigger" data-target="cart-view">Shopping Bag</a></li>
-        </ul>
-    </div>
-    <div class="drawer-overlay" id="drawer-overlay"></div>
+    <main class="main-content">
 
-    <main id="main-content">
-
-        <section id="home-view" class="view-section active">
-            <div class="hero-carousel">
-                <div class="carousel-slide active" style="background: #000;">
-                    <div class="hero-text-content">
+        <section id="view-home" class="view-section active">
+            <div class="hero-slider" id="heroSlider">
+                <div class="slide active" style="background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('https://images.unsplash.com/photo-1469334031218-e382a71b716b?auto=format&fit=crop&w=1600&q=80')">
+                    <div class="slide-content">
                         <h2>THE MONOCHROME ESSENTIALS</h2>
-                        <p class="tagline">"Style That Saves"</p>
-                        <button class="btn btn-white shop-now-btn">SHOP COLLECTION</button>
+                        <p>Discover timeless structural luxury silhouettes designed for the modern avant-garde.</p>
+                        <button class="btn btn-white" onclick="switchView('shop')">Shop Collection</button>
                     </div>
                 </div>
-                <div class="carousel-slide" style="background: #111;">
-                    <div class="hero-text-content">
-                        <h2>ARCHITECTURAL TAILORING</h2>
-                        <p class="tagline">Premium Luxury Minimalism</p>
-                        <button class="btn btn-white shop-now-btn">EXPLORE NEW ARRIVALS</button>
+                <div class="slide" style="background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1600&q=80')">
+                    <div class="slide-content">
+                        <h2>CURATED HIGH-FASHION</h2>
+                        <p>Elevate your everyday wardrobe architecture with our iconic minimalist arrivals.</p>
+                        <button class="btn btn-white" onclick="switchView('shop')">Explore Now</button>
                     </div>
                 </div>
-                <div class="carousel-slide" style="background: #222;">
-                    <div class="hero-text-content">
-                        <h2>SEASONAL CURATION 2026</h2>
-                        <p class="tagline">Uncompromising Quality & Form</p>
-                        <button class="btn btn-white shop-now-btn">VIEW ALL DISCOUNTS</button>
+                <div class="slide" style="background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=1600&q=80')">
+                    <div class="slide-content">
+                        <h2>STYLE THAT SAVES</h2>
+                        <p>Luxury craftsmanship matches accessible value. Enjoy premium global delivery options.</p>
+                        <button class="btn btn-white" onclick="switchView('shop')">Discover Sale</button>
                     </div>
                 </div>
-                <div class="carousel-dots">
-                    <span class="dot active"></span>
-                    <span class="dot"></span>
-                    <span class="dot"></span>
-                </div>
-            </div>
-
-            <div class="section-container">
-                <h2 class="section-title">SHOP BY CATEGORY</h2>
-                <div class="categories-grid">
-                    <div class="category-card" data-category="Men's Fashion">
-                        <div class="cat-placeholder">MENSWEAR</div>
-                        <h3>Men's Fashion</h3>
-                    </div>
-                    <div class="category-card" data-category="Women's Fashion">
-                        <div class="cat-placeholder">WOMENSWEAR</div>
-                        <h3>Women's Fashion</h3>
-                    </div>
-                    <div class="category-card" data-category="Shoes">
-                        <div class="cat-placeholder">FOOTWEAR</div>
-                        <h3>Shoes</h3>
-                    </div>
-                    <div class="category-card" data-category="Bags">
-                        <div class="cat-placeholder">LUXURY BAGS</div>
-                        <h3>Bags</h3>
-                    </div>
-                    <div class="category-card" data-category="Accessories">
-                        <div class="cat-placeholder">DETAILS</div>
-                        <h3>Accessories</h3>
-                    </div>
-                    <div class="category-card" data-category="Watches">
-                        <div class="cat-placeholder">CHRONO</div>
-                        <h3>Watches</h3>
-                    </div>
-                    <div class="category-card" data-category="Beauty">
-                        <div class="cat-placeholder">ESSENTIALS</div>
-                        <h3>Beauty</h3>
-                    </div>
-                    <div class="category-card" data-category="Sportswear">
-                        <div class="cat-placeholder">PERFORMANCE</div>
-                        <h3>Sportswear</h3>
-                    </div>
+                <div class="slider-dots">
+                    <span class="dot active" onclick="setSlide(0)"></span>
+                    <span class="dot" onclick="setSlide(1)"></span>
+                    <span class="dot" onclick="setSlide(2)"></span>
                 </div>
             </div>
 
-            <div class="section-container">
-                <h2 class="section-title">FLASH SALE - LIMITED TIME TIMELESSNESS</h2>
-                <div class="product-grid" id="flash-sale-container"></div>
-            </div>
-
-            <div class="section-container bg-dark-block">
-                <h2 class="section-title white-text">FEATURED COLLECTIONS</h2>
-                <div class="product-grid" id="featured-container"></div>
-            </div>
-
-            <div class="section-container">
-                <h2 class="section-title">NEW ARRIVALS</h2>
-                <div class="product-grid" id="new-arrivals-container"></div>
-            </div>
-
-            <div class="section-container">
-                <h2 class="section-title">TODAY'S DEALS</h2>
-                <div class="product-grid" id="deals-container"></div>
-            </div>
-
-            <div class="section-container">
-                <h2 class="section-title">TRENDING PRODUCTS</h2>
-                <div class="product-grid" id="trending-container"></div>
-            </div>
-
-            <div class="section-container">
-                <h2 class="section-title">BEST SELLERS</h2>
-                <div class="product-grid" id="bestsellers-container"></div>
-            </div>
-
-            <div class="newsletter-section">
-                <div class="newsletter-content">
-                    <h2>JOIN THE CHRONICLE</h2>
-                    <p>Subscribe to receive privileged access to avant-garde releases, insider private updates, and curated design thoughts.</p>
-                    <form id="newsletter-form" class="newsletter-form">
-                        <input type="email" placeholder="ENTER YOUR EMAIL ARCHIVE..." required>
-                        <button type="submit" class="btn btn-black">SUBSCRIBE</button>
-                    </form>
+            <section class="section-container">
+                <h3 class="section-title">Shop by Category</h3>
+                <div class="category-grid">
+                    <div class="category-card" onclick="switchView('shop'); filterCategory('Men')">
+                        <img src="https://images.unsplash.com/photo-1488161628813-04466f872be2?auto=format&fit=crop&w=500&q=80" alt="Men's Fashion" loading="lazy">
+                        <div class="cat-overlay"><span>Men's Fashion</span></div>
+                    </div>
+                    <div class="category-card" onclick="switchView('shop'); filterCategory('Women')">
+                        <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=500&q=80" alt="Women's Fashion" loading="lazy">
+                        <div class="cat-overlay"><span>Women's Fashion</span></div>
+                    </div>
+                    <div class="category-card" onclick="switchView('shop'); filterCategory('Shoes')">
+                        <img src="https://images.unsplash.com/photo-1549298916-b41d501d3772?auto=format&fit=crop&w=500&q=80" alt="Shoes" loading="lazy">
+                        <div class="cat-overlay"><span>Shoes</span></div>
+                    </div>
+                    <div class="category-card" onclick="switchView('shop'); filterCategory('Bags')">
+                        <img src="https://images.unsplash.com/photo-1584917865442-de89df76afd3?auto=format&fit=crop&w=500&q=80" alt="Bags" loading="lazy">
+                        <div class="cat-overlay"><span>Bags</span></div>
+                    </div>
+                    <div class="category-card" onclick="switchView('shop'); filterCategory('Accessories')">
+                        <img src="https://images.unsplash.com/photo-1509319117193-57bab727e09d?auto=format&fit=crop&w=500&q=80" alt="Accessories" loading="lazy">
+                        <div class="cat-overlay"><span>Accessories</span></div>
+                    </div>
+                    <div class="category-card" onclick="switchView('shop'); filterCategory('Watches')">
+                        <img src="https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?auto=format&fit=crop&w=500&q=80" alt="Watches" loading="lazy">
+                        <div class="cat-overlay"><span>Watches</span></div>
+                    </div>
+                    <div class="category-card" onclick="switchView('shop'); filterCategory('Beauty')">
+                        <img src="https://images.unsplash.com/photo-1596462502278-27bfdc403348?auto=format&fit=crop&w=500&q=80" alt="Beauty" loading="lazy">
+                        <div class="cat-overlay"><span>Beauty</span></div>
+                    </div>
+                    <div class="category-card" onclick="switchView('shop'); filterCategory('Sportswear')">
+                        <img src="https://images.unsplash.com/photo-1517838277536-f5f99be501cd?auto=format&fit=crop&w=500&q=80" alt="Sportswear" loading="lazy">
+                        <div class="cat-overlay"><span>Sportswear</span></div>
+                    </div>
                 </div>
-            </div>
+            </section>
 
-            <div class="benefits-section">
+            <section class="featured-banner">
+                <div class="featured-image" style="background-image: url('https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1200&q=80');"></div>
+                <div class="featured-text">
+                    <span class="tag">Curated Archive</span>
+                    <h3>THE ARCHIVAL EDIT</h3>
+                    <p>Meticulously sourced, elite tailoring structures built to outlast seasonal trends. Discover striking visual harmony across complete monochrome layouts.</p>
+                    <button class="btn btn-black" onclick="switchView('shop')">Explore Archive</button>
+                </div>
+            </section>
+
+            <section class="section-container">
+                <div class="showcase-tabs">
+                    <button class="tab-link active" onclick="filterShowcase('trending', this)">Trending Products</button>
+                    <button class="tab-link" onclick="filterShowcase('new', this)">New Arrivals</button>
+                    <button class="tab-link" onclick="filterShowcase('best', this)">Best Sellers</button>
+                    <button class="tab-link" onclick="filterShowcase('flash', this)">Flash Sale</button>
+                    <button class="tab-link" onclick="filterShowcase('deals', this)">Today's Deals</button>
+                </div>
+                <div class="product-grid" id="homeProductGrid">
+                    </div>
+            </section>
+
+            <section class="benefits-container">
                 <div class="benefit-item">
-                    <div class="benefit-icon">&#128666;</div>
-                    <h3>FREE SHIPPING</h3>
-                    <p>Complimentary premium delivery on orders surpassing Rs. 10,000</p>
+                    <i class="fa-solid fa-truck-fast"></i>
+                    <h4>Free Premium Shipping</h4>
+                    <p>Complimentary trackable delivery on orders across the country.</p>
                 </div>
                 <div class="benefit-item">
-                    <div class="benefit-icon">&#128274;</div>
-                    <h3>SECURE PAYMENT</h3>
-                    <p>Fully certified bank-grade encryption infrastructure systems</p>
+                    <i class="fa-solid fa-shield-halved"></i>
+                    <h4>Secure Encrypted Payment</h4>
+                    <p>Your transactions are fortified with absolute premium multi-layer security.</p>
                 </div>
                 <div class="benefit-item">
-                    <div class="benefit-icon">&#8634;</div>
-                    <h3>EASY RETURNS</h3>
-                    <p>Seamless 14-day return framework with doorstep pickup options</p>
+                    <i class="fa-solid fa-arrow-rotate-left"></i>
+                    <h4>Easy Returns</h4>
+                    <p>Complimentary 30-day structural inspection and product exchange return.</p>
                 </div>
                 <div class="benefit-item">
-                    <div class="benefit-icon">&#128188;</div>
-                    <h3>24/7 SUPPORT</h3>
-                    <p>Dedicated personal luxury style assistants waiting at your beck</p>
+                    <i class="fa-solid fa-headset"></i>
+                    <h4>24/7 Concierge Support</h4>
+                    <p>Direct communication interface with our premium styling experts anytime.</p>
                 </div>
-            </div>
+            </section>
+
+            <section class="newsletter-section">
+                <h3>JOIN THE ARCHIVE</h3>
+                <p>Subscribe to access exclusive preview releases, curated collection manifests, and secret private sales.</p>
+                <div class="newsletter-form">
+                    <input type="email" placeholder="Enter your email address" id="newsletterEmail">
+                    <button class="btn btn-black" onclick="subscribeNewsletter()">Subscribe</button>
+                </div>
+            </section>
         </section>
 
-
-        <section id="shop-view" class="view-section">
+        <section id="view-shop" class="view-section">
             <div class="shop-layout">
-                <aside class="shop-sidebar">
+                <aside class="shop-sidebar" id="shopSidebar">
+                    <div class="sidebar-header">
+                        <h3>FILTERS</h3>
+                        <button class="close-sidebar" onclick="toggleSidebar(false)"><i class="fa-solid fa-xmark"></i></button>
+                    </div>
+                    
                     <div class="filter-group">
-                        <h3>CATEGORIES</h3>
-                        <ul class="filter-list" id="category-filter-list">
-                            <li class="active" data-value="all">All Catalog</li>
-                            <li data-value="Men's Fashion">Men's Fashion</li>
-                            <li data-value="Women's Fashion">Women's Fashion</li>
-                            <li data-value="Shoes">Shoes</li>
-                            <li data-value="Bags">Bags</li>
-                            <li data-value="Accessories">Accessories</li>
-                            <li data-value="Watches">Watches</li>
-                            <li data-value="Beauty">Beauty</li>
-                            <li data-value="Sportswear">Sportswear</li>
+                        <h4>Category</h4>
+                        <ul class="filter-list" id="categoryFilterList">
+                            <li class="active" onclick="setCategoryFilter('all', this)">All Products</li>
+                            <li onclick="setCategoryFilter('Men', this)">Men's Fashion</li>
+                            <li onclick="setCategoryFilter('Women', this)">Women's Fashion</li>
+                            <li onclick="setCategoryFilter('Shoes', this)">Shoes</li>
+                            <li onclick="setCategoryFilter('Bags', this)">Bags</li>
+                            <li onclick="setCategoryFilter('Accessories', this)">Accessories</li>
+                            <li onclick="setCategoryFilter('Watches', this)">Watches</li>
+                            <li onclick="setCategoryFilter('Beauty', this)">Beauty</li>
+                            <li onclick="setCategoryFilter('Sportswear', this)">Sportswear</li>
                         </ul>
                     </div>
 
                     <div class="filter-group">
-                        <h3>PRICE LIMIT (MAX)</h3>
-                        <div class="price-slider-container">
-                            <input type="range" id="price-range" min="500" max="30000" step="500" value="30000">
+                        <h4>Max Price (Rs.)</h4>
+                        <div class="price-range-container">
+                            <input type="range" id="priceRange" min="500" max="30000" step="500" value="30000" oninput="updatePriceLabel(this.value)">
                             <div class="price-labels">
                                 <span>Rs. 500</span>
-                                <span id="price-range-val">Rs. 30,000</span>
+                                <span id="priceValueLabel">Rs. 30,000</span>
                             </div>
                         </div>
                     </div>
 
                     <div class="filter-group">
-                        <h3>MINIMUM RATING</h3>
-                        <select id="rating-filter" class="shop-select">
-                            <option value="0">All Star Ratings</option>
-                            <option value="4">4★ & Above Only</option>
-                            <option value="4.5">4.5★ Highly Rated</option>
-                        </select>
+                        <h4>Minimum Rating</h4>
+                        <ul class="filter-list" id="ratingFilterList">
+                            <li class="active" onclick="setRatingFilter(0, this)">All Ratings</li>
+                            <li onclick="setRatingFilter(5, this)">★★★★★ (5 Stars)</li>
+                            <li onclick="setRatingFilter(4, this)">★★★★☆ & Up</li>
+                            <li onclick="setRatingFilter(3, this)">★★★☆☆ & Up</li>
+                        </ul>
                     </div>
+                    
+                    <button class="btn btn-black w-100" onclick="resetAllFilters()">Clear All Filters</button>
                 </aside>
 
-                <main class="shop-main">
+                <div class="shop-main">
                     <div class="shop-toolbar">
-                        <div class="results-count"><span id="catalog-count">50</span> Masterpieces Unveiled</div>
+                        <button class="filter-toggle-btn" onclick="toggleSidebar(true)">
+                            <i class="fa-solid fa-sliders"></i> Filters
+                        </button>
+                        <div class="results-count" id="resultsCount">Showing all products</div>
                         <div class="sort-container">
-                            <label for="shop-sort">SORT BY:</label>
-                            <select id="shop-sort" class="shop-select">
-                                <option value="newest">Newest Collections</option>
-                                <option value="low-high">Price: Low to High</option>
-                                <option value="high-low">Price: High to Low</option>
-                                <option value="best-selling">Best Selling Status</option>
-                                <option value="popular">Most Popular Tier</option>
+                            <label for="sortSelect">Sort By:</label>
+                            <select id="sortSelect" onchange="handleSortChange()">
+                                <option value="newest">Newest</option>
+                                <option value="price-low">Price: Low to High</option>
+                                <option value="price-high">Price: High to Low</option>
+                                <option value="best-selling">Best Selling</option>
+                                <option value="popular">Most Popular</option>
                             </select>
                         </div>
                     </div>
 
-                    <div class="product-grid" id="shop-catalog-grid"></div>
-                </main>
-            </div>
-        </section>
-
-
-        <section id="product-details-view" class="view-section">
-            <div class="details-container" id="dynamic-details-root">
-                </div>
-        </section>
-
-
-        <section id="cart-view" class="view-section">
-            <div class="section-container">
-                <h2 class="section-title">YOUR SHOPPING BAG</h2>
-                <div class="cart-layout">
-                    <div class="cart-items-wrapper" id="cart-items-container">
+                    <div class="product-grid" id="shopProductGrid">
                         </div>
-                    <div class="cart-summary-card">
-                        <h3>ORDER SPECIFICATION SUMMARY</h3>
-                        <hr class="mono-hr">
-                        <div class="summary-row">
-                            <span>Subtotal Items</span>
-                            <span id="summary-subtotal">Rs. 0</span>
-                        </div>
-                        <div class="summary-row">
-                            <span>Premium Safe Courier Shipping</span>
-                            <span id="summary-shipping">Rs. 0</span>
-                        </div>
-                        <div class="summary-row">
-                            <span>Systemic Promotional Discount</span>
-                            <span id="summary-discount">- Rs. 0</span>
-                        </div>
-                        <hr class="mono-hr">
-                        <div class="summary-row total-row">
-                            <span>GRAND AGGREGATE TOTAL</span>
-                            <span id="summary-grand-total">Rs. 0</span>
-                        </div>
-                        <button class="btn btn-black btn-block" id="proceed-to-checkout-btn">PROCEED TO STRUCTURAL CHECKOUT</button>
-                    </div>
                 </div>
             </div>
         </section>
 
-
-        <section id="wishlist-view" class="view-section">
-            <div class="section-container">
-                <h2 class="section-title">YOUR INTENDED WISHLIST PORTFOLIO</h2>
-                <div class="product-grid" id="wishlist-items-container">
-                    </div>
-            </div>
+        <section id="view-product-details" class="view-section">
+            <div class="details-container" id="productDetailsContent">
+                </div>
         </section>
 
+        <section id="view-cart" class="view-section section-container">
+            <h2 class="page-title">YOUR SHOPPING BAG</h2>
+            <div class="cart-layout" id="cartLayoutContainer">
+                </div>
+        </section>
 
-        <section id="dashboard-view" class="view-section">
-            <div class="section-container">
-                <div id="auth-subsystem-container" class="auth-box">
-                    <div class="tabs-header">
-                        <button class="auth-tab-toggle active" data-auth-form="login-pane">LOGIN ACCESS</button>
-                        <button class="auth-tab-toggle" data-auth-form="register-pane">CREATE ARCHIVE</button>
-                    </div>
-                    
-                    <div id="login-pane" class="auth-pane active">
-                        <form id="login-form">
-                            <div class="form-group">
-                                <label>Identity Email Address</label>
-                                <input type="email" required placeholder="name@domain.com">
-                            </div>
-                            <div class="form-group">
-                                <label>Secure Access Password</label>
-                                <input type="password" required placeholder="••••••••">
-                            </div>
-                            <button type="submit" class="btn btn-black btn-block">AUTHENTICATE ACCESS</button>
-                            <p class="auth-switch-link text-center"><a href="#" id="trigger-forgot-pwd">Lost Secure Verification Password?</a></p>
-                        </form>
-                    </div>
+        <section id="view-wishlist" class="view-section section-container">
+            <h2 class="page-title">YOUR WISHLIST</h2>
+            <div class="product-grid" id="wishlistGridContainer">
+                </div>
+        </section>
 
-                    <div id="register-pane" class="auth-pane">
-                        <form id="register-form">
-                            <div class="form-group">
-                                <label>First Legal Name</label>
-                                <input type="text" required placeholder="Alex">
-                            </div>
-                            <div class="form-group">
-                                <label>Last Family Name</label>
-                                <input type="text" required placeholder="Savean">
-                            </div>
-                            <div class="form-group">
-                                <label>Email Communication Address</label>
-                                <input type="email" required placeholder="alex@savean.com">
-                            </div>
-                            <div class="form-group">
-                                <label>Initialize Password Set</label>
-                                <input type="password" required placeholder="Minimum 8 Alpha-characters">
-                            </div>
-                            <button type="submit" class="btn btn-black btn-block">INITIALIZE PROFILE SECURELY</button>
-                        </form>
-                    </div>
-
-                    <div id="forgot-pane" class="auth-pane">
-                        <h3>INITIATE RESET TOKEN PROCESS</h3>
-                        <p class="text-muted mb-2">Provide validated signup credentials email to broadcast recovery configurations.</p>
-                        <form id="forgot-form">
-                            <div class="form-group">
-                                <label>Registered User Email</label>
-                                <input type="email" required placeholder="recovery@savean.com">
-                            </div>
-                            <button type="submit" class="btn btn-black btn-block">BROADCAST RESET STREAM</button>
-                            <p class="auth-switch-link text-center"><a href="#" id="return-login-pane">Back to Identity Authentication</a></p>
-                        </form>
-                    </div>
+        <section id="view-account" class="view-section section-container">
+            <div id="account-auth-container">
+                <div class="auth-tabs">
+                    <button class="auth-tab-btn active" onclick="switchAuthTab('login', this)">Login</button>
+                    <button class="auth-tab-btn" onclick="switchAuthTab('register', this)">Register</button>
                 </div>
 
-                <div id="true-dashboard-container" class="dashboard-layout hidden">
+                <div id="auth-login-box" class="auth-box active">
+                    <form onsubmit="handleAuthSubmit(event, 'login')">
+                        <div class="form-group">
+                            <label>Email Address *</label>
+                            <input type="email" required placeholder="name@example.com">
+                        </div>
+                        <div class="form-group">
+                            <label>Password *</label>
+                            <input type="password" required placeholder="••••••••">
+                        </div>
+                        <div class="auth-actions">
+                            <a href="#" onclick="switchAuthTab('forgot', null)">Forgot password?</a>
+                        </div>
+                        <button type="submit" class="btn btn-black w-100">SIGN IN</button>
+                    </form>
+                </div>
+
+                <div id="auth-register-box" class="auth-box">
+                    <form onsubmit="handleAuthSubmit(event, 'register')">
+                        <div class="form-group">
+                            <label>Full Name *</label>
+                            <input type="text" required placeholder="John Doe">
+                        </div>
+                        <div class="form-group">
+                            <label>Email Address *</label>
+                            <input type="email" required placeholder="john@example.com">
+                        </div>
+                        <div class="form-group">
+                            <label>Password *</label>
+                            <input type="password" required placeholder="Minimum 8 characters">
+                        </div>
+                        <button type="submit" class="btn btn-black w-100">CREATE ACCOUNT</button>
+                    </form>
+                </div>
+
+                <div id="auth-forgot-box" class="auth-box">
+                    <h3>Reset Password</h3>
+                    <p style="margin-bottom: 20px; font-size: 0.9rem; color: #666;">Enter your email below to receive secure authentication parameters for structural recovery.</p>
+                    <form onsubmit="handleAuthSubmit(event, 'forgot')">
+                        <div class="form-group">
+                            <label>Email Address *</label>
+                            <input type="email" required placeholder="name@example.com">
+                        </div>
+                        <button type="submit" class="btn btn-black w-100">SUBMIT PASSWORD RESET</button>
+                        <button type="button" class="btn btn-white w-100" style="margin-top: 10px;" onclick="switchAuthTab('login', null)">Back to Login</button>
+                    </form>
+                </div>
+            </div>
+
+            <div id="account-dashboard-container" style="display: none;">
+                <div class="dashboard-layout">
                     <aside class="dashboard-sidebar">
-                        <div class="user-meta-badge">
-                            <div class="user-avatar-placeholder">SS</div>
-                            <h4 id="dash-user-name">Guest Elite Customer</h4>
-                            <p id="dash-user-tier">PROVISIONAL PORTFOLIO ACCREDITATION</p>
+                        <div class="user-info-summary">
+                            <i class="fa-solid fa-circle-user"></i>
+                            <h4 id="dashUserTitle">Premium Client</h4>
+                            <p id="dashUserEmail">client@saveanstore.com</p>
                         </div>
-                        <ul class="dash-menu-links">
-                            <li class="active" data-dash-pane="dash-home">Account Matrix Metrics Overview</li>
-                            <li data-dash-pane="dash-orders">Chronological Order History Trace</li>
-                            <li data-dash-pane="dash-addresses">Saved Shipping Matrix Addresses</li>
-                            <li data-dash-pane="dash-settings">Profile Preference Security Settings</li>
-                            <li id="dash-logout-trigger">Terminate Session Architecture (Logout)</li>
+                        <ul class="dash-menu">
+                            <li class="active" onclick="switchDashTab('history', this)"><i class="fa-solid fa-clock-history"></i> Order History</li>
+                            <li onclick="switchDashTab('addresses', this)"><i class="fa-solid fa-location-dot"></i> Saved Addresses</li>
+                            <li onclick="switchDashTab('profile', this)"><i class="fa-solid fa-sliders"></i> Profile Settings</li>
+                            <li onclick="handleLogout()"><i class="fa-solid fa-right-from-bracket"></i> Sign Out</li>
                         </ul>
                     </aside>
-
-                    <main class="dashboard-main-panel">
-                        <div id="dash-home" class="dash-sub-pane active">
-                            <h3>ACCOUNT METRIX METRICS OVERVIEW</h3>
-                            <div class="stats-grid">
-                                <div class="stat-box">
-                                    <h5>COMPLETED TRANSACTIONS</h5>
-                                    <p class="stat-num" id="dash-stat-orders">1</p>
-                                </div>
-                                <div class="stat-box">
-                                    <h5>SAVED WISHES</h5>
-                                    <p class="stat-num" id="dash-stat-wishes">0</p>
-                                </div>
-                                <div class="stat-box">
-                                    <h5>MEMBER TIER RATIO</h5>
-                                    <p class="stat-num">MONO LUXE</p>
-                                </div>
-                            </div>
-                            <div class="recent-activity-block mt-4">
-                                <h4>Recent Administrative Notices</h4>
-                                <blockquote class="mono-quote">Your SAVEAN STORE profile is running under standard security protocols. Free global prioritization active.</blockquote>
-                            </div>
-                        </div>
-
-                        <div id="dash-orders" class="dash-sub-pane">
-                            <h3>CHRONOLOGICAL ORDER HISTORY TRACE</h3>
-                            <div class="table-responsive">
-                                <table class="mono-table">
+                    <div class="dashboard-content">
+                        <div id="dash-history" class="dash-tab-content active">
+                            <h3>Your Architectural Orders</h3>
+                            <div class="table-responsive" style="margin-top:20px;">
+                                <table class="custom-table">
                                     <thead>
                                         <tr>
-                                            <th>Order Hash Reference</th>
-                                            <th>Timestamp Date</th>
-                                            <th>Payment Method Context</th>
-                                            <th>Total Aggregate Amount</th>
-                                            <th>Fulfillment Status Flag</th>
+                                            <th>Order ID</th>
+                                            <th>Date</th>
+                                            <th>Status</th>
+                                            <th>Total Price</th>
                                         </tr>
                                     </thead>
-                                    <tbody id="dash-orders-tbody">
+                                    <tbody id="orderHistoryBody">
                                         </tbody>
                                 </table>
                             </div>
                         </div>
 
-                        <div id="dash-addresses" class="dash-sub-pane">
-                            <h3>SAVED SHIPPING MATRIX ADDRESSES</h3>
-                            <div class="address-grid">
-                                <div class="address-card default-card">
-                                    <div class="badge-default">DEFAULT SYSTEM SHIPPING</div>
-                                    <p class="mt-2"><strong>Alex Savean</strong></p>
-                                    <p>Suite 100, Minimalist Design Plaza, High Street block</p>
-                                    <p>Colombo, Western Province, 00100</p>
-                                    <p>Phone Integration: +94 77 7123456</p>
-                                </div>
+                        <div id="dash-addresses" class="dash-tab-content">
+                            <h3>Default Shipping Manifest</h3>
+                            <div class="address-card" style="margin-top: 20px;">
+                                <strong>John Doe</strong><br>
+                                45 Premium Boulevard, Suite 700<br>
+                                Colombo, 00700<br>
+                                Sri Lanka<br>
+                                Phone: +94 77 123 4567
                             </div>
                         </div>
 
-                        <div id="dash-settings" class="dash-sub-pane">
-                            <h3>PROFILE PREFERENCE SECURITY SETTINGS</h3>
-                            <form id="dash-settings-form" class="mt-3">
-                                <div class="form-row">
-                                    <div class="form-group">
-                                        <label>Modify First Name</label>
-                                        <input type="text" id="setting-fname" value="Alex">
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Modify Last Name</label>
-                                        <input type="text" id="setting-lname" value="Savean">
-                                    </div>
+                        <div id="dash-profile" class="dash-tab-content">
+                            <h3>Update Security Credentials</h3>
+                            <form style="margin-top:20px;" onsubmit="event.preventDefault(); alert('Profile Configuration Saved.');">
+                                <div class="form-group">
+                                    <label>Full Name</label>
+                                    <input type="text" value="John Doe">
                                 </div>
                                 <div class="form-group">
-                                    <label>Update Communication Email</label>
-                                    <input type="email" id="setting-email" value="alex@savean.com" disabled>
-                                    <small class="text-muted">Account authentication keys require verification to update tracking variables.</small>
+                                    <label>Email Address</label>
+                                    <input type="email" value="client@saveanstore.com" disabled>
                                 </div>
-                                <button type="submit" class="btn btn-black">COMMIT PREFERENCE UPDATE</button>
+                                <div class="form-group">
+                                    <label>New Password</label>
+                                    <input type="password" placeholder="Leave empty to remain unchanged">
+                                </div>
+                                <button class="btn btn-black">Save Changes</button>
                             </form>
                         </div>
-                    </main>
+                    </div>
                 </div>
             </div>
         </section>
 
-
-        <section id="checkout-view" class="view-section">
-            <div class="section-container">
-                <h2 class="section-title">SECURE CHECKOUT MATRIX GATEWAY</h2>
-                <form id="checkout-form-structure">
-                    <div class="checkout-layout">
-                        <div class="checkout-billing-pane">
-                            <h3>BILLING & SHIPPING DESTINATION DETAILS</h3>
-                            <hr class="mono-hr">
-                            <div class="form-row">
-                                <div class="form-group">
-                                    <label>First Legal Name *</label>
-                                    <input type="text" id="chk-first-name" required placeholder="John">
-                                </div>
-                                <div class="form-group">
-                                    <label>Last Family Name *</label>
-                                    <input type="text" id="chk-last-name" required placeholder="Doe">
-                                </div>
+        <section id="view-checkout" class="view-section section-container">
+            <h2 class="page-title">SECURE GATEWAY CHECKOUT</h2>
+            <div class="checkout-layout">
+                <form id="checkoutForm" onsubmit="processCheckout(event)">
+                    <div class="checkout-section">
+                        <h3>1. Shipping & Billing Allocation</h3>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>First Name *</label>
+                                <input type="text" required id="chkFirst">
                             </div>
                             <div class="form-group">
-                                <label>Active Cellular Contact Phone Number *</label>
-                                <input type="tel" id="chk-phone" required placeholder="Rs. Transaction notification text capable">
-                                <small class="text-muted">Format: +94 7X XXX XXXX or standard localized numeric string.</small>
-                            </div>
-                            <div class="form-group">
-                                <label>Primary Electronic Mail Address *</label>
-                                <input type="email" id="chk-email" required placeholder="customer@savean.com">
-                            </div>
-                            <div class="form-group">
-                                <label>Street Address Location Destination *</label>
-                                <input type="text" id="chk-address" required placeholder="House number, apartment, suite units, street name">
-                            </div>
-                            <div class="form-row">
-                                <div class="form-group">
-                                    <label>City Hub *</label>
-                                    <input type="text" id="chk-city" required placeholder="Colombo / Kandy / Galle">
-                                </div>
-                                <div class="form-group">
-                                    <label>Postal Zone Routing Code *</label>
-                                    <input type="text" id="chk-postal" required placeholder="e.g. 20000">
-                                </div>
-                            </div>
-
-                            <h3 class="mt-4">SECURE FINANCIAL PAYMENT OPTIONS</h3>
-                            <hr class="mono-hr">
-                            <div class="payment-selection-methods">
-                                <label class="payment-radio-label">
-                                    <input type="radio" name="payment_method" value="Cash on Delivery" checked>
-                                    <span class="custom-radio"></span>
-                                    <div>
-                                        <strong>Cash on Delivery (COD)</strong>
-                                        <p class="text-muted">Settle the balancing total amount directly using cold cash currency paper upon doorstep transit.</p>
-                                    </div>
-                                </label>
-                                <label class="payment-radio-label">
-                                    <input type="radio" name="payment_method" value="Credit Card">
-                                    <span class="custom-radio"></span>
-                                    <div>
-                                        <strong>Credit Card Transaction Engine</strong>
-                                        <p class="text-muted">Process online instantly using luxury encrypted financial credit assets.</p>
-                                    </div>
-                                </label>
-                                <label class="payment-radio-label">
-                                    <input type="radio" name="payment_method" value="Debit Card">
-                                    <span class="custom-radio"></span>
-                                    <div>
-                                        <strong>Debit Card Direct Assets</strong>
-                                        <p class="text-muted">Directly draw from secure banking deposits instantly via processing protocol.</p>
-                                    </div>
-                                </label>
-                                <label class="payment-radio-label">
-                                    <input type="radio" name="payment_method" value="Bank Transfer">
-                                    <span class="custom-radio"></span>
-                                    <div>
-                                        <strong>Direct Electronic Corporate Bank Transfer</strong>
-                                        <p class="text-muted">Wire settlement directly via swift internal secure transaction logs.</p>
-                                    </div>
-                                </label>
+                                <label>Last Name *</label>
+                                <input type="text" required id="chkLast">
                             </div>
                         </div>
-
-                        <div class="checkout-summary-pane">
-                            <h3>RE-VERIFY ORDER BRIEF</h3>
-                            <hr class="mono-hr">
-                            <div class="checkout-items-mini-list" id="checkout-mini-list">
-                                </div>
-                            <hr class="mono-hr">
-                            <div class="summary-row">
-                                <span>Item Matrix Base Count</span>
-                                <span id="chk-summary-count">0 Items</span>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Phone Number *</label>
+                                <input type="tel" required id="chkPhone">
                             </div>
-                            <div class="summary-row">
-                                <span>Subtotal Valuation</span>
-                                <span id="chk-summary-subtotal">Rs. 0</span>
+                            <div class="form-group">
+                                <label>Email Address *</label>
+                                <input type="email" required id="chkEmail">
                             </div>
-                            <div class="summary-row">
-                                <span>Shipping Configuration Matrix</span>
-                                <span id="chk-summary-shipping">Rs. 0</span>
+                        </div>
+                        <div class="form-group">
+                            <label>Street Address *</label>
+                            <input type="text" required placeholder="House number and street name" id="chkAddress">
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>City *</label>
+                                <input type="text" required id="chkCity">
                             </div>
-                            <div class="summary-row">
-                                <span>Promotional Discount Vector</span>
-                                <span id="chk-summary-discount">- Rs. 0</span>
+                            <div class="form-group">
+                                <label>Postal Code *</label>
+                                <input type="text" required id="chkZip">
                             </div>
-                            <hr class="mono-hr">
-                            <div class="summary-row total-row">
-                                <span>FINAL AUTHORIZED TOTAL</span>
-                                <span id="chk-summary-grand-total">Rs. 0</span>
-                            </div>
-                            <button type="submit" class="btn btn-black btn-block mt-3" id="submit-order-final-btn">CONFIRM AND EXECUTE FINANCIAL RESPONSIBILITY</button>
                         </div>
                     </div>
+
+                    <div class="checkout-section" style="margin-top: 30px;">
+                        <h3>2. Financial Gateway Verification</h3>
+                        <div class="payment-options">
+                            <label class="payment-option">
+                                <input type="radio" name="paymentMethod" value="Cash on Delivery" checked>
+                                <span>Cash on Delivery (COD)</span>
+                            </label>
+                            <label class="payment-option">
+                                <input type="radio" name="paymentMethod" value="Credit Card">
+                                <span>Credit Card</span>
+                            </label>
+                            <label class="payment-option">
+                                <input type="radio" name="paymentMethod" value="Debit Card">
+                                <span>Debit Card</span>
+                            </label>
+                            <label class="payment-option">
+                                <input type="radio" name="paymentMethod" value="Bank Transfer">
+                                <span>Direct Bank Wire Transfer</span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-black w-100" style="margin-top: 30px; font-size: 1.1rem; padding: 15px;">AUTHORIZE SECURE PURCHASE</button>
                 </form>
+
+                <div class="checkout-summary-box">
+                    <h3>Order Inventory Summary</h3>
+                    <div id="checkoutSummaryItems">
+                        </div>
+                    <hr>
+                    <div class="summary-row font-bold">
+                        <span>Total Checkout Obligation:</span>
+                        <span id="checkoutGrandTotal">Rs. 0</span>
+                    </div>
+                </div>
             </div>
         </section>
 
+        <section id="view-confirmation" class="view-section section-container text-center">
+            <div class="confirmation-box">
+                <i class="fa-solid fa-circle-check confirmation-icon"></i>
+                <h2>TRANSACTION COMPLETE</h2>
+                <p class="success-msg">Your fashion acquisition request has been securely archived and processed.</p>
+                
+                <div class="conf-details-card">
+                    <p><strong>Order Serial Reference:</strong> <span id="confOrderNumber">SVN-984712-2026</span></p>
+                    <p><strong>Client Representative:</strong> <span id="confCustomerName">John Doe</span></p>
+                    <p><strong>Authorized Allocation Sum:</strong> <span id="confTotalAmount" class="font-bold">Rs. 0</span></p>
+                </div>
 
-        <section id="order-confirmation-view" class="view-section">
-            <div class="section-container text-center confirmation-card-wrapper">
-                <div class="success-checkmark-icon">&#10003;</div>
-                <h2 class="section-title">TRANSACTION EXECUTED SUCCESSFULLY</h2>
-                <blockquote class="mono-quote success-msg-quote">
-                    Your luxury structural acquisition sequence has been logged into the secure central manifest database files at SAVEAN STORE.
-                </blockquote>
-
-                <div class="confirmation-details-box text-left">
-                    <h3>ORDER IDENTIFICATION HASH MANIFEST</h3>
-                    <p><strong>Order Reference Token ID:</strong> <span id="conf-order-id" class="text-highlight">SS-2026-99384720</span></p>
-                    <p><strong>System Tracking Status:</strong> <span class="badge-default">PRE-ROUTING INITIALIZATION</span></p>
-                    
-                    <hr class="mono-hr">
-                    
-                    <h3>CUSTOMER RECIPIENT PROFILE</h3>
-                    <p><strong>Authorized Signatory Buyer:</strong> <span id="conf-customer-name">John Doe</span></p>
-                    <p><strong>Primary Communications Contact Trace:</strong> <span id="conf-customer-contact">customer@savean.com</span></p>
-                    <p><strong>Physical Shipping Routing Point:</strong> <span id="conf-customer-address">123 Street Luxury Avenue, Colombo</span></p>
-
-                    <hr class="mono-hr">
-
-                    <h3>ACQUISITION LINE MANIFEST EXTRACTION</h3>
-                    <div id="conf-products-summary-list">
-                        </div>
-                    
-                    <hr class="mono-hr">
-                    
-                    <div class="summary-row total-row">
-                        <span>TOTAL FINANCIAL LIQUID SETTLEMENT:</span>
-                        <span id="conf-grand-total" class="text-highlight">Rs. 0</span>
+                <h3>Acquired Manifest</h3>
+                <div id="confProductsSummary" style="margin: 20px 0; text-align: left;">
                     </div>
-                </div>
 
-                <div class="mt-4">
-                    <button class="btn btn-black nav-trigger" data-target="shop-view">RETURN TO GENERAL CORE MARKETPLACE</button>
-                    <button class="btn btn-white nav-trigger" data-target="dashboard-view">TRACK VIA MASTER SYSTEM DASHBOARD</button>
-                </div>
+                <button class="btn btn-black" onclick="switchView('home')">Return to Digital Archive Home</button>
             </div>
         </section>
 
     </main>
 
-    <footer class="global-footer">
+    <footer class="main-footer">
         <div class="footer-grid">
-            <div class="footer-brand-column">
-                <h3>SAVEAN STORE</h3>
-                <p class="tagline">"Style That Saves"</p>
-                <p class="footer-about-text">A premier global fashion marketplace balancing raw minimalism, architectural silhouettes, and unparalleled fiscal design logic. Crafted purely in monochrome structures.</p>
+            <div class="footer-brand-col">
+                <h4>SAVEAN STORE</h4>
+                <p class="tagline">Style That Saves</p>
+                <p class="desc">A premier high-fashion ecosystem. Merging striking structural monochrome geometries with curated elite luxury silhouettes.</p>
             </div>
-            <div class="footer-links-column">
-                <h4>NAVIGATION GATEWAYS</h4>
+            <div>
+                <h4>Navigation Hub</h4>
                 <ul>
-                    <li><a href="#" class="nav-trigger" data-target="home-view">Marketplace Core Home</a></li>
-                    <li><a href="#" class="nav-trigger" data-target="shop-view">Curated Global Shop</a></li>
-                    <li><a href="#" class="nav-trigger" data-target="dashboard-view">User Authentication Node</a></li>
-                    <li><a href="#" class="nav-trigger" data-target="cart-view">Active Shopping Bag</a></li>
+                    <li><a href="#" onclick="switchView('shop')">Shop Digital Catalog</a></li>
+                    <li><a href="#" onclick="switchView('account')">Account Portals</a></li>
+                    <li><a href="#" onclick="switchView('wishlist')">Wishlist Index</a></li>
+                    <li><a href="#" onclick="switchView('cart')">Shopping Bag</a></li>
                 </ul>
             </div>
-            <div class="footer-links-column">
-                <h4>GOVERNANCE & CARE</h4>
+            <div>
+                <h4>Client Policy Guidelines</h4>
                 <ul>
-                    <li><a href="#" class="footer-static-trigger" data-static="faq">FAQ Node Systems</a></li>
-                    <li><a href="#" class="footer-static-trigger" data-static="shipping">Shipping Protocol Framework</a></li>
-                    <li><a href="#" class="footer-static-trigger" data-static="returns">Return Manifest Policy</a></li>
-                    <li><a href="#" class="footer-static-trigger" data-static="privacy">Privacy Data Directives</a></li>
-                    <li><a href="#" class="footer-static-trigger" data-static="terms">Terms & Functional Conditions</a></li>
+                    <li><a href="#" onclick="alert('Complimentary premium tracked shipping options apply on local orders.')">Shipping Architecture</a></li>
+                    <li><a href="#" onclick="alert('30-day structural inspection return protocol enabled.')">Return Manifests</a></li>
+                    <li><a href="#" onclick="alert('Secure modern cryptographic personal privacy guidelines enforced.')">Privacy Policy</a></li>
+                    <li><a href="#" onclick="alert('Terms and conditions governed by global luxury enterprise regulations.')">Terms & Conditions</a></li>
                 </ul>
             </div>
-            <div class="footer-links-column">
-                <h4>COMMUNICATIONS INTEGRATION</h4>
-                <p class="footer-contact-info">Central Hub Support Office: Colombo Headquarters, Sri Lanka</p>
-                <p class="footer-contact-info">Realtime Wire Email: assistant@saveanstore.com</p>
-                <div class="social-links-container">
-                    <a href="#" aria-label="Instagram EngineLink">IG</a>
-                    <a href="#" aria-label="X Digital Broadcast Platform">X</a>
-                    <a href="#" aria-label="FB Social Architecture Network">FB</a>
-                    <a href="#" aria-label="Pinterest Digital Ledger">PIN</a>
-                    <a href="#" aria-label="LinkedIn Professional Network">LN</a>
-                </div>
+            <div>
+                <h4>Support Infrastructure</h4>
+                <ul>
+                    <li><a href="#" onclick="alert('Direct communication line open via client@saveanstore.com')">Contact Specialist</a></li>
+                    <li><a href="#" onclick="alert('Frequently Asked Questions database updating structural metrics.')">FAQ Repository</a></li>
+                    <li><a href="#" onclick="alert('Physical flagship experience centers opening globally in late 2026.')">Our Locations</a></li>
+                </ul>
             </div>
         </div>
-        <div class="footer-copyright-strip">
-            <p>&copy; 2026 SAVEAN STORE. All sovereign luxury structural assets reserved globally. Execution optimized for extreme responsive layout metrics.</p>
+        <div class="footer-bottom">
+            <div class="social-links">
+                <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+                <a href="#" aria-label="X/Twitter"><i class="fa-brands fa-x-twitter"></i></a>
+                <a href="#" aria-label="Pinterest"><i class="fa-brands fa-pinterest"></i></a>
+                <a href="#" aria-label="LinkedIn"><i class="fa-brands fa-linkedin"></i></a>
+            </div>
+            <p>&copy; 2026 SAVEAN STORE Luxury Fashion Network Inc. All Architectural Concepts Registered.</p>
         </div>
     </footer>
 
