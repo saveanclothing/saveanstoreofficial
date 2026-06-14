@@ -1,0 +1,1732 @@
+/* ==========================================================================
+   01. CORE SYSTEM ARCHITECTURE, CSS RESETS & LUXURY TYPOGRAPHY DEFINITIONS
+   ========================================================================== */
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    scroll-behavior: smooth;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background-color: #FFFFFF;
+    color: #000000;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+    overflow-x: hidden;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Base Semantic Text Elements */
+h1, h2, h3, h4, h5, h6 {
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #000000;
+    margin-bottom: 0.5em;
+}
+
+p {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: #111111;
+}
+
+a {
+    color: #000000;
+    text-decoration: none;
+    transition: color 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+a:hover {
+    color: #555555;
+}
+
+ul {
+    list-style: none;
+}
+
+img {
+    max-width: 100%;
+    display: block;
+}
+
+hr.mono-hr {
+    border: 0;
+    height: 1px;
+    background: #000000;
+    margin: 1.5rem 0;
+}
+
+/* Utility Layout Classes */
+.section-container {
+    max-width: 1400px;
+    margin: 4rem auto;
+    padding: 0 2rem;
+}
+
+.section-title {
+    font-size: 1.75rem;
+    text-align: center;
+    position: relative;
+    margin-bottom: 3rem;
+    padding-bottom: 0.75rem;
+    letter-spacing: 3px;
+}
+
+.section-title::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 2px;
+    background-color: #000000;
+}
+
+.bg-dark-block {
+    background-color: #000000;
+    padding: 4rem 2rem;
+    max-width: 100% !important;
+}
+
+.white-text {
+    color: #FFFFFF !important;
+}
+
+.white-text::after {
+    background-color: #FFFFFF !important;
+}
+
+.text-center { text-align: center; }
+.text-left { text-align: left; }
+.text-muted { color: #666666 !important; font-size: 0.85rem; }
+.text-highlight { font-weight: 700; text-decoration: underline; }
+.mt-2 { margin-top: 0.5rem; }
+.mt-3 { margin-top: 1rem; }
+.mt-4 { margin-top: 2rem; }
+.mb-2 { margin-bottom: 0.5rem; }
+.hidden { display: none !important; }
+
+/* ==========================================================================
+   02. COMPONENTS: BUTTONS, FORMS, BADGES & INTERACTION SYSTEMS
+   ========================================================================== */
+.btn {
+    display: inline-block;
+    padding: 1rem 2rem;
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    border: 1px solid #000000;
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    border-radius: 0;
+    text-align: center;
+}
+
+.btn-black {
+    background-color: #000000;
+    color: #FFFFFF;
+}
+
+.btn-black:hover {
+    background-color: #FFFFFF;
+    color: #000000;
+}
+
+.btn-white {
+    background-color: #FFFFFF;
+    color: #000000;
+}
+
+.btn-white:hover {
+    background-color: #000000;
+    color: #FFFFFF;
+    border-color: #FFFFFF;
+}
+
+.btn-block {
+    display: block;
+    width: 100%;
+}
+
+/* Badges */
+.badge-default {
+    display: inline-block;
+    padding: 0.25rem 0.5rem;
+    font-size: 0.7rem;
+    font-weight: 700;
+    background-color: #000000;
+    color: #FFFFFF;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+/* Forms Input Framework */
+.form-group {
+    margin-bottom: 1.25rem;
+}
+
+.form-group label {
+    display: block;
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 0.5rem;
+}
+
+.form-group input[type="text"],
+.form-group input[type="email"],
+.form-group input[type="password"],
+.form-group input[type="tel"],
+.form-group input[type="number"] {
+    width: 100%;
+    padding: 0.85rem;
+    border: 1px solid #000000;
+    background-color: #FFFFFF;
+    color: #000000;
+    font-family: inherit;
+    font-size: 0.9rem;
+    border-radius: 0;
+    transition: background 0.3s;
+}
+
+.form-group input:focus {
+    outline: none;
+    background-color: #F5F5F5;
+}
+
+.form-row {
+    display: flex;
+    gap: 1rem;
+}
+
+.form-row .form-group {
+    flex: 1;
+}
+
+/* Quotes & Blockquotes Component */
+.mono-quote {
+    border-left: 3px solid #000000;
+    padding: 1rem 1.5rem;
+    background: #F9F9F9;
+    font-style: italic;
+    margin: 1.5rem 0;
+}
+
+/* ==========================================================================
+   03. HEADER NAVIGATION, ANNOUNCEMENT STRIPS & ANIMATED PRELOADER
+   ========================================================================== */
+#preloader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #FFFFFF;
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: opacity 0.5s ease, visibility 0.5s ease;
+}
+
+.spinner {
+    width: 50px;
+    height: 50px;
+    border: 3px solid #F3F3F3;
+    border-top: 3px solid #000000;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.announcement-bar {
+    background-color: #000000;
+    color: #FFFFFF;
+    text-align: center;
+    padding: 0.6rem 1rem;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+}
+
+.main-header {
+    position: sticky;
+    top: 0;
+    background-color: #FFFFFF;
+    border-bottom: 1px solid #000000;
+    z-index: 1000;
+    transition: all 0.3s ease;
+}
+
+.header-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 1rem 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.logo a {
+    font-size: 1.6rem;
+    font-weight: 900;
+    letter-spacing: 4px;
+}
+
+.desktop-nav ul {
+    display: flex;
+    gap: 2.5rem;
+}
+
+.desktop-nav a {
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    position: relative;
+    padding: 0.5rem 0;
+}
+
+.desktop-nav a::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 1px;
+    background-color: #000000;
+    transition: width 0.3s;
+}
+
+.desktop-nav a:hover::after,
+.desktop-nav a.active::after {
+    width: 100%;
+}
+
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.search-box {
+    display: flex;
+    border: 1px solid #000000;
+    background: #FFFFFF;
+}
+
+.search-box input {
+    border: none;
+    padding: 0.4rem 0.8rem;
+    font-size: 0.8rem;
+    outline: none;
+    width: 180px;
+    font-family: inherit;
+}
+
+.search-box button {
+    background: none;
+    border: none;
+    padding: 0.4rem 0.6rem;
+    cursor: pointer;
+}
+
+.icon-btn {
+    background: none;
+    border: none;
+    font-size: 1.25rem;
+    cursor: pointer;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.icon-btn .badge {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    background-color: #000000;
+    color: #FFFFFF;
+    font-size: 0.65rem;
+    font-weight: 700;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Mobile Toggle Hamburger */
+.mobile-menu-toggle {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.mobile-menu-toggle span {
+    display: block;
+    width: 25px;
+    height: 2px;
+    background-color: #000000;
+}
+
+/* ==========================================================================
+   04. MOBILE DRAWER SYSTEM
+   ========================================================================== */
+.mobile-drawer {
+    position: fixed;
+    top: 0;
+    left: -300px;
+    width: 300px;
+    height: 100%;
+    background-color: #FFFFFF;
+    z-index: 2000;
+    box-shadow: 5px 0 15px rgba(0,0,0,0.1);
+    transition: left 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    padding: 2rem;
+}
+
+.mobile-drawer.open {
+    left: 0;
+}
+
+.drawer-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 3rem;
+}
+
+.close-drawer {
+    background: none;
+    border: none;
+    font-size: 2rem;
+    cursor: pointer;
+}
+
+.drawer-links li {
+    margin-bottom: 1.5rem;
+}
+
+.drawer-links a {
+    font-size: 1.1rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    display: block;
+}
+
+.drawer-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5);
+    z-index: 1999;
+    display: none;
+}
+
+.drawer-overlay.open {
+    display: block;
+}
+
+/* ==========================================================================
+   05. MULTI-VIEWPORT STRUCTURE CONTROLLERS
+   ========================================================================== */
+.view-section {
+    display: none;
+    opacity: 0;
+    transition: opacity 0.4s ease-in-out;
+}
+
+.view-section.active {
+    display: block;
+    opacity: 1;
+}
+
+/* ==========================================================================
+   06. VIEWPORTS: HOME VIEW SYSTEM (HERO, CATEGORIES, BENEFITS)
+   ========================================================================== */
+.hero-carousel {
+    position: relative;
+    height: 70vh;
+    overflow: hidden;
+    background-color: #000000;
+}
+
+.carousel-slide {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    transition: opacity 0.8s ease-in-out;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.carousel-slide.active {
+    opacity: 1;
+}
+
+.hero-text-content {
+    padding: 2rem;
+    z-index: 10;
+}
+
+.hero-text-content h2 {
+    color: #FFFFFF;
+    font-size: 3.5rem;
+    margin-bottom: 1rem;
+    letter-spacing: 6px;
+    font-weight: 900;
+}
+
+.hero-text-content .tagline {
+    color: #CCCCCC;
+    font-size: 1.25rem;
+    text-transform: uppercase;
+    letter-spacing: 4px;
+    margin-bottom: 2.5rem;
+}
+
+.carousel-dots {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 10px;
+    z-index: 20;
+}
+
+.carousel-dots .dot {
+    width: 10px;
+    height: 10px;
+    border: 1px solid #FFFFFF;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.carousel-dots .dot.active {
+    background-color: #FFFFFF;
+}
+
+/* Categories Section UI */
+.categories-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5rem;
+}
+
+.category-card {
+    border: 1px solid #000000;
+    padding: 2rem 1rem;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.category-card:hover {
+    background-color: #000000;
+}
+
+.category-card:hover h3, 
+.category-card:hover .cat-placeholder {
+    color: #FFFFFF;
+}
+
+.cat-placeholder {
+    font-size: 2rem;
+    font-weight: 900;
+    color: #EEEEEE;
+    letter-spacing: 2px;
+    margin-bottom: 1rem;
+    user-select: none;
+    transition: color 0.3s;
+}
+
+.category-card h3 {
+    font-size: 1rem;
+    margin-bottom: 0;
+}
+
+/* Newsletter Block Framework */
+.newsletter-section {
+    background-color: #F9F9F9;
+    border-top: 1px solid #000000;
+    border-bottom: 1px solid #000000;
+    padding: 5rem 2rem;
+    text-align: center;
+    margin: 4rem 0;
+}
+
+.newsletter-content {
+    max-width: 650px;
+    margin: 0 auto;
+}
+
+.newsletter-content h2 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+}
+
+.newsletter-content p {
+    margin-bottom: 2rem;
+    color: #444444;
+}
+
+.newsletter-form {
+    display: flex;
+    gap: 0;
+    border: 1px solid #000000;
+}
+
+.newsletter-form input {
+    flex: 1;
+    padding: 1rem;
+    border: none;
+    background: transparent;
+    font-family: inherit;
+    outline: none;
+}
+
+.newsletter-form .btn {
+    border: none;
+}
+
+/* Customer Benefits */
+.benefits-section {
+    max-width: 1400px;
+    margin: 4rem auto;
+    padding: 0 2rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+    text-align: center;
+}
+
+.benefit-item {
+    border: 1px solid #EAEAEA;
+    padding: 2.5rem 1.5rem;
+}
+
+.benefit-icon {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    color: #000000;
+}
+
+.benefit-item h3 {
+    font-size: 0.95rem;
+    margin-bottom: 0.5rem;
+}
+
+.benefit-item p {
+    font-size: 0.85rem;
+    color: #555555;
+}
+
+/* ==========================================================================
+   07. PRODUCT GRID HOVER CARDS (UNIVERSAL MATRIX VIEW COMPONENT)
+   ========================================================================== */
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 2rem;
+}
+
+.product-card {
+    border: 1px solid #000000;
+    background-color: #FFFFFF;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.product-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+}
+
+.product-card-img-wrapper {
+    position: relative;
+    background-color: #F5F5F5;
+    height: 320px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+.product-card-img-placeholder {
+    font-size: 3.5rem;
+    font-weight: 900;
+    color: #E0E0E0;
+    letter-spacing: 2px;
+    user-select: none;
+}
+
+/* Action Hover Overlay Layer */
+.product-card-actions {
+    position: absolute;
+    bottom: -50px;
+    left: 0;
+    width: 100%;
+    display: flex;
+    background-color: rgba(250,250,250,0.95);
+    border-top: 1px solid #000000;
+    transition: bottom 0.3s ease;
+}
+
+.product-card:hover .product-card-actions {
+    bottom: 0;
+}
+
+.product-card-actions button {
+    flex: 1;
+    background: none;
+    border: none;
+    padding: 1rem 0.5rem;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    cursor: pointer;
+    letter-spacing: 1px;
+}
+
+.product-card-actions button:first-child {
+    border-right: 1px solid #000000;
+}
+
+.product-card-actions button:hover {
+    background-color: #000000;
+    color: #FFFFFF;
+}
+
+.wishlist-tag-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: #FFFFFF;
+    border: 1px solid #000000;
+    width: 35px;
+    height: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 1.1rem;
+    z-index: 5;
+    transition: all 0.3s;
+}
+
+.wishlist-tag-btn:hover {
+    background-color: #000000;
+    color: #FFFFFF;
+}
+
+.product-tag-sale {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background-color: #000000;
+    color: #FFFFFF;
+    font-size: 0.65rem;
+    font-weight: 700;
+    padding: 0.25rem 0.6rem;
+    letter-spacing: 1px;
+    z-index: 5;
+}
+
+.product-card-info {
+    padding: 1.25rem;
+    border-top: 1px solid #000000;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: b;
+}
+
+.p-category {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #666666;
+    margin-bottom: 0.25rem;
+}
+
+.p-title {
+    font-size: 0.95rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    line-height: 1.2;
+    cursor: pointer;
+}
+
+.p-title:hover {
+    text-decoration: underline;
+}
+
+.stars-rating-row {
+    font-size: 0.75rem;
+    color: #000000;
+    margin-bottom: 0.75rem;
+    letter-spacing: 1px;
+}
+
+.p-pricing-block {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-top: auto;
+}
+
+.p-price-current {
+    font-size: 1.05rem;
+    font-weight: 700;
+}
+
+.p-price-original {
+    font-size: 0.85rem;
+    text-decoration: line-through;
+    color: #888888;
+}
+
+/* ==========================================================================
+   08. VIEWPORTS: SHOP WORKSPACE LAYOUT (SIDEBAR FILTERING & TOOLBARS)
+   ========================================================================== */
+.shop-layout {
+    max-width: 1400px;
+    margin: 2rem auto 4rem;
+    padding: 0 2rem;
+    display: flex;
+    gap: 2.5rem;
+}
+
+.shop-sidebar {
+    width: 280px;
+    flex-shrink: 0;
+}
+
+.shop-main {
+    flex-grow: 1;
+}
+
+.filter-group {
+    border: 1px solid #000000;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.filter-group h3 {
+    font-size: 0.85rem;
+    border-bottom: 1px solid #000000;
+    padding-bottom: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.filter-list li {
+    font-size: 0.85rem;
+    padding: 0.4rem 0;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    position: relative;
+}
+
+.filter-list li:hover {
+    padding-left: 5px;
+    font-weight: 700;
+}
+
+.filter-list li.active {
+    font-weight: 700;
+    text-decoration: underline;
+}
+
+.price-slider-container input[type="range"] {
+    width: 100%;
+    accent-color: #000000;
+    margin-bottom: 0.75rem;
+}
+
+.price-labels {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.8rem;
+    font-weight: 700;
+}
+
+.shop-select {
+    width: 100%;
+    padding: 0.6rem;
+    border: 1px solid #000000;
+    background: #FFFFFF;
+    font-family: inherit;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    outline: none;
+}
+
+.shop-toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid #000000;
+    padding: 1rem;
+    margin-bottom: 2rem;
+}
+
+.results-count {
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.sort-container {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.sort-container label {
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+
+.sort-container .shop-select {
+    width: 180px;
+}
+
+/* ==========================================================================
+   09. VIEWPORTS: PRODUCT DETAILS ARCHITECTURE OVERVIEW & ZOOM
+   ========================================================================== */
+.details-container {
+    max-width: 1200px;
+    margin: 3rem auto;
+    padding: 0 2rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+}
+
+.gallery-pane {
+    position: sticky;
+    top: 120px;
+}
+
+.main-zoom-viewport {
+    border: 1px solid #000000;
+    background-color: #F5F5F5;
+    height: 500px;
+    position: relative;
+    overflow: hidden;
+    cursor: zoom-in;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.main-zoom-viewport span.placeholder-icon {
+    font-size: 5rem;
+    font-weight: 900;
+    color: #E0E0E0;
+}
+
+.gallery-strip-thumbnails {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.thumb-box {
+    width: 80px;
+    height: 80px;
+    border: 1px solid #000000;
+    background: #FAFAFA;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: 700;
+    font-size: 0.8rem;
+}
+
+.thumb-box.active {
+    background-color: #000000;
+    color: #FFFFFF;
+}
+
+.details-info-pane h1 {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+}
+
+.details-meta-cat {
+    font-size: 0.8rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #555555;
+    margin-bottom: 1rem;
+}
+
+.details-price-row {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    margin: 1.5rem 0;
+}
+
+.details-price-row .curr-price {
+    font-size: 1.75rem;
+    font-weight: 900;
+}
+
+.details-price-row .orig-price {
+    font-size: 1.2rem;
+    text-decoration: line-through;
+    color: #888888;
+}
+
+.stock-indicator-badge {
+    margin-bottom: 1.5rem;
+}
+
+.selector-title {
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 0.5rem;
+}
+
+.sizes-wrapper, .colors-wrapper {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.size-option-btn {
+    border: 1px solid #000000;
+    background: #FFFFFF;
+    padding: 0.5rem 1rem;
+    font-size: 0.8rem;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.size-option-btn.active, .size-option-btn:hover {
+    background-color: #000000;
+    color: #FFFFFF;
+}
+
+.color-option-circle {
+    width: 30px;
+    height: 30px;
+    border: 1px solid #000000;
+    cursor: pointer;
+    display: inline-block;
+}
+
+.color-option-circle.active {
+    outline: 2px solid #000000;
+    outline-offset: 2px;
+}
+
+.quantity-control-block {
+    display: flex;
+    align-items: center;
+    border: 1px solid #000000;
+    width: 120px;
+    margin-bottom: 2rem;
+}
+
+.quantity-control-block button {
+    background: none;
+    border: none;
+    width: 35px;
+    height: 35px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 700;
+}
+
+.quantity-control-block span {
+    flex: 1;
+    text-align: center;
+    font-size: 0.9rem;
+    font-weight: 700;
+}
+
+.actions-buy-row {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 2.5rem;
+}
+
+.actions-buy-row .btn {
+    flex: 1;
+}
+
+.specs-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+}
+
+.specs-table td {
+    padding: 0.6rem 0;
+    font-size: 0.85rem;
+    border-bottom: 1px solid #EAEAEA;
+}
+
+.specs-table td:first-child {
+    font-weight: 700;
+    text-transform: uppercase;
+    width: 35%;
+}
+
+/* Review Component Framework */
+.reviews-tab-panel {
+    margin-top: 3.5rem;
+    border-top: 1px solid #000000;
+    padding-top: 2rem;
+}
+
+.single-review-log {
+    border-bottom: 1px solid #EEEEEE;
+    padding: 1rem 0;
+}
+
+.review-meta {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.8rem;
+    font-weight: 700;
+    margin-bottom: 0.25rem;
+}
+
+/* ==========================================================================
+   10. VIEWPORTS: CENTRAL SHOPPING CART CORE ARCHITECTURE
+   ========================================================================== */
+.cart-layout {
+    display: flex;
+    gap: 3rem;
+    align-items: flex-start;
+}
+
+.cart-items-wrapper {
+    flex: 1;
+}
+
+.cart-summary-card {
+    width: 400px;
+    border: 1px solid #000000;
+    padding: 2rem;
+    background-color: #FFFFFF;
+    position: sticky;
+    top: 120px;
+}
+
+.cart-row-item {
+    display: flex;
+    align-items: center;
+    border: 1px solid #000000;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    gap: 1.5rem;
+}
+
+.cart-item-thumb-placeholder {
+    width: 90px;
+    height: 110px;
+    background: #F0F0F0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: 900;
+    font-size: 1.2rem;
+    border: 1px solid #000000;
+}
+
+.cart-item-details {
+    flex-grow: 1;
+}
+
+.cart-item-details h4 {
+    font-size: 1rem;
+    margin-bottom: 0.25rem;
+}
+
+.cart-item-meta-metrics {
+    font-size: 0.75rem;
+    color: #555555;
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+}
+
+.cart-item-removal-trigger {
+    background: none;
+    border: none;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    text-decoration: underline;
+    cursor: pointer;
+    margin-top: 0.5rem;
+}
+
+.cart-item-pricing-zone {
+    text-align: right;
+}
+
+.cart-item-pricing-zone .sub-calc {
+    font-weight: 700;
+    font-size: 1.1rem;
+    margin-top: 0.5rem;
+}
+
+.summary-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+    font-size: 0.9rem;
+}
+
+.total-row {
+    font-weight: 900;
+    font-size: 1.2rem;
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+/* ==========================================================================
+   11. VIEWPORTS: USER CONTROL INTERFACES & SECURE AUTH SECTIONS
+   ========================================================================== */
+.auth-box {
+    max-width: 500px;
+    margin: 4rem auto;
+    border: 1px solid #000000;
+    padding: 2.5rem;
+}
+
+.tabs-header {
+    display: flex;
+    border-bottom: 1px solid #000000;
+    margin-bottom: 2rem;
+}
+
+.auth-tab-toggle {
+    flex: 1;
+    background: none;
+    border: none;
+    padding: 1rem;
+    font-weight: 700;
+    font-size: 0.85rem;
+    cursor: pointer;
+    letter-spacing: 1px;
+}
+
+.auth-tab-toggle.active {
+    background-color: #000000;
+    color: #FFFFFF;
+}
+
+.auth-pane {
+    display: none;
+}
+
+.auth-pane.active {
+    display: block;
+}
+
+.auth-switch-link {
+    margin-top: 1rem;
+    font-size: 0.8rem;
+}
+
+.auth-switch-link a {
+    text-decoration: underline;
+}
+
+/* True Logged Dashboard Grid */
+.dashboard-layout {
+    display: flex;
+    gap: 3rem;
+    margin-top: 2rem;
+}
+
+.dashboard-sidebar {
+    width: 280px;
+    border-right: 1px solid #000000;
+    padding-right: 2rem;
+}
+
+.dashboard-main-panel {
+    flex-grow: 1;
+}
+
+.user-meta-badge {
+    text-align: center;
+    padding: 1.5rem;
+    background-color: #F9F9F9;
+    border: 1px solid #000000;
+    margin-bottom: 2rem;
+}
+
+.user-avatar-placeholder {
+    width: 60px;
+    height: 60px;
+    background-color: #000000;
+    color: #FFFFFF;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1rem;
+    font-size: 1.25rem;
+}
+
+.dash-menu-links li {
+    padding: 0.85rem 1rem;
+    border: 1px solid #000000;
+    margin-bottom: 0.5rem;
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    cursor: pointer;
+    letter-spacing: 1px;
+    transition: all 0.3s;
+}
+
+.dash-menu-links li:hover,
+.dash-menu-links li.active {
+    background-color: #000000;
+    color: #FFFFFF;
+}
+
+#dash-logout-trigger {
+    border-style: dashed;
+    background-color: #FFF0F0;
+}
+
+#dash-logout-trigger:hover {
+    background-color: #000000;
+}
+
+.dash-sub-pane {
+    display: none;
+}
+
+.dash-sub-pane.active {
+    display: block;
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+}
+
+.stat-box {
+    border: 1px solid #000000;
+    padding: 1.5rem;
+    text-align: center;
+}
+
+.stat-box h5 {
+    font-size: 0.75rem;
+    color: #555555;
+}
+
+.stat-num {
+    font-size: 1.75rem;
+    font-weight: 900;
+    margin-top: 0.5rem;
+}
+
+/* Tabular Manifest Presentation Layer */
+.table-responsive {
+    width: 100%;
+    overflow-x: auto;
+}
+
+.mono-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1.5rem;
+    font-size: 0.85rem;
+}
+
+.mono-table th, .mono-table td {
+    border: 1px solid #000000;
+    padding: 0.85rem;
+    text-align: left;
+}
+
+.mono-table th {
+    background-color: #F5F5F5;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.address-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+}
+
+.address-card {
+    border: 1px solid #000000;
+    padding: 1.5rem;
+    position: relative;
+}
+
+.address-card.default-card {
+    background-color: #FAFAFA;
+}
+
+.badge-default {
+    font-size: 0.6rem;
+}
+
+/* ==========================================================================
+   12. VIEWPORTS: SECURE CHECKOUT PROCESSING PANE & ORDER TRANSACTIONS
+   ========================================================================== */
+.checkout-layout {
+    display: grid;
+    grid-template-columns: 1fr 450px;
+    gap: 3.5rem;
+    align-items: flex-start;
+    margin-top: 2rem;
+}
+
+.checkout-billing-pane {
+    border: 1px solid #000000;
+    padding: 2.5rem;
+}
+
+.checkout-summary-pane {
+    border: 1px solid #000000;
+    padding: 2rem;
+    background-color: #FAFAFA;
+    position: sticky;
+    top: 120px;
+}
+
+.payment-selection-methods {
+    margin-top: 1.5rem;
+}
+
+.payment-radio-label {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    border: 1px solid #000000;
+    padding: 1.25rem;
+    margin-bottom: 0.75rem;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.payment-radio-label:hover {
+    background-color: #F5F5F5;
+}
+
+.payment-radio-label input[type="radio"] {
+    margin-top: 0.25rem;
+    accent-color: #000000;
+}
+
+.checkout-items-mini-list {
+    max-height: 240px;
+    overflow-y: auto;
+    margin-bottom: 1.5rem;
+}
+
+.mini-loop-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.8rem;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid #EEEEEE;
+}
+
+/* ==========================================================================
+   13. VIEWPORTS: TRANSACTION ORDER CONFIRMATION MANIFEST SUCCESS SPLASH
+   ========================================================================== */
+.confirmation-card-wrapper {
+    max-width: 750px;
+    margin: 4rem auto;
+    border: 2px solid #000000;
+    padding: 4rem 2rem;
+}
+
+.success-checkmark-icon {
+    width: 80px;
+    height: 80px;
+    border: 3px solid #000000;
+    border-radius: 50%;
+    font-size: 3rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1.5rem;
+}
+
+.success-msg-quote {
+    font-size: 1.1rem;
+    max-width: 600px;
+    margin: 1.5rem auto 3rem;
+    text-align: center;
+    border: none;
+    background: #F5F5F5;
+}
+
+.confirmation-details-box {
+    border: 1px solid #000000;
+    padding: 2rem;
+    background-color: #FFFFFF;
+    margin-bottom: 2.5rem;
+}
+
+.confirmation-details-box h3 {
+    font-size: 0.9rem;
+    margin-top: 1.5rem;
+    margin-bottom: 0.75rem;
+    border-bottom: 1px solid #EAEAEA;
+    padding-bottom: 0.25rem;
+}
+
+.confirmation-details-box h3:first-of-type {
+    margin-top: 0;
+}
+
+.confirmation-details-box p {
+    font-size: 0.9rem;
+    margin-bottom: 0.4rem;
+}
+
+/* ==========================================================================
+   14. SYSTEM CENTRAL FOOTER LANDSCAPE STRUCTURAL SCHEMATICS
+   ========================================================================== */
+.global-footer {
+    background-color: #000000;
+    color: #FFFFFF;
+    border-top: 3px solid #000000;
+    margin-top: auto;
+    padding: 5rem 2rem 1.5rem;
+}
+
+.footer-grid {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 2fr repeat(3, 1fr);
+    gap: 4rem;
+}
+
+.footer-brand-column h3 {
+    color: #FFFFFF;
+    font-size: 1.5rem;
+    letter-spacing: 4px;
+}
+
+.footer-brand-column .tagline {
+    color: #888888;
+    font-size: 0.85rem;
+    margin-bottom: 1.5rem;
+}
+
+.footer-about-text {
+    color: #BBBBBB;
+    font-size: 0.85rem;
+    max-width: 400px;
+}
+
+.footer-links-column h4 {
+    color: #FFFFFF;
+    font-size: 0.85rem;
+    margin-bottom: 1.75rem;
+    letter-spacing: 2px;
+}
+
+.footer-links-column ul li {
+    margin-bottom: 0.75rem;
+}
+
+.footer-links-column a {
+    color: #CCCCCC;
+    font-size: 0.85rem;
+}
+
+.footer-links-column a:hover {
+    color: #FFFFFF;
+    text-decoration: underline;
+}
+
+.footer-contact-info {
+    color: #CCCCCC;
+    font-size: 0.85rem;
+    margin-bottom: 1rem;
+}
+
+.social-links-container {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1.5rem;
+}
+
+.social-links-container a {
+    border: 1px solid #FFFFFF;
+    color: #FFFFFF;
+    width: 35px;
+    height: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75rem;
+    font-weight: 700;
+    transition: all 0.3s;
+}
+
+.social-links-container a:hover {
+    background-color: #FFFFFF;
+    color: #000000;
+}
+
+.footer-copyright-strip {
+    max-width: 1400px;
+    margin: 4rem auto 0;
+    padding-top: 1.5rem;
+    border-top: 1px solid #222222;
+    text-align: center;
+}
+
+.footer-copyright-strip p {
+    color: #666666;
+    font-size: 0.75rem;
+}
+
+/* ==========================================================================
+   15. MEDIA BREAKPOINTS: ADVANCED MEDIA QUERIES FOR SEAMLESS RESPONSIVENESS
+   ========================================================================== */
+@media (max-width: 1100px) {
+    .checkout-layout {
+        grid-template-columns: 1fr;
+    }
+    .checkout-summary-pane {
+        position: static;
+    }
+    .details-container {
+        grid-template-columns: 1fr;
+        gap: 2.5rem;
+    }
+    .gallery-pane {
+        position: static;
+    }
+    .main-zoom-viewport {
+        height: 400px;
+    }
+}
+
+@media (max-width: 950px) {
+    .shop-layout {
+        flex-direction: column;
+    }
+    .shop-sidebar {
+        width: 100%;
+    }
+    .cart-layout {
+        flex-direction: column;
+    }
+    .cart-summary-card {
+        width: 100%;
+        position: static;
+    }
+    .footer-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 2.5rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .mobile-menu-toggle {
+        display: flex;
+    }
+    .desktop-nav {
+        display: none;
+    }
+    .search-box {
+        display: none; /* Optimized to avoid space crowding on mobile screens */
+    }
+    .hero-text-content h2 {
+        font-size: 2.2rem;
+    }
+    .hero-carousel {
+        height: 50vh;
+    }
+    .stats-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    .dashboard-layout {
+        flex-direction: column;
+    }
+    .dashboard-sidebar {
+        width: 100%;
+        border-right: none;
+        border-bottom: 1px solid #000000;
+        padding-right: 0;
+        padding-bottom: 1.5rem;
+    }
+    .form-row {
+        flex-direction: column;
+        gap: 0;
+    }
+}
+
+@media (max-width: 480px) {
+    .footer-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+    .section-container {
+        padding: 0 1rem;
+    }
+    .hero-text-content h2 {
+        font-size: 1.75rem;
+    }
+    .product-grid {
+        grid-template-columns: 1fr; /* Force micro single data pipeline scrolling */
+    }
+}
