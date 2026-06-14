@@ -1,886 +1,742 @@
-/**
- * SAVEAN STORE - CORE SYSTEM MASTER ENGINE DATA ENGINE ARCHITECTURE
- * Pure Vanilla JavaScript Framework for Micro-State Manipulation & Dynamic Content Rendering
- */
+// ================= EXPERT MACHINE SAMPLE INVENTORY (50 COMPLETE ENTRIES) =================
+const sampleProducts = [
+    { id: 1, name: "Minimalist Structural Blazer", category: "Men", tags: ["trending", "new"], price: 12500, origPrice: 18000, rating: 5, reviews: 48, stock: "In Stock", img: "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=600&q=80", desc: "Structured sharp shoulders crafting a pristine monochrome profile architecture." },
+    { id: 2, name: "Avant-Garde Drape Dress", category: "Women", tags: ["trending", "best"], price: 14990, origPrice: 22000, rating: 5, reviews: 64, stock: "In Stock", img: "https://images.unsplash.com/photo-1539109136881-3be0616acf4b?auto=format&fit=crop&w=600&q=80", desc: "Flowing visual weight metrics featuring lightweight luxury premium custom threading." },
+    { id: 3, name: "Monolithic Leather Combat Boots", category: "Shoes", tags: ["trending", "flash"], price: 18500, origPrice: 25000, rating: 4, reviews: 39, stock: "In Stock", img: "https://images.unsplash.com/photo-1608231387042-66d1773070a5?auto=format&fit=crop&w=600&q=80", desc: "Thick density geometric platform base providing immense industrial durability factors." },
+    { id: 4, name: "Architectural Trapeze Handbag", category: "Bags", tags: ["best", "deals"], price: 9990, origPrice: 15000, rating: 5, reviews: 112, stock: "In Stock", img: "https://images.unsplash.com/photo-1584917865442-de89df76afd3?auto=format&fit=crop&w=600&q=80", desc: "Rigid form factor execution creating an instantly recognizable elite appearance asset." },
+    { id: 5, name: "Stealth Titanium Chronograph", category: "Watches", tags: ["new", "deals"], price: 28000, origPrice: 35000, rating: 5, reviews: 18, stock: "In Stock", img: "https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?auto=format&fit=crop&w=600&q=80", desc: "Matte complete black finish paired carefully with reliable quartz precision standard modules." },
+    { id: 6, name: "Asymmetric Knit Wrap Vest", category: "Women", tags: ["new", "flash"], price: 5990, origPrice: 8500, rating: 4, reviews: 29, stock: "In Stock", img: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=600&q=80", desc: "Layering component engineered with high airflow premium organic raw wool filaments." },
+    { id: 7, name: "Tailored Linear Pleat Trousers", category: "Men", tags: ["best"], price: 7990, origPrice: 11000, rating: 4, reviews: 53, stock: "In Stock", img: "https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?auto=format&fit=crop&w=600&q=80", desc: "Perfect vertical alignment creasing provides elongated spatial profile height parameters." },
+    { id: 8, name: "Geometric Wide Acetate Eyewear", category: "Accessories", tags: ["trending"], price: 4500, origPrice: 6500, rating: 5, reviews: 87, stock: "In Stock", img: "https://images.unsplash.com/photo-1511556532299-8f662fc26c06?auto=format&fit=crop&w=600&q=80", desc: "UV400 fortified block lenses ensconced within thick profile hand polished dark frames." },
+    { id: 9, name: "Sculpted Matte Clay Face Complex", category: "Beauty", tags: ["new"], price: 3500, origPrice: 4990, rating: 4, reviews: 22, stock: "In Stock", img: "https://images.unsplash.com/photo-1596462502278-27bfdc403348?auto=format&fit=crop&w=600&q=80", desc: "Deep pore mineral configuration filtering impurities with luxury geometric skin balance." },
+    { id: 10, name: "Aerodynamic Compression Parka", category: "Sportswear", tags: ["trending", "deals"], price: 11990, origPrice: 16500, rating: 5, reviews: 41, stock: "In Stock", img: "https://images.unsplash.com/photo-1517838277536-f5f99be501cd?auto=format&fit=crop&w=600&q=80", desc: "Weatherproof membrane deployment preventing external thermal drop anomalies." },
+    // Generating remaining sequence of sample inventory to guarantee 50 fully structured items...
+];
 
-// Global Master Application Memory State Manifest
-const AppState = {
-    products: [],
-    cart: [],
-    wishlist: [],
-    activeUser: null,
-    currentViewedProduct: null,
-    activeView: 'home-view',
-    activeFilters: {
-        category: 'all',
-        maxPrice: 30000,
-        minRating: 0
-    },
-    activeSort: 'newest'
-};
+// Dynamically auto-generate products up to 50 items to ensure deep catalogs
+const categoriesPool = ["Men", "Women", "Shoes", "Bags", "Accessories", "Watches", "Beauty", "Sportswear"];
+const tagsPool = [["trending"], ["new"], ["best"], ["flash"], ["deals"], ["trending", "new"], ["best", "deals"]];
+const imagePool = [
+    "https://images.unsplash.com/photo-1488161628813-04466f872be2?auto=format&fit=crop&w=600&q=80",
+    "https://images.unsplash.com/photo-1509319117193-57bab727e09d?auto=format&fit=crop&w=600&q=80",
+    "https://images.unsplash.com/photo-1549298916-b41d501d3772?auto=format&fit=crop&w=600&q=80",
+    "https://images.unsplash.com/photo-1469334031218-e382a71b716b?auto=format&fit=crop&w=600&q=80",
+    "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=600&q=80"
+];
 
-// Internal Mock Storage Management Engine
-const StorageEngine = {
-    initLocalState() {
-        if(localStorage.getItem('savean_cart_cache')) {
-            AppState.cart = JSON.parse(localStorage.getItem('savean_cart_cache'));
-        }
-        if(localStorage.getItem('savean_wish_cache')) {
-            AppState.wishlist = JSON.parse(localStorage.getItem('savean_wish_cache'));
-        }
-        if(localStorage.getItem('savean_session_user')) {
-            AppState.activeUser = JSON.parse(localStorage.getItem('savean_session_user'));
-        }
-    },
-    syncCart() {
-        localStorage.setItem('savean_cart_cache', JSON.stringify(AppState.cart));
-        DOMUpdates.updateGlobalBadges();
-    },
-    syncWish() {
-        localStorage.setItem('savean_wish_cache', JSON.stringify(AppState.wishlist));
-        DOMUpdates.updateGlobalBadges();
-    },
-    syncSession(user) {
-        AppState.activeUser = user;
-        if(user) {
-            localStorage.setItem('savean_session_user', JSON.stringify(user));
-        } else {
-            localStorage.removeItem('savean_session_user');
-        }
-    }
-};
-
-// 50 Sample Curated Fashion Products Generation Pipeline Module
-function executeProductGenerationPipeline() {
-    const categories = ["Men's Fashion", "Women's Fashion", "Shoes", "Bags", "Accessories", "Watches", "Beauty", "Sportswear"];
-    const tags = ["Flash Sale", "Featured", "New Arrivals", "Best Sellers", "Today's Deals", "Trending"];
-    const adjectives = ["Premium Architectural", "Minimalist Structured", "Avant-Garde", "Luxury Tailored", "Classic Monochrome", "Sovereign Essential", "Urban Asymmetric", "Formal Elite"];
-    const types = {
-        "Men's Fashion": ["Trench Coat", "Oversized Blazer", "Poplin Shirt", "Pleated Trousers", "Raw Denim Jacket"],
-        "Women's Fashion": ["Asymmetric Dress", "Cropped Wool Top", "Tailored Jumpsuit", "Minimalist Slip Dress", "Knit Cardigan"],
-        "Shoes": ["Leather Chelsea Boots", "Monolith Sneakers", "Minimal Derby Shoes", "Square Toe Mules", "Technical High Tops"],
-        "Bags": ["Geometric Tote Bag", "Leather Crossbody Sack", "Structured Briefcase", "Minimalist Backpack", "Micro Belt Bag"],
-        "Accessories": ["Silk Scarf Block", "Bespoke Leather Belt", "Acetate Sunglasses", "Silver Signet Ring", "Monochrome Leather Gloves"],
-        "Watches": ["Chrono Matte Black Watch", "Minimalist Silver Dial", "Automatic Bauhaus Watch", "Skeletal Titanium Timepiece", "Luxury Steel Dress Watch"],
-        "Beauty": ["Matte Lip Extrait", "Mineral Facial Mud", "Noir Eau De Parfum", "Hydrating Botanical Serum", "Volcanic Ash Body Scrub"],
-        "Sportswear": ["Compression Training Tops", "Minimalist Track Pant", "Unisex Performance Hoodie", "Technical Windbreaker", "Aerated Athletic Shorts"]
-    };
-
-    let idCounter = 1;
-    categories.forEach((cat) => {
-        const itemTypes = types[cat];
-        itemTypes.forEach((typeStr, idx) => {
-            adjectives.forEach((adj, aIdx) => {
-                if (idCounter > 50) return;
-                
-                // Deterministic algorithmic parameters generation
-                const basePrice = 2000 + (idCounter * 450);
-                const discountAmount = (idCounter % 3 === 0) ? Math.floor(basePrice * 0.25) : 0;
-                const salePrice = basePrice - discountAmount;
-                const reviewCount = 12 + (idCounter * 7);
-                const baseRating = 4.0 + ((idCounter % 11) * 0.1);
-                const finalRating = baseRating > 5 ? 5.0 : parseFloat(baseRating.toFixed(1));
-                
-                // Assign a pool of specific tag distributions
-                const itemTags = [tags[idCounter % tags.length]];
-                if(discountAmount > 0) itemTags.push("Flash Sale");
-                if(idCounter % 5 === 0) itemTags.push("Featured");
-
-                AppState.products.push({
-                    id: `SVN-PRD-${1000 + idCounter}`,
-                    name: `${adj} ${typeStr}`,
-                    category: cat,
-                    description: `An exquisite curation displaying structural superiority and refined alignment. This ${cat.toLowerCase()} masterpiece embodies the design ethos of SAVEAN STORE with precision processing techniques. Durable, monochrome framework built to withstand temporal trends.`,
-                    rating: finalRating,
-                    reviewsCount: reviewCount,
-                    originalPrice: basePrice,
-                    discountPrice: salePrice,
-                    stockStatus: (idCounter % 13 === 0) ? "OUT OF STOCK" : "IN STOCK",
-                    tags: itemTags,
-                    sku: `SKU-2026-${8899 + idCounter}`,
-                    colors: ["#000000", "#FFFFFF"],
-                    sizes: cat === "Shoes" ? ["40", "41", "42", "43"] : (cat === "Accessories" || cat === "Beauty" || cat === "Watches" ? ["O/S"] : ["S", "M", "L", "XL"])
-                });
-                idCounter++;
-            });
-        });
+for (let i = 11; i <= 52; i++) {
+    let cat = categoriesPool[i % categoriesPool.length];
+    let priceBase = 1990 + ((i * 470) % 22000);
+    sampleProducts.push({
+        id: i,
+        name: `Elite ${cat} Fragment Variant ${i}`,
+        category: cat,
+        tags: tagsPool[i % tagsPool.length],
+        price: priceBase,
+        origPrice: Math.floor(priceBase * 1.4),
+        rating: 3 + (i % 3),
+        reviews: 10 + (i * 3) % 250,
+        stock: "In Stock",
+        img: imagePool[i % imagePool.length],
+        desc: `Premium structured generation architecture option ${i} offering exquisite monochrome profile presence.`
     });
 }
 
-// Global UI Rendering Engine Module
-const DOMUpdates = {
-    initViews() {
-        // Intercept all declared navigation gateways
-        document.querySelectorAll('.nav-trigger').forEach(trigger => {
-            trigger.addEventListener('click', (e) => {
-                e.preventDefault();
-                const targetView = trigger.getAttribute('data-target');
-                DOMUpdates.switchView(targetView);
-                
-                // Sync internal side actions if drawer triggered on mobile
-                document.getElementById('mobile-drawer').classList.remove('open');
-                document.getElementById('drawer-overlay').classList.remove('open');
-            });
-        });
+// ================= GLOBAL STATE INFRASTRUCTURE ================= */
+let cart = [];
+let wishlist = [];
+let activeCategoryFilter = "all";
+let maxPriceFilter = 30000;
+let ratingFilter = 0;
+let currentShowcaseTab = "trending";
+let currentSlideIndex = 0;
+let activeProductDetailsId = null;
 
-        // Sticky sub elements configuration bindings
-        document.querySelectorAll('.shop-now-btn').forEach(btn => {
-            btn.addEventListener('click', () => DOMUpdates.switchView('shop-view'));
-        });
-    },
+// ================= CORE APPARATUS INITIALIZATION ================= */
+document.addEventListener("DOMContentLoaded", () => {
+    // Hide Core System Loader
+    setTimeout(() => {
+        document.getElementById("loader").classList.add("hidden");
+    }, 600);
 
-    switchView(viewId) {
-        document.querySelectorAll('.view-section').forEach(sec => {
-            sec.classList.remove('active');
-        });
-        const activeTarget = document.getElementById(viewId);
-        if(activeTarget) {
-            activeTarget.classList.add('active');
-            AppState.activeView = viewId;
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
+    // Bind Header Event listeners
+    setupHeaderInteractions();
+    
+    // Core Component Data Engines Populate
+    renderHomeProductShowcase();
+    renderShopCatalog();
+    initHeroSlider();
+    updateGlobalBadges();
+});
 
-        // Highlight Desktop Nav Markers
-        document.querySelectorAll('.desktop-nav a').forEach(a => {
-            if(a.getAttribute('data-target') === viewId) a.classList.add('active');
-            else a.classList.remove('active');
-        });
+// ================= NAVDRAWER MOBILE ACTIONS ================= */
+function setupHeaderInteractions() {
+    const menuToggle = document.getElementById("menuToggle");
+    const closeMenu = document.getElementById("closeMenu");
+    const navMenu = document.getElementById("navMenu");
 
-        // Trigger individual specific sub views data refreshes if targeted
-        if(viewId === 'shop-view') DOMUpdates.renderShopCatalog();
-        if(viewId === 'cart-view') DOMUpdates.renderCartView();
-        if(viewId === 'wishlist-view') DOMUpdates.renderWishlistView();
-        if(viewId === 'dashboard-view') DOMUpdates.evaluateDashboardAuthState();
-    },
+    menuToggle.addEventListener("click", () => navMenu.classList.add("open"));
+    closeMenu.addEventListener("click", () => navMenu.classList.remove("open"));
+    
+    // Close mobile nav drawer when links click
+    document.querySelectorAll(".nav-link").forEach(link => {
+        link.addEventListener("click", () => navMenu.classList.remove("open"));
+    });
+}
 
-    updateGlobalBadges() {
-        document.getElementById('cart-count').innerText = AppState.cart.reduce((acc, item) => acc + item.quantity, 0);
-        document.getElementById('wishlist-count').innerText = AppState.wishlist.length;
-    },
+// ================= CORE VIEW DEPLOYMENT METRICS (ROUTING) ================= */
+function switchView(viewTargetId) {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    
+    // Toggle Section visibility active states
+    document.querySelectorAll(".view-section").forEach(sec => {
+        sec.classList.remove("active");
+    });
+    
+    const targetElement = document.getElementById(`view-${viewTargetId}`);
+    if (targetElement) {
+        targetElement.classList.add("active");
+    }
 
-    generateStarsString(ratingNum) {
-        const solidStars = Math.floor(ratingNum);
-        let starStr = '';
-        for(let i=0; i<5; i++) {
-            if(i < solidStars) starStr += '★';
-            else starStr += '☆';
-        }
-        return `${starStr} (${ratingNum})`;
-    },
+    // Toggle Header Link highlighting status
+    document.querySelectorAll(".nav-link").forEach(link => {
+        link.classList.remove("active");
+    });
 
-    generateProductCardHTML(p) {
-        const priceHTML = p.originalPrice !== p.discountPrice 
-            ? `<span class="p-price-current">Rs. ${p.discountPrice.toLocaleString()}</span><span class="p-price-original">Rs. ${p.originalPrice.toLocaleString()}</span>`
-            : `<span class="p-price-current">Rs. ${p.originalPrice.toLocaleString()}</span>`;
+    // Handle view specific sub-load procedures
+    if (viewTargetId === 'cart') {
+        renderCartLayout();
+    } else if (viewTargetId === 'wishlist') {
+        renderWishlistLayout();
+    } else if (viewTargetId === 'checkout') {
+        renderCheckoutSummary();
+    }
+}
 
-        const tagHTML = p.originalPrice !== p.discountPrice ? `<div class="product-tag-sale">SALE</div>` : '';
-        const wishActiveChar = AppState.wishlist.some(w => w.id === p.id) ? '★' : '&#9825;';
+// ================= HERO AUTO SLIDING BANNER CAROUSEL ================= */
+function initHeroSlider() {
+    setInterval(() => {
+        currentSlideIndex = (currentSlideIndex + 1) % 3;
+        updateSliderUI();
+    }, 6000);
+}
+function setSlide(index) {
+    currentSlideIndex = index;
+    updateSliderUI();
+}
+function updateSliderUI() {
+    const slider = document.getElementById("heroSlider");
+    if (!slider) return;
+    const slides = slider.getElementsByClassName("slide");
+    const dots = slider.getElementsByClassName("dot");
+    
+    for (let i = 0; i < slides.length; i++) {
+        slides[i].classList.remove("active");
+        dots[i].classList.remove("active");
+    }
+    slides[currentSlideIndex].classList.add("active");
+    dots[currentSlideIndex].classList.add("active");
+}
 
-        return `
-            <div class="product-card" data-pid="${p.id}">
-                <div class="product-card-img-wrapper" onclick="DOMUpdates.launchProductDetails('${p.id}')">
-                    ${tagHTML}
-                    <button class="wishlist-tag-btn" data-pid="${p.id}" onclick="event.stopPropagation(); DOMUpdates.toggleWishlistEvent('${p.id}')">${wishActiveChar}</button>
-                    <div class="product-card-img-placeholder">${p.category.substring(0,2).toUpperCase()}</div>
-                </div>
-                <div class="product-card-info">
-                    <span class="p-category">${p.category}</span>
-                    <h3 class="p-title" onclick="DOMUpdates.launchProductDetails('${p.id}')">${p.name}</h3>
-                    <div class="stars-rating-row">${DOMUpdates.generateStarsString(p.rating)} [${p.reviewsCount} Reviews]</div>
-                    <div class="p-pricing-block">
-                        ${priceHTML}
-                    </div>
-                </div>
-                <div class="product-card-actions">
-                    <button onclick="DOMUpdates.quickAddToCart('${p.id}')">ADD TO BAG</button>
-                    <button onclick="DOMUpdates.launchProductDetails('${p.id}')">VIEW DETAILS</button>
-                </div>
+// ================= TAB COMPONENT RENDER ENGINES (HOME) ================= */
+function filterShowcase(tabTag, buttonElement) {
+    currentShowcaseTab = tabTag;
+    const tabLinks = document.querySelectorAll(".tab-link");
+    tabLinks.forEach(b => b.classList.remove("active"));
+    if (buttonElement) buttonElement.classList.add("active");
+    renderHomeProductShowcase();
+}
+
+function renderHomeProductShowcase() {
+    const grid = document.getElementById("homeProductGrid");
+    if (!grid) return;
+    grid.innerHTML = "";
+    
+    // Filter sample catalog down to 8 entries based on active tab criteria
+    const filtered = sampleProducts.filter(p => p.tags.includes(currentShowcaseTab)).slice(0, 8);
+    
+    filtered.forEach(p => {
+        grid.appendChild(buildProductCardElement(p));
+    });
+}
+
+// ================= GLOBAL REUSABLE COMPONENT GENERATOR ================= */
+function buildProductCardElement(product) {
+    const card = document.createElement("div");
+    card.className = "product-card";
+    
+    const isSaved = wishlist.includes(product.id);
+    const hasDiscount = product.origPrice > product.price;
+    const discountBadge = hasDiscount ? `<div class="badge-sale">Archival Drop</div>` : "";
+    
+    let stars = "";
+    for(let i=1; i<=5; i++) {
+        stars += i <= product.rating ? '<i class="fa-solid fa-star"></i>' : '<i class="fa-regular fa-star"></i>';
+    }
+
+    card.innerHTML = `
+        <div class="product-image-wrap" onclick="openProductDetails(${product.id})">
+            ${discountBadge}
+            <img src="${product.img}" alt="${product.name}" loading="lazy">
+        </div>
+        <button class="wishlist-toggle-btn ${isSaved ? 'active' : ''}" onclick="toggleWishlist(event, ${product.id})" aria-label="Wishlist">
+            <i class="${isSaved ? 'fa-solid' : 'fa-regular'} fa-heart"></i>
+        </button>
+        <div class="product-info-wrap">
+            <span class="prod-cat">${product.category}</span>
+            <h4 class="prod-title" onclick="openProductDetails(${product.id})">${product.name}</h4>
+            <div class="rating-stars">${stars} <span>(${product.reviews})</span></div>
+            <div class="prod-price">
+                <span class="price-current">Rs. ${product.price.toLocaleString()}</span>
+                ${hasDiscount ? `<span class="price-original">Rs. ${product.origPrice.toLocaleString()}</span>` : ""}
             </div>
-        `;
-    },
+            <button class="card-action-btn" onclick="addToCart(event, ${product.id}, 1)">Add to Bag</button>
+        </div>
+    `;
+    return card;
+}
 
-    renderHomeShowcases() {
-        const flashContainer = document.getElementById('flash-sale-container');
-        const featuredContainer = document.getElementById('featured-container');
-        const newArrContainer = document.getElementById('new-arrivals-container');
-        const dealsContainer = document.getElementById('deals-container');
-        const trendingContainer = document.getElementById('trending-container');
-        const bestContainer = document.getElementById('bestsellers-container');
-
-        // Filter operations extracted cleanly for specific structural home views slots
-        const flashProducts = AppState.products.filter(p => p.tags.includes("Flash Sale")).slice(0, 4);
-        const featuredProducts = AppState.products.filter(p => p.tags.includes("Featured")).slice(0, 4);
-        const newProducts = AppState.products.filter(p => p.tags.includes("New Arrivals")).slice(0, 4);
-        const dealsProducts = AppState.products.filter(p => p.tags.includes("Today's Deals")).slice(0, 4);
-        const trendingProducts = AppState.products.filter(p => p.tags.includes("Trending")).slice(0, 4);
-        const bestProducts = AppState.products.filter(p => p.tags.includes("Best Sellers")).slice(0, 4);
-
-        flashContainer.innerHTML = flashProducts.map(p => DOMUpdates.generateProductCardHTML(p)).join('');
-        featuredContainer.innerHTML = featuredProducts.map(p => DOMUpdates.generateProductCardHTML(p)).join('');
-        newArrContainer.innerHTML = newProducts.map(p => DOMUpdates.generateProductCardHTML(p)).join('');
-        dealsContainer.innerHTML = dealsProducts.map(p => DOMUpdates.generateProductCardHTML(p)).join('');
-        trendingContainer.innerHTML = trendingProducts.map(p => DOMUpdates.generateProductCardHTML(p)).join('');
-        bestContainer.innerHTML = bestProducts.map(p => DOMUpdates.generateProductCardHTML(p)).join('');
-    },
-
-    renderShopCatalog() {
-        const grid = document.getElementById('shop-catalog-grid');
-        
-        // Execute dynamic cascading filtration workflows
-        let filtered = AppState.products.filter(p => {
-            const catMatch = AppState.activeFilters.category === 'all' || p.category === AppState.activeFilters.category;
-            const finalPrice = p.discountPrice;
-            const priceMatch = finalPrice <= AppState.activeFilters.maxPrice;
-            const ratingMatch = p.rating >= AppState.activeFilters.minRating;
-            return catMatch && priceMatch && ratingMatch;
-        });
-
-        // Execute processing sort algorithm arrays manipulation
-        if(AppState.activeSort === 'low-high') {
-            filtered.sort((a,b) => a.discountPrice - b.discountPrice);
-        } else if(AppState.activeSort === 'high-low') {
-            filtered.sort((a,b) => b.discountPrice - a.discountPrice);
-        } else if(AppState.activeSort === 'best-selling') {
-            filtered.sort((a,b) => b.reviewsCount - a.reviewsCount);
-        } else if(AppState.activeSort === 'popular') {
-            filtered.sort((a,b) => b.rating - a.rating);
-        }
-
-        document.getElementById('catalog-count').innerText = filtered.length;
-        if(filtered.length === 0) {
-            grid.innerHTML = `<div style="grid-column: 1/-1; padding: 4rem 1rem; text-align:center;">
-                <blockquote class="mono-quote">No premium items fit your parameters. Modify search metric settings.</blockquote>
-            </div>`;
+// ================= SYSTEM DATA COMPILATION METRICS (SHOP VIEW) ================= */
+function filterCategory(categoryName) {
+    activeCategoryFilter = categoryName;
+    // Reflect onto sidebar UI element highlights
+    const listItems = document.querySelectorAll("#categoryFilterList li");
+    listItems.forEach(li => {
+        if(li.textContent.toLowerCase().includes(categoryName.toLowerCase()) || (categoryName === 'all' && li.textContent.toLowerCase().includes('all'))) {
+            li.className = "active";
         } else {
-            grid.innerHTML = filtered.map(p => DOMUpdates.generateProductCardHTML(p)).join('');
+            li.className = "";
         }
-    },
+    });
+    renderShopCatalog();
+}
 
-    launchProductDetails(pid) {
-        const p = AppState.products.find(item => item.id === pid);
-        if(!p) return;
-        AppState.currentViewedProduct = p;
-        
-        const root = document.getElementById('dynamic-details-root');
-        const priceHTML = p.originalPrice !== p.discountPrice 
-            ? `<span class="curr-price">Rs. ${p.discountPrice.toLocaleString()}</span><span class="orig-price">Rs. ${p.originalPrice.toLocaleString()}</span>`
-            : `<span class="curr-price">Rs. ${p.originalPrice.toLocaleString()}</span>`;
+function setCategoryFilter(cat, element) {
+    activeCategoryFilter = cat;
+    setSelectedFilterClass(element, "categoryFilterList");
+    renderShopCatalog();
+}
 
-        const sizeButtons = p.sizes.map((s, idx) => `
-            <button class="size-option-btn ${idx===0?'active':''}" onclick="DOMUpdates.selectSizeEvent(this, '${s}')">${s}</button>
-        `).join('');
+function setRatingFilter(rating, element) {
+    ratingFilter = rating;
+    setSelectedFilterClass(element, "ratingFilterList");
+    renderShopCatalog();
+}
 
-        const colorCircles = p.colors.map((c, idx) => `
-            <div class="color-option-circle ${idx===0?'active':''}" style="background-color: ${c};" onclick="DOMUpdates.selectColorEvent(this, '${c}')"></div>
-        `).join('');
+function updatePriceLabel(value) {
+    maxPriceFilter = parseInt(value);
+    document.getElementById("priceValueLabel").textContent = `Rs. ${maxPriceFilter.toLocaleString()}`;
+    renderShopCatalog();
+}
 
-        // Preload implicit dynamic metadata references for sizes and chosen targets
-        p._selectedSize = p.sizes[0];
-        p._selectedColor = p.colors[0];
-        p._selectedQty = 1;
+function setSelectedFilterClass(element, listId) {
+    const items = document.querySelectorAll(`#${listId} li`);
+    items.forEach(i => i.classList.remove("active"));
+    if(element) element.classList.add("active");
+}
 
-        // Extract pseudo related inventory mapping lists
-        const relatedHTML = AppState.products.filter(item => item.category === p.category && item.id !== p.id).slice(0, 4);
+function resetAllFilters() {
+    activeCategoryFilter = "all";
+    maxPriceFilter = 30000;
+    ratingFilter = 0;
+    
+    document.getElementById("priceRange").value = 30000;
+    document.getElementById("priceValueLabel").textContent = "Rs. 30,000";
+    
+    setSelectedFilterClass(document.querySelectorAll("#categoryFilterList li")[0], "categoryFilterList");
+    setSelectedFilterClass(document.querySelectorAll("#ratingFilterList li")[0], "ratingFilterList");
+    
+    renderShopCatalog();
+}
 
-        root.innerHTML = `
-            <div class="gallery-pane">
-                <div class="main-zoom-viewport" id="zoom-viewport" onmousemove="DOMUpdates.handleZoomEffect(event)" onmouseleave="DOMUpdates.resetZoomEffect(event)">
-                    <span class="placeholder-icon">${p.category.substring(0,2).toUpperCase()}</span>
+function toggleSidebar(openState) {
+    const side = document.getElementById("shopSidebar");
+    if(openState) side.classList.add("open");
+    else side.classList.remove("open");
+}
+
+function handleSortChange() {
+    renderShopCatalog();
+}
+
+function renderShopCatalog() {
+    const grid = document.getElementById("shopProductGrid");
+    if (!grid) return;
+    grid.innerHTML = "";
+
+    let catalog = [...sampleProducts];
+
+    // Filter Processing Sequences
+    if (activeCategoryFilter !== "all") {
+        catalog = catalog.filter(p => p.category.toLowerCase() === activeCategoryFilter.toLowerCase());
+    }
+    catalog = catalog.filter(p => p.price <= maxPriceFilter);
+    if (ratingFilter > 0) {
+        catalog = catalog.filter(p => p.rating >= ratingFilter);
+    }
+
+    // Sort Sequencing Array Mechanics
+    const sortBy = document.getElementById("sortSelect").value;
+    if (sortBy === "price-low") {
+        catalog.sort((a,b) => a.price - b.price);
+    } else if (sortBy === "price-high") {
+        catalog.sort((a,b) => b.price - a.price);
+    } else if (sortBy === "best-selling") {
+        catalog.sort((a,b) => b.reviews - a.reviews);
+    } else if (sortBy === "popular") {
+        catalog.sort((a,b) => b.rating - a.rating);
+    } // Default matches catalog order array sequencing implicitly for "newest"
+
+    // Update Counter metric
+    document.getElementById("resultsCount").textContent = `Showing ${catalog.length} structural results match.`;
+
+    catalog.forEach(p => {
+        grid.appendChild(buildProductCardElement(p));
+    });
+}
+
+// ================= GLOBAL ARCHITECTURAL SEARCH ENGINE ================= */
+function handleSearch(e) {
+    if(e.key === 'Enter') triggerSearch();
+}
+function triggerSearch() {
+    const term = document.getElementById("globalSearch").value.toLowerCase().trim();
+    if(!term) return;
+    
+    switchView('shop');
+    resetAllFilters();
+    
+    const grid = document.getElementById("shopProductGrid");
+    grid.innerHTML = "";
+    
+    const filtered = sampleProducts.filter(p => p.name.toLowerCase().includes(term) || p.desc.toLowerCase().includes(term));
+    document.getElementById("resultsCount").textContent = `Search matches for "${term}": Found ${filtered.length}`;
+    
+    filtered.forEach(p => {
+        grid.appendChild(buildProductCardElement(p));
+    });
+}
+
+// ================= PRODUCT CONSOLE SUBSYSTEM (DETAILS PAGE) ================= */
+function openProductDetails(productId) {
+    activeProductDetailsId = productId;
+    const target = sampleProducts.find(p => p.id === productId);
+    if(!target) return;
+    
+    const container = document.getElementById("productDetailsContent");
+    let starLayout = "";
+    for(let i=1; i<=5; i++) {
+        starLayout += i <= target.rating ? '<i class="fa-solid fa-star"></i>' : '<i class="fa-regular fa-star"></i>';
+    }
+
+    // Render internal architectural breakdown grid layouts
+    container.innerHTML = `
+        <div class="product-detail-grid">
+            <div class="gallery-wrapper">
+                <div class="gallery-thumbs">
+                    <div class="thumb-box active" onclick="swapDetailPreview('${target.img}', this)"><img src="${target.img}"></div>
+                    <div class="thumb-box" onclick="swapDetailPreview('https://images.unsplash.com/photo-1469334031218-e382a71b716b?auto=format&fit=crop&w=600&q=80', this)"><img src="https://images.unsplash.com/photo-1469334031218-e382a71b716b?auto=format&fit=crop&w=600&q=80"></div>
+                    <div class="thumb-box" onclick="swapDetailPreview('https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=600&q=80', this)"><img src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=600&q=80"></div>
                 </div>
-                <div class="gallery-strip-thumbnails">
-                    <div class="thumb-box active">VIEW A</div>
-                    <div class="thumb-box">VIEW B</div>
-                    <div class="thumb-box">FABRIC</div>
+                <div class="main-preview-box" id="zoomPreviewPane" onmousemove="handleGalleryZoom(event)" onmouseleave="resetGalleryZoom()">
+                    <img src="${target.img}" id="mainDetailImage">
                 </div>
             </div>
-            <div class="details-info-pane">
-                <span class="details-meta-cat">${p.category}</span>
-                <h1>${p.name}</h1>
-                <div class="stars-rating-row" style="font-size: 1rem;">${DOMUpdates.generateStarsString(p.rating)} | ${p.reviewsCount} Curated Customer Reviews</div>
-                <hr class="mono-hr">
+            
+            <div class="detail-info-pane">
+                <span class="detail-cat">${target.category} Collection</span>
+                <h2>${target.name}</h2>
+                <div class="rating-stars" style="font-size:0.9rem;">${starLayout} <span>(${target.reviews} Client Reviews)</span></div>
                 
-                <div class="details-price-row">
-                    ${priceHTML}
+                <div class="price-row">
+                    <span class="curr">Rs. ${target.price.toLocaleString()}</span>
+                    <span class="orig">Rs. ${target.origPrice.toLocaleString()}</span>
                 </div>
-
-                <div class="stock-indicator-badge">
-                    <span class="badge-default" style="background:${p.stockStatus==='IN STOCK'?'#000000':'#666666'};">${p.stockStatus}</span>
-                </div>
-
-                <p class="mb-4">${p.description}</p>
-
-                <div class="selector-title">SELECT METRIC SIZE</div>
-                <div class="sizes-wrapper">${sizeButtons}</div>
-
-                <div class="selector-title">SELECT MATERIAL CHROMA</div>
-                <div class="colors-wrapper">${colorCircles}</div>
-
-                <div class="selector-title">QUANTITY SELECTION BLOCK</div>
-                <div class="quantity-control-block">
-                    <button onclick="DOMUpdates.adjustDetailsQty(-1)">-</button>
-                    <span id="details-qty-val">1</span>
-                    <button onclick="DOMUpdates.adjustDetailsQty(1)">+</button>
-                </div>
-
-                <div class="actions-buy-row">
-                    <button class="btn btn-black" onclick="DOMUpdates.addCurrentToCart()">ADD TO SHOPPING BAG</button>
-                    <button class="btn btn-white" onclick="DOMUpdates.buyNowCurrent()">BUY NOW DIRECT</button>
-                </div>
-
-                <div class="selector-title">SPECIFICATIONS INTEGRATION ARCHIVE</div>
-                <table class="specs-table">
-                    <tr><td>Identification SKU</td><td>${p.sku}</td></tr>
-                    <tr><td>Structural Origin</td><td>Premium Handcrafted Asset Line</td></tr>
-                    <tr><td>Care Instructions</td><td>Dry Clean Protocol Only / Monochrome Preservation</td></tr>
+                
+                <p class="detail-desc">${target.desc} Crafted under absolute monochrome structural architecture quality standard procedures guidelines.</p>
+                
+                <table class="spec-table">
+                    <tr><td>Composition</td><td>Luxury Sourced Fine-Weave Matrix Fiber</td></tr>
+                    <tr><td>Stock Metrics</td><td>${target.stock} (High Priority Vector)</td></tr>
+                    <tr><td>Origin Point</td><td>Global Premium Atelier Design Labs</td></tr>
                 </table>
 
-                <div class="reviews-tab-panel">
-                    <h3>SYSTEM CUSTOMER VERIFICATIONS</h3>
-                    <div class="single-review-log">
-                        <div class="review-meta"><span>A. Luxury Reviewer</span><span>★★★★★</span></div>
-                        <p class="text-muted">Incredible cut. The structural geometric balance is impeccable. Worth every single Rs.</p>
-                    </div>
-                    <div class="single-review-log">
-                        <div class="review-meta"><span>M. Minimalist Designer</span><span style="letter-spacing:1px;">★★★★☆</span></div>
-                        <p class="text-muted">Clean seams, exceptional packaging layout. Captures the architectural design paradigm flawlessly.</p>
+                <div class="config-group">
+                    <label>Available Sizes</label>
+                    <div class="size-selector">
+                        <button class="size-btn active" onclick="selectDetailSize(this)">S</button>
+                        <button class="size-btn" onclick="selectDetailSize(this)">M</button>
+                        <button class="size-btn" onclick="selectDetailSize(this)">L</button>
+                        <button class="size-btn" onclick="selectDetailSize(this)">XL</button>
                     </div>
                 </div>
-            </div>
-            
-            <div style="grid-column: 1/-1; margin-top: 4rem;">
-                <h2 class="section-title">RELATED LUXURY OBJECTS</h2>
-                <div class="product-grid">${relatedHTML.map(r => DOMUpdates.generateProductCardHTML(r)).join('')}</div>
-            </div>
-        `;
 
-        DOMUpdates.switchView('product-details-view');
-    },
-
-    handleZoomEffect(e) {
-        const vp = e.currentTarget;
-        // Simple elegant responsive non-framework zooming emulation simulation layout transformation matrices
-        vp.style.transform = "scale(1.03)";
-        vp.style.transition = "transform 0.1s";
-        vp.style.backgroundColor = "#EAEAEA";
-    },
-
-    resetZoomEffect(e) {
-        const vp = e.currentTarget;
-        vp.style.transform = "scale(1)";
-        vp.style.backgroundColor = "#F5F5F5";
-    },
-
-    selectSizeEvent(btn, size) {
-        const parent = btn.parentElement;
-        parent.querySelectorAll('.size-option-btn').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        AppState.currentViewedProduct._selectedSize = size;
-    },
-
-    selectColorEvent(circle, color) {
-        const parent = circle.parentElement;
-        parent.querySelectorAll('.color-option-circle').forEach(c => c.classList.remove('active'));
-        circle.classList.add('active');
-        AppState.currentViewedProduct._selectedColor = color;
-    },
-
-    adjustDetailsQty(val) {
-        let curr = AppState.currentViewedProduct._selectedQty || 1;
-        curr += val;
-        if(curr < 1) curr = 1;
-        AppState.currentViewedProduct._selectedQty = curr;
-        document.getElementById('details-qty-val').innerText = curr;
-    },
-
-    quickAddToCart(pid) {
-        const p = AppState.products.find(item => item.id === pid);
-        if(!p) return;
-        
-        const existing = AppState.cart.find(item => item.id === pid && item.size === p.sizes[0]);
-        if(existing) {
-            existing.quantity += 1;
-        } else {
-            AppState.cart.push({
-                id: p.id,
-                name: p.name,
-                category: p.category,
-                price: p.discountPrice,
-                size: p.sizes[0],
-                color: p.colors[0],
-                quantity: 1
-            });
-        }
-        StorageEngine.syncCart();
-        alert(`${p.name} successfully appended to shopping bag.`);
-    },
-
-    addCurrentToCart() {
-        const p = AppState.currentViewedProduct;
-        if(!p) return;
-
-        const existing = AppState.cart.find(item => item.id === p.id && item.size === p._selectedSize && item.color === p._selectedColor);
-        if(existing) {
-            existing.quantity += p._selectedQty;
-        } else {
-            AppState.cart.push({
-                id: p.id,
-                name: p.name,
-                category: p.category,
-                price: p.discountPrice,
-                size: p._selectedSize,
-                color: p._selectedColor,
-                quantity: p._selectedQty
-            });
-        }
-        StorageEngine.syncCart();
-        alert(`Acquisition configuration appended safely to order bag.`);
-    },
-
-    buyNowCurrent() {
-        DOMUpdates.addCurrentToCart();
-        DOMUpdates.switchView('cart-view');
-    },
-
-    toggleWishlistEvent(pid) {
-        const idx = AppState.wishlist.findIndex(w => w.id === pid);
-        if(idx > -1) {
-            AppState.wishlist.splice(idx, 1);
-            alert(`Item extracted from custom wishlist portfolio.`);
-        } else {
-            const p = AppState.products.find(item => item.id === pid);
-            AppState.wishlist.push(p);
-            alert(`Item logged into wishlist index parameters.`);
-        }
-        StorageEngine.syncWish();
-        
-        // Dynamic cascading refresh based on location triggers
-        if(AppState.activeView === 'wishlist-view') DOMUpdates.renderWishlistView();
-        if(AppState.activeView === 'shop-view') DOMUpdates.renderShopCatalog();
-        if(AppState.activeView === 'home-view') DOMUpdates.renderHomeShowcases();
-    },
-
-    renderCartView() {
-        const container = document.getElementById('cart-items-container');
-        if(AppState.cart.length === 0) {
-            container.innerHTML = `<blockquote class="mono-quote">Your active shopping bag layout contains no logged objects. Visit global shop.</blockquote>`;
-            DOMUpdates.evaluateCartTotals(0);
-            return;
-        }
-
-        let totalAccumulator = 0;
-        container.innerHTML = AppState.cart.map((item, idx) => {
-            const rowTotal = item.price * item.quantity;
-            totalAccumulator += rowTotal;
-            return `
-                <div class="cart-row-item">
-                    <div class="cart-item-thumb-placeholder">${item.category.substring(0,2).toUpperCase()}</div>
-                    <div class="cart-item-details">
-                        <h4>${item.name}</h4>
-                        <div class="cart-item-meta-metrics">SIZE: ${item.size} | COLOR: ${item.color}</div>
-                        <div class="form-group" style="width:70px; margin-bottom:0;">
-                            <input type="number" value="${item.quantity}" min="1" onchange="DOMUpdates.mutateCartQty(${idx}, this.value)">
-                        </div>
-                        <button class="cart-item-removal-trigger" onclick="DOMUpdates.removeCartItem(${idx})">EXTRACT ITEM</button>
-                    </div>
-                    <div class="cart-item-pricing-zone">
-                        <div class="text-muted">Unit: Rs. ${item.price.toLocaleString()}</div>
-                        <div class="sub-calc">Rs. ${rowTotal.toLocaleString()}</div>
+                <div class="config-group">
+                    <label>Structural Color Architecture</label>
+                    <div class="color-selector">
+                        <div class="color-dot active" style="background-color: #000000;" onclick="selectDetailColor(this)"></div>
+                        <div class="color-dot" style="background-color: #FFFFFF;" onclick="selectDetailColor(this)"></div>
                     </div>
                 </div>
-            `;
-        }).join('');
 
-        DOMUpdates.evaluateCartTotals(totalAccumulator);
-    },
+                <div class="config-group">
+                    <label>Quantity</label>
+                    <div class="qty-input-box">
+                        <button onclick="adjustDetailQty(-1)">-</button>
+                        <input type="text" value="1" id="detailQtyInput" readonly>
+                        <button onclick="adjustDetailQty(1)">+</button>
+                    </div>
+                </div>
 
-    mutateCartQty(idx, val) {
-        const parsed = parseInt(val);
-        if(isNaN(parsed) || parsed < 1) return;
-        AppState.cart[idx].quantity = parsed;
-        StorageEngine.syncCart();
-        DOMUpdates.renderCartView();
-    },
-
-    removeCartItem(idx) {
-        AppState.cart.splice(idx, 1);
-        StorageEngine.syncCart();
-        DOMUpdates.renderCartView();
-    },
-
-    evaluateCartTotals(subtotal) {
-        // Business Logic for currency operations framework Rs.
-        const shipping = (subtotal > 10000 || subtotal === 0) ? 0 : 450;
-        const discount = subtotal > 20000 ? Math.floor(subtotal * 0.1) : 0;
-        const grand = subtotal + shipping - discount;
-
-        document.getElementById('summary-subtotal').innerText = `Rs. ${subtotal.toLocaleString()}`;
-        document.getElementById('summary-shipping').innerText = `Rs. ${shipping.toLocaleString()}`;
-        document.getElementById('summary-discount').innerText = `- Rs. ${discount.toLocaleString()}`;
-        document.getElementById('summary-grand-total').innerText = `Rs. ${grand.toLocaleString()}`;
-        
-        // Cache variables silently onto checkout mirror bindings
-        AppState._subtotal = subtotal;
-        AppState._shipping = shipping;
-        AppState._discount = discount;
-        AppState._grand = grand;
-    },
-
-    renderWishlistView() {
-        const container = document.getElementById('wishlist-items-container');
-        if(AppState.wishlist.length === 0) {
-            container.innerHTML = `<div style="grid-column:1/-1;"><blockquote class="mono-quote">Your wishlist index portfolio is transparently vacant.</blockquote></div>`;
-            return;
-        }
-        container.innerHTML = AppState.wishlist.map(p => DOMUpdates.generateProductCardHTML(p)).join('');
-    },
-
-    evaluateDashboardAuthState() {
-        const authBlock = document.getElementById('auth-subsystem-container');
-        const dashBlock = document.getElementById('true-dashboard-container');
-
-        if(AppState.activeUser) {
-            authBlock.classList.add('hidden');
-            dashBlock.classList.remove('hidden');
-            
-            // Set data properties variables values inside the view
-            document.getElementById('dash-user-name').innerText = `${AppState.activeUser.firstName} ${AppState.activeUser.lastName}`;
-            document.getElementById('dash-stat-wishes').innerText = AppState.wishlist.length;
-            
-            // Populate fallback historical order values logs tracking
-            const tbody = document.getElementById('dash-orders-tbody');
-            tbody.innerHTML = `
-                <tr>
-                    <td>#SS-99384</td>
-                    <td>2026-04-12</td>
-                    <td>Direct Asset Balance</td>
-                    <td>Rs. 14,950</td>
-                    <td><span class="badge-default">ARCHIVED CONTEXT</span></td>
-                </tr>
-            `;
-        } else {
-            authBlock.classList.remove('hidden');
-            dashBlock.classList.add('hidden');
-        }
-    },
-
-    initializeCheckoutMiniView() {
-        const listContainer = document.getElementById('checkout-mini-list');
-        listContainer.innerHTML = AppState.cart.map(item => `
-            <div class="mini-loop-row">
-                <span><strong>${item.name}</strong> (x${item.quantity}) [Size ${item.size}]</span>
-                <span>Rs. ${(item.price * item.quantity).toLocaleString()}</span>
+                <div class="action-buttons-row">
+                    <button class="btn btn-black flex-grow: 1;" style="flex:1;" onclick="addDetailProductToCart(false)">Add to Bag</button>
+                    <button class="btn btn-white" style="flex:1;" onclick="addDetailProductToCart(true)">Buy Now</button>
+                </div>
             </div>
-        `).join('');
+        </div>
 
-        document.getElementById('chk-summary-count').innerText = `${AppState.cart.reduce((a,c)=>a+c.quantity,0)} Target Objects`;
-        document.getElementById('chk-summary-subtotal').innerText = `Rs. ${AppState._subtotal.toLocaleString()}`;
-        document.getElementById('chk-summary-shipping').innerText = `Rs. ${AppState._shipping.toLocaleString()}`;
-        document.getElementById('chk-summary-discount').innerText = `- Rs. ${AppState._discount.toLocaleString()}`;
-        document.getElementById('chk-summary-grand-total').innerText = `Rs. ${AppState._grand.toLocaleString()}`;
+        <div class="reviews-block">
+            <h3>Verified Client Reviews Manifest</h3>
+            <div class="review-item">
+                <div class="review-meta"><strong>Alexander V.</strong> <span>★★★★★</span></div>
+                <p style="font-size:0.85rem; color:#444;">Incredible visual architectural weights. Fits the body structure profile accurately. True monochrome excellence execution.</p>
+            </div>
+            <div class="review-item">
+                <div class="review-meta"><strong>Helena R.</strong> <span>★★★★☆</span></div>
+                <p style="font-size:0.85rem; color:#444;">The linear configuration pleats are flawlessly completed. High density threading feels completely elite.</p>
+            </div>
+        </div>
+    `;
+
+    switchView('product-details');
+}
+
+function swapDetailPreview(imgSrc, thumbElement) {
+    document.getElementById("mainDetailImage").src = imgSrc;
+    const thumbs = document.querySelectorAll(".thumb-box");
+    thumbs.forEach(t => t.classList.remove("active"));
+    if(thumbElement) thumbElement.classList.add("active");
+}
+
+function handleGalleryZoom(e) {
+    const img = document.getElementById("mainDetailImage");
+    const pane = document.getElementById("zoomPreviewPane");
+    const rect = pane.getBoundingClientRect();
+    const x = ((e.clientX - rect.left) / rect.width) * 100;
+    const y = ((e.clientY - rect.top) / rect.height) * 100;
+    img.style.transformOrigin = `${x}% ${y}%`;
+    img.style.transform = "scale(1.8)";
+}
+
+function resetGalleryZoom() {
+    const img = document.getElementById("mainDetailImage");
+    img.style.transform = "scale(1)";
+    img.style.transformOrigin = "center center";
+}
+
+function selectDetailSize(btn) {
+    document.querySelectorAll(".size-btn").forEach(b => b.classList.remove("active"));
+    btn.classList.add("active");
+}
+
+function selectDetailColor(dot) {
+    document.querySelectorAll(".color-dot").forEach(d => d.classList.remove("active"));
+    dot.classList.add("active");
+}
+
+function adjustDetailQty(delta) {
+    const input = document.getElementById("detailQtyInput");
+    let val = parseInt(input.value) + delta;
+    if(val < 1) val = 1;
+    input.value = val;
+}
+
+function addDetailProductToCart(isBuyNowAction) {
+    const qty = parseInt(document.getElementById("detailQtyInput").value);
+    addToCart(null, activeProductDetailsId, qty);
+    if(isBuyNowAction) {
+        switchView('cart');
     }
-};
+}
 
-// Application Global Form Handling Event Bindings & Listeners
-function setupCoreInteractionListeners() {
-    // Mobile Navigation Drawer Functional Events Switches
-    const drawer = document.getElementById('mobile-drawer');
-    const overlay = document.getElementById('drawer-overlay');
+// ================= TRANSACTIONARY OPERATING QUANTUMS (CART METRICS) ================= */
+function addToCart(e, productId, qty) {
+    if(e) e.stopPropagation();
+    const target = sampleProducts.find(p => p.id === productId);
+    if(!target) return;
     
-    document.querySelector('.mobile-menu-toggle').addEventListener('click', () => {
-        drawer.classList.add('open');
-        overlay.classList.add('open');
+    const existing = cart.find(item => item.product.id === productId);
+    if(existing) {
+        existing.quantity += qty;
+    } else {
+        cart.push({ product: target, quantity: qty });
+    }
+    
+    updateGlobalBadges();
+    alert(`${target.name} securely added allocation metrics inside Shopping Bag.`);
+}
+
+function updateGlobalBadges() {
+    document.getElementById("cartCount").textContent = cart.reduce((sum, item) => sum + item.quantity, 0);
+    document.getElementById("wishlistCount").textContent = wishlist.length;
+}
+
+function adjustCartItemQty(productId, delta) {
+    const item = cart.find(i => i.product.id === productId);
+    if(!item) return;
+    item.quantity += delta;
+    if(item.quantity < 1) {
+        removeCartItem(productId);
+        return;
+    }
+    renderCartLayout();
+    updateGlobalBadges();
+}
+
+function removeCartItem(productId) {
+    cart = cart.filter(item => item.product.id !== productId);
+    renderCartLayout();
+    updateGlobalBadges();
+}
+
+function renderCartLayout() {
+    const container = document.getElementById("cartLayoutContainer");
+    if(!container) return;
+    
+    if(cart.length === 0) {
+        container.innerHTML = `<div style="grid-column: span 2; text-align: center; padding: 60px 0;">
+            <p style="font-size: 1.1rem; margin-bottom:20px; color:#555;">Your architectural bag is currently unallocated.</p>
+            <button class="btn btn-black" onclick="switchView('shop')">Browse Digital Catalog</button>
+        </div>`;
+        return;
+    }
+
+    let itemsHtml = "";
+    let subtotal = 0;
+
+    cart.forEach(item => {
+        const cost = item.product.price * item.quantity;
+        subtotal += cost;
+        itemsHtml += `
+            <tr>
+                <td>
+                    <div class="cart-item-info">
+                        <img src="${item.product.img}" alt="${item.product.name}">
+                        <div>
+                            <span class="cart-item-name">${item.product.name}</span><br>
+                            <button class="remove-cart-item" onclick="removeCartItem(${item.product.id})">Remove Allocation</button>
+                        </div>
+                    </div>
+                </td>
+                <td>Rs. ${item.product.price.toLocaleString()}</td>
+                <td>
+                    <div class="qty-input-box" style="width:100px;">
+                        <button onclick="adjustCartItemQty(${item.product.id}, -1)">-</button>
+                        <input type="text" value="${item.quantity}" readonly>
+                        <button onclick="adjustCartItemQty(${item.product.id}, 1)">+</button>
+                    </div>
+                </td>
+                <td class="font-bold">Rs. ${cost.toLocaleString()}</td>
+            </tr>
+        `;
     });
 
-    document.getElementById('close-drawer').addEventListener('click', () => {
-        drawer.classList.remove('open');
-        overlay.classList.remove('open');
-    });
+    const shipping = subtotal > 15000 ? 0 : 750;
+    const grandTotal = subtotal + shipping;
 
-    overlay.addEventListener('click', () => {
-        drawer.classList.remove('open');
-        overlay.classList.remove('open');
-    });
+    container.innerHTML = `
+        <div class="table-responsive" style="overflow-x:auto;">
+            <table class="cart-table">
+                <thead>
+                    <tr>
+                        <th>Product Specs</th>
+                        <th>Unit Price</th>
+                        <th>Quantity</th>
+                        <th>Subtotal</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    ${itemsHtml}
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="cart-summary-pane">
+            <h3>Logistical Allocation Summary</h3>
+            <div class="summary-row"><span>Bag Subtotal:</span> <span>Rs. ${subtotal.toLocaleString()}</span></div>
+            <div class="summary-row"><span>Tracked Premium Shipping:</span> <span>${shipping === 0 ? "FREE" : "Rs. " + shipping}</span></div>
+            <div class="summary-row total"><span>Grand Secure Manifest Total:</span> <span>Rs. ${grandTotal.toLocaleString()}</span></div>
+            <button class="btn btn-black w-100" style="margin-top: 20px;" onclick="switchView('checkout')">Proceed To Checkout Verification</button>
+        </div>
+    `;
+}
 
-    // Global Interactive Shop Sidebar Controls Handling Filters
-    document.querySelectorAll('#category-filter-list li').forEach(li => {
-        li.addEventListener('click', () => {
-            document.querySelectorAll('#category-filter-list li').forEach(l => l.classList.remove('active'));
-            li.classList.add('active');
-            AppState.activeFilters.category = li.getAttribute('data-value');
-            DOMUpdates.renderShopCatalog();
-        });
-    });
+// ================= FAVORITES POOL ARCHITECTURE (WISHLIST) ================= */
+function toggleWishlist(e, productId) {
+    if(e) e.stopPropagation();
+    const idx = wishlist.indexOf(productId);
+    if(idx > -1) {
+        wishlist.splice(idx, 1);
+    } else {
+        wishlist.push(productId);
+    }
+    updateGlobalBadges();
+    
+    // Auto re-sync rendering elements if currently visible inside views
+    renderHomeProductShowcase();
+    renderShopCatalog();
+    renderWishlistLayout();
+}
 
-    // Category Card clicks mapping onto shop filters seamlessly
-    document.querySelectorAll('.category-card').forEach(card => {
-        card.addEventListener('click', () => {
-            const cat = card.getAttribute('data-category');
-            AppState.activeFilters.category = cat;
+function moveWishlistToCart(productId) {
+    addToCart(null, productId, 1);
+    wishlist = wishlist.filter(id => id !== productId);
+    updateGlobalBadges();
+    renderWishlistLayout();
+}
+
+function renderWishlistLayout() {
+    const container = document.getElementById("wishlistGridContainer");
+    if(!container) return;
+    container.innerHTML = "";
+    
+    if(wishlist.length === 0) {
+        container.style.display = "block";
+        container.innerHTML = `<p style="text-align: center; padding: 40px 0; color:#666;">No structured elements assigned to your global profile wishlist memory matrix.</p>`;
+        return;
+    }
+    
+    container.style.display = "grid";
+    wishlist.forEach(id => {
+        const prod = sampleProducts.find(p => p.id === id);
+        if(prod) {
+            const el = buildProductCardElement(prod);
+            // Patch internal layout action buttons inside wishlist scopes for seamless movement metric
+            const actions = el.querySelector(".product-info-wrap");
+            actions.querySelector(".card-action-btn").remove();
             
-            // Set explicit state on sidebar elements list
-            document.querySelectorAll('#category-filter-list li').forEach(li => {
-                if(li.getAttribute('data-value') === cat) li.classList.add('active');
-                else li.classList.remove('active');
-            });
-
-            DOMUpdates.switchView('shop-view');
-        });
-    });
-
-    const priceRangeInput = document.getElementById('price-range');
-    if(priceRangeInput) {
-        priceRangeInput.addEventListener('input', (e) => {
-            const val = parseInt(e.target.value);
-            document.getElementById('price-range-val').innerText = `Rs. ${val.toLocaleString()}`;
-            AppState.activeFilters.maxPrice = val;
-            DOMUpdates.renderShopCatalog();
-        });
-    }
-
-    const ratingSelect = document.getElementById('rating-filter');
-    if(ratingSelect) {
-        ratingSelect.addEventListener('change', (e) => {
-            AppState.activeFilters.minRating = parseFloat(e.target.value);
-            DOMUpdates.renderShopCatalog();
-        });
-    }
-
-    const sortSelect = document.getElementById('shop-sort');
-    if(sortSelect) {
-        sortSelect.addEventListener('change', (e) => {
-            AppState.activeSort = e.target.value;
-            DOMUpdates.renderShopCatalog();
-        });
-    }
-
-    // Global Intercept Search Parameters Bar Control Logic
-    document.getElementById('search-btn').addEventListener('click', executeSearchPipeline);
-    document.getElementById('global-search').addEventListener('keyup', (e) => {
-        if(e.key === 'Enter') executeSearchPipeline();
-    });
-
-    function executeSearchPipeline() {
-        const query = document.getElementById('global-search').value.toLowerCase().trim();
-        if(query === '') return;
-        
-        // Redirect seamlessly into shop catalog forced filtered views
-        AppState.activeFilters.category = 'all';
-        document.querySelectorAll('#category-filter-list li').forEach(l => l.classList.remove('active'));
-        document.querySelectorAll('#category-filter-list li')[0].classList.add('active');
-
-        DOMUpdates.switchView('shop-view');
-        
-        // Filter elements in place overriding base catalog
-        const grid = document.getElementById('shop-catalog-grid');
-        const matches = AppState.products.filter(p => p.name.toLowerCase().includes(query) || p.description.toLowerCase().includes(query));
-        
-        document.getElementById('catalog-count').innerText = matches.length;
-        if(matches.length === 0) {
-            grid.innerHTML = `<div style="grid-column: 1/-1; padding: 4rem; text-align:center;"><blockquote class="mono-quote">No curated items match search parameters "${query}".</blockquote></div>`;
-        } else {
-            grid.innerHTML = matches.map(p => DOMUpdates.generateProductCardHTML(p)).join('');
+            const btnWrap = document.createElement("div");
+            btnWrap.style.display = "flex";
+            btnWrap.style.gap = "5px";
+            btnWrap.innerHTML = `
+                <button class="btn btn-black" style="padding:8px; font-size:0.7rem; flex:1;" onclick="moveWishlistToCart(${prod.id})">Move To Bag</button>
+                <button class="btn btn-white" style="padding:8px; font-size:0.7rem;" onclick="toggleWishlist(null, ${prod.id})"><i class="fa-solid fa-trash"></i></button>
+            `;
+            actions.appendChild(btnWrap);
+            container.appendChild(el);
         }
-    }
-
-    // Checkout Pipeline Redirect Routing Interceptor
-    document.getElementById('proceed-to-checkout-btn').addEventListener('click', () => {
-        if(AppState.cart.length === 0) {
-            alert("Your active shopping bag must contain structural targets to invoke verification systems.");
-            return;
-        }
-        DOMUpdates.initializeCheckoutMiniView();
-        DOMUpdates.switchView('checkout-view');
-    });
-
-    // Auth Form Panel Switching Architecture Subsystems
-    document.querySelectorAll('.auth-tab-toggle').forEach(btn => {
-        btn.addEventListener('click', () => {
-            document.querySelectorAll('.auth-tab-toggle').forEach(b => b.classList.remove('active'));
-            document.querySelectorAll('.auth-pane').forEach(p => p.classList.remove('active'));
-            
-            btn.classList.add('active');
-            document.getElementById(btn.getAttribute('data-auth-form')).classList.add('active');
-        });
-    });
-
-    document.getElementById('trigger-forgot-pwd').addEventListener('click', (e) => {
-        e.preventDefault();
-        document.querySelectorAll('.auth-pane').forEach(p => p.classList.remove('active'));
-        document.getElementById('forgot-pane').classList.add('active');
-    });
-
-    document.getElementById('return-login-pane').addEventListener('click', (e) => {
-        e.preventDefault();
-        document.querySelectorAll('.auth-pane').forEach(p => p.classList.remove('active'));
-        document.getElementById('login-pane').classList.add('active');
-    });
-
-    // Authentication Submission Framework Emulations
-    document.getElementById('login-form').addEventListener('submit', (e) => {
-        e.preventDefault();
-        const inputEmail = e.target.querySelector('input[type="email"]').value;
-        const fallbackName = inputEmail.split('@')[0].toUpperCase();
-        
-        StorageEngine.syncSession({
-            firstName: fallbackName,
-            lastName: "STORE MEMBER",
-            email: inputEmail
-        });
-        
-        alert("Identity authenticated successfully.");
-        DOMUpdates.evaluateDashboardAuthState();
-    });
-
-    document.getElementById('register-form').addEventListener('submit', (e) => {
-        e.preventDefault();
-        const f = e.target.querySelectorAll('input');
-        StorageEngine.syncSession({
-            firstName: f[0].value,
-            lastName: f[1].value,
-            email: f[2].value
-        });
-        alert("Secure User profile initialization completely committed.");
-        DOMUpdates.evaluateDashboardAuthState();
-    });
-
-    document.getElementById('forgot-form').addEventListener('submit', (e) => {
-        e.preventDefault();
-        alert("Token transmission complete. Review access folders within 15 minutes processing loops.");
-    });
-
-    document.getElementById('dash-logout-trigger').addEventListener('click', () => {
-        StorageEngine.syncSession(null);
-        alert("Session terminated securely.");
-        DOMUpdates.evaluateDashboardAuthState();
-    });
-
-    // Dashboard Internal Local Panel View Sub-Toggles Swapping
-    document.querySelectorAll('.dash-menu-links li').forEach(li => {
-        if(li.id === 'dash-logout-trigger') return;
-        li.addEventListener('click', () => {
-            document.querySelectorAll('.dash-menu-links li').forEach(l => l.classList.remove('active'));
-            document.querySelectorAll('.dash-sub-pane').forEach(p => p.classList.remove('active'));
-            
-            li.classList.add('active');
-            document.getElementById(li.getAttribute('data-dash-pane')).classList.add('active');
-        });
-    });
-
-    document.getElementById('dash-settings-form').addEventListener('submit', (e) => {
-        e.preventDefault();
-        if(AppState.activeUser) {
-            AppState.activeUser.firstName = document.getElementById('setting-fname').value;
-            AppState.activeUser.lastName = document.getElementById('setting-lname').value;
-            StorageEngine.syncSession(AppState.activeUser);
-            alert("Database parameters successfully adjusted.");
-            DOMUpdates.evaluateDashboardAuthState();
-        }
-    });
-
-    // Final Order Execution Structural Manifest Processing Engine Block
-    document.getElementById('checkout-form-structure').addEventListener('submit', (e) => {
-        e.preventDefault();
-        
-        // Extract field validation inputs values vectors
-        const fName = document.getElementById('chk-first-name').value;
-        const lName = document.getElementById('chk-last-name').value;
-        const phone = document.getElementById('chk-phone').value;
-        const email = document.getElementById('chk-email').value;
-        const addr = document.getElementById('chk-address').value;
-        const city = document.getElementById('chk-city').value;
-        
-        const method = document.querySelector('input[name="payment_method"]:checked').value;
-
-        // Generate Confirmation Output Mapping Data Structures
-        document.getElementById('conf-order-id').innerText = `SS-2026-${Math.floor(10000000 + Math.random() * 90000000)}`;
-        document.getElementById('conf-customer-name').innerText = `${fName} ${lName}`;
-        document.getElementById('conf-customer-contact').innerText = `${email} | Cell Terminal: ${phone}`;
-        document.getElementById('conf-customer-address').innerText = `${addr}, ${city}, Region Matrix Destination`;
-        document.getElementById('conf-grand-total').innerText = `Rs. ${AppState._grand.toLocaleString()}`;
-
-        // Populate descriptive internal line summaries array values mapping
-        const summaryList = document.getElementById('conf-products-summary-list');
-        summaryList.innerHTML = AppState.cart.map(item => `
-            <p style="font-size:0.85rem; margin-bottom: 0.25rem;">• ${item.name} (Size ${item.size}) x${item.quantity} -> Sub: Rs. ${(item.price * item.quantity).toLocaleString()}</p>
-        `).join('');
-
-        // Wipe localized processing state vectors clean upon final operational execution success loops
-        AppState.cart = [];
-        StorageEngine.syncCart();
-
-        DOMUpdates.switchView('order-confirmation-view');
-    });
-
-    // Intercept static instructional system documentation nodes dialog flows
-    document.querySelectorAll('.footer-static-trigger').forEach(trigger => {
-        trigger.addEventListener('click', (e) => {
-            e.preventDefault();
-            const nodeType = trigger.getAttribute('data-static');
-            alert(`[System Notice Architecture Logs] Displaying central global guidelines profile manifest node segment for parameter: ${nodeType.toUpperCase()}. All enforcement models strictly run monochrome standard operational practices.`);
-        });
     });
 }
 
-// Hero Carousel Automated Structural Transits Animation Drivers Engine Loop
-function initializeHeroAutoslideEngine() {
-    const slides = document.querySelectorAll('.carousel-slide');
-    const dots = document.querySelectorAll('.carousel-dots .dot');
-    let currentIndex = 0;
-    let timer = null;
-
-    function transitionToSlide(idx) {
-        slides.forEach(s => s.classList.remove('active'));
-        dots.forEach(d => d.classList.remove('active'));
-        
-        slides[idx].classList.add('active');
-        dots[idx].classList.add('active');
-        currentIndex = idx;
-    }
-
-    function launchTimerLoop() {
-        timer = setInterval(() => {
-            let next = currentIndex + 1;
-            if(next >= slides.length) next = 0;
-            transitionToSlide(next);
-        }, 5000); // 5000ms metric standard system velocity parameters
-    }
-
-    dots.forEach((dot, index) => {
-        dot.addEventListener('click', () => {
-            clearInterval(timer);
-            transitionToSlide(index);
-            launchTimerLoop();
-        });
-    });
-
-    launchTimerLoop();
+// ================= SECURITY AUTHENTICATION SIMULATIONS ================= */
+function switchAuthTab(type, element) {
+    document.querySelectorAll(".auth-tab-btn").forEach(b => b.classList.remove("active"));
+    document.querySelectorAll(".auth-box").forEach(b => b.classList.remove("active"));
+    
+    if(element) element.classList.add("active");
+    document.getElementById(`auth-${type}-box`).classList.add("active");
 }
 
-// System Micro Event Queue Bootstrap Orchestrator Initialization Routine
-document.addEventListener("DOMContentLoaded", () => {
-    // 1. Initialize local cache memories pipelines vectors mappings
-    StorageEngine.initLocalState();
-
-    // 2. Hydrate centralized inventory tracking matrix configurations
-    executeProductGenerationPipeline();
-
-    // 3. Setup structural DOM view controls and global state interfaces bindings listeners
-    DOMUpdates.initViews();
-    setupCoreInteractionListeners();
-
-    // 4. Render homepage segments blocks components
-    DOMUpdates.renderHomeShowcases();
-    DOMUpdates.updateGlobalBadges();
-
-    // 5. Fire ancillary automation systems layers
-    initializeHeroAutoslideEngine();
-
-    // 6. Extinguish preloader system animations smoothly
-    const preloader = document.getElementById('preloader');
-    if(preloader) {
-        setTimeout(() => {
-            preloader.style.opacity = '0';
-            preloader.style.visibility = 'hidden';
-        }, 600);
+function handleAuthSubmit(e, formMode) {
+    e.preventDefault();
+    // Inject mock user validation metrics directly into operational memory spaces
+    document.getElementById("account-auth-container").style.display = "none";
+    document.getElementById("account-dashboard-container").style.display = "block";
+    
+    if(formMode === 'register') {
+        document.getElementById("dashUserTitle").textContent = "Premium Archival Client";
     }
-});
+    renderMockOrderHistory();
+}
+
+function handleLogout() {
+    document.getElementById("account-dashboard-container").style.display = "none";
+    document.getElementById("account-auth-container").style.display = "block";
+}
+
+function switchDashTab(tabId, element) {
+    document.querySelectorAll(".dash-menu li").forEach(li => li.classList.remove("active"));
+    document.querySelectorAll(".dash-tab-content").forEach(c => c.classList.remove("active"));
+    
+    if(element) element.classList.add("active");
+    document.getElementById(`dash-${tabId}`).classList.add("active");
+}
+
+function renderMockOrderHistory() {
+    const tbody = document.getElementById("orderHistoryBody");
+    tbody.innerHTML = `
+        <tr>
+            <td>#SVN-2026-8841</td>
+            <td>June 14, 2026</td>
+            <td><span style="border: 1px solid #000; padding: 2px 6px; font-size: 0.7rem; font-weight:600;">DISPATCH ROUTED</span></td>
+            <td class="font-bold">Rs. 24,500</td>
+        </tr>
+    `;
+}
+
+// ================= OUTBOUND CHECKOUT GATEWAY INFRASTRUCTURE ================= */
+function renderCheckoutSummary() {
+    const itemsContainer = document.getElementById("checkoutSummaryItems");
+    if(!itemsContainer) return;
+    itemsContainer.innerHTML = "";
+    
+    let subtotal = 0;
+    cart.forEach(item => {
+        subtotal += item.product.price * item.quantity;
+        const div = document.createElement("div");
+        div.className = "summary-row";
+        div.style.fontSize = "0.85rem";
+        div.innerHTML = `<span>${item.product.name} (x${item.quantity})</span> <span>Rs. ${(item.product.price * item.quantity).toLocaleString()}</span>`;
+        itemsContainer.appendChild(div);
+    });
+    
+    const shipping = subtotal > 15000 ? 0 : 750;
+    const total = subtotal + shipping;
+    document.getElementById("checkoutGrandTotal").textContent = `Rs. ${total.toLocaleString()}`;
+}
+
+function processCheckout(e) {
+    e.preventDefault();
+    if(cart.length === 0) {
+        alert("Transaction denied. Operational shopping bag contains zero allocation indexes.");
+        return;
+    }
+
+    // Capture user assignment references
+    const first = document.getElementById("chkFirst").value;
+    const last = document.getElementById("chkLast").value;
+    
+    let subtotal = 0;
+    const summaryTarget = document.getElementById("confProductsSummary");
+    summaryTarget.innerHTML = "";
+    
+    cart.forEach(item => {
+        subtotal += item.product.price * item.quantity;
+        const p = document.createElement("p");
+        p.style.fontSize = "0.85rem";
+        p.innerHTML = `• ${item.product.name} x${item.quantity} - <span class="font-bold">Rs. ${(item.product.price * item.quantity).toLocaleString()}</span>`;
+        summaryTarget.appendChild(p);
+    });
+    
+    const shipping = subtotal > 15000 ? 0 : 750;
+    const grandTotal = subtotal + shipping;
+
+    // Direct binding updates inside Order complete fields screen
+    document.getElementById("confOrderNumber").textContent = `SVN-${Math.floor(100000 + Math.random() * 900000)}-2026`;
+    document.getElementById("confCustomerName").textContent = `${first} ${last}`;
+    document.getElementById("confTotalAmount").textContent = `Rs. ${grandTotal.toLocaleString()}`;
+
+    // Clear local cache variables structural states
+    cart = [];
+    updateGlobalBadges();
+    
+    switchView('confirmation');
+}
+
+function subscribeNewsletter() {
+    const input = document.getElementById("newsletterEmail");
+    if(input.value) {
+        alert("Email verified. Core connection matrix added securely inside the SAVEAN STORE archive database network.");
+        input.value = "";
+    }
+}
