@@ -1,742 +1,643 @@
-// ================= EXPERT MACHINE SAMPLE INVENTORY (50 COMPLETE ENTRIES) =================
-const sampleProducts = [
-    { id: 1, name: "Minimalist Structural Blazer", category: "Men", tags: ["trending", "new"], price: 12500, origPrice: 18000, rating: 5, reviews: 48, stock: "In Stock", img: "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=600&q=80", desc: "Structured sharp shoulders crafting a pristine monochrome profile architecture." },
-    { id: 2, name: "Avant-Garde Drape Dress", category: "Women", tags: ["trending", "best"], price: 14990, origPrice: 22000, rating: 5, reviews: 64, stock: "In Stock", img: "https://images.unsplash.com/photo-1539109136881-3be0616acf4b?auto=format&fit=crop&w=600&q=80", desc: "Flowing visual weight metrics featuring lightweight luxury premium custom threading." },
-    { id: 3, name: "Monolithic Leather Combat Boots", category: "Shoes", tags: ["trending", "flash"], price: 18500, origPrice: 25000, rating: 4, reviews: 39, stock: "In Stock", img: "https://images.unsplash.com/photo-1608231387042-66d1773070a5?auto=format&fit=crop&w=600&q=80", desc: "Thick density geometric platform base providing immense industrial durability factors." },
-    { id: 4, name: "Architectural Trapeze Handbag", category: "Bags", tags: ["best", "deals"], price: 9990, origPrice: 15000, rating: 5, reviews: 112, stock: "In Stock", img: "https://images.unsplash.com/photo-1584917865442-de89df76afd3?auto=format&fit=crop&w=600&q=80", desc: "Rigid form factor execution creating an instantly recognizable elite appearance asset." },
-    { id: 5, name: "Stealth Titanium Chronograph", category: "Watches", tags: ["new", "deals"], price: 28000, origPrice: 35000, rating: 5, reviews: 18, stock: "In Stock", img: "https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?auto=format&fit=crop&w=600&q=80", desc: "Matte complete black finish paired carefully with reliable quartz precision standard modules." },
-    { id: 6, name: "Asymmetric Knit Wrap Vest", category: "Women", tags: ["new", "flash"], price: 5990, origPrice: 8500, rating: 4, reviews: 29, stock: "In Stock", img: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=600&q=80", desc: "Layering component engineered with high airflow premium organic raw wool filaments." },
-    { id: 7, name: "Tailored Linear Pleat Trousers", category: "Men", tags: ["best"], price: 7990, origPrice: 11000, rating: 4, reviews: 53, stock: "In Stock", img: "https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?auto=format&fit=crop&w=600&q=80", desc: "Perfect vertical alignment creasing provides elongated spatial profile height parameters." },
-    { id: 8, name: "Geometric Wide Acetate Eyewear", category: "Accessories", tags: ["trending"], price: 4500, origPrice: 6500, rating: 5, reviews: 87, stock: "In Stock", img: "https://images.unsplash.com/photo-1511556532299-8f662fc26c06?auto=format&fit=crop&w=600&q=80", desc: "UV400 fortified block lenses ensconced within thick profile hand polished dark frames." },
-    { id: 9, name: "Sculpted Matte Clay Face Complex", category: "Beauty", tags: ["new"], price: 3500, origPrice: 4990, rating: 4, reviews: 22, stock: "In Stock", img: "https://images.unsplash.com/photo-1596462502278-27bfdc403348?auto=format&fit=crop&w=600&q=80", desc: "Deep pore mineral configuration filtering impurities with luxury geometric skin balance." },
-    { id: 10, name: "Aerodynamic Compression Parka", category: "Sportswear", tags: ["trending", "deals"], price: 11990, origPrice: 16500, rating: 5, reviews: 41, stock: "In Stock", img: "https://images.unsplash.com/photo-1517838277536-f5f99be501cd?auto=format&fit=crop&w=600&q=80", desc: "Weatherproof membrane deployment preventing external thermal drop anomalies." },
-    // Generating remaining sequence of sample inventory to guarantee 50 fully structured items...
-];
+/**
+ * SAVEAN MOVIES - Core Engineering Client Application Script
+ * Orchestrates Single Page Application (SPA) routing, UI hydration, State machines,
+ * custom video player mechanics, search algorithms, and data structures.
+ */
 
-// Dynamically auto-generate products up to 50 items to ensure deep catalogs
-const categoriesPool = ["Men", "Women", "Shoes", "Bags", "Accessories", "Watches", "Beauty", "Sportswear"];
-const tagsPool = [["trending"], ["new"], ["best"], ["flash"], ["deals"], ["trending", "new"], ["best", "deals"]];
-const imagePool = [
-    "https://images.unsplash.com/photo-1488161628813-04466f872be2?auto=format&fit=crop&w=600&q=80",
-    "https://images.unsplash.com/photo-1509319117193-57bab727e09d?auto=format&fit=crop&w=600&q=80",
-    "https://images.unsplash.com/photo-1549298916-b41d501d3772?auto=format&fit=crop&w=600&q=80",
-    "https://images.unsplash.com/photo-1469334031218-e382a71b716b?auto=format&fit=crop&w=600&q=80",
-    "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=600&q=80"
-];
+// Global Immutable/Mutable State Store
+const STATE = {
+    currentProfile: "Alex",
+    currentPage: "home",
+    myList: [1, 3],
+    watchHistory: [2],
+    searchFilter: { query: "", genre: "all", year: "all", rating: "all" },
+    movies: [
+        { id: 1, title: "Interstellar Horizon", type: "movie", category: "Sci-Fi", rating: "9.2", year: "2024", duration: "2h 49m", desc: "A team of explorers travel beyond this galaxy to discover whether mankind has a future among the stars.", banner: "https://images.unsplash.com/photo-1506703719100-a0f3a48c0f86?auto=format&fit=crop&w=1200&q=80", poster: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=400&q=80", trending: true, popular: true, topRated: true },
+        { id: 2, title: "The Midnight Conjuring", type: "movie", category: "Horror", rating: "7.8", year: "2023", duration: "1h 52m", desc: "Paranormal investigators work to track down a dark presence terrfying a secluded farmhouse family.", banner: "https://images.unsplash.com/photo-1509248961158-e54f6934749c?auto=format&fit=crop&w=1200&q=80", poster: "https://images.unsplash.com/photo-1536440136628-849c177e76a1?auto=format&fit=crop&w=400&q=80", trending: true, popular: false, topRated: false },
+        { id: 3, title: "Cyberpunk 2099", type: "series", category: "Sci-Fi", rating: "8.9", year: "2025", duration: "1 Season", desc: "In a dystopian metropolis controlled by tech conglomerates, a street merc mercenary seeks an unfindable cyber-implant.", banner: "https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=1200&q=80", poster: "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=400&q=80", trending: false, popular: true, topRated: true },
+        { id: 4, title: "Chronicles of Olympus", type: "movie", category: "Action", rating: "8.5", year: "2024", duration: "2h 15m", desc: "The ancient mythological war is reignited in a modern metropolis as old deities walk among humans.", banner: "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&w=1200&q=80", poster: "https://images.unsplash.com/photo-1533928298208-27ff66555d8d?auto=format&fit=crop&w=400&q=80", trending: false, popular: true, topRated: false },
+        { id: 5, title: "The Stand-Up Trial", type: "movie", category: "Comedy", rating: "7.2", year: "2022", duration: "1h 38m", desc: "A washed-up comedian accidentally becomes the lead defense attorney in a global high profile corporate scandal.", banner: "https://images.unsplash.com/photo-1514306191717-452ec28c7814?auto=format&fit=crop&w=1200&q=80", poster: "https://images.unsplash.com/photo-1585647347483-22b66260dfff?auto=format&fit=crop&w=400&q=80", trending: true, popular: false, topRated: true }
+    ],
+    reviews: [
+        { user: "MarcusV", rating: "10/10", text: "Absolute masterpiece. Visually arresting and emotionally deep." },
+        { user: "Elena_K", rating: "8/10", text: "Incredible production value, though pacing drags slightly in act 2." }
+    ]
+};
 
-for (let i = 11; i <= 52; i++) {
-    let cat = categoriesPool[i % categoriesPool.length];
-    let priceBase = 1990 + ((i * 470) % 22000);
-    sampleProducts.push({
-        id: i,
-        name: `Elite ${cat} Fragment Variant ${i}`,
-        category: cat,
-        tags: tagsPool[i % tagsPool.length],
-        price: priceBase,
-        origPrice: Math.floor(priceBase * 1.4),
-        rating: 3 + (i % 3),
-        reviews: 10 + (i * 3) % 250,
-        stock: "In Stock",
-        img: imagePool[i % imagePool.length],
-        desc: `Premium structured generation architecture option ${i} offering exquisite monochrome profile presence.`
-    });
-}
-
-// ================= GLOBAL STATE INFRASTRUCTURE ================= */
-let cart = [];
-let wishlist = [];
-let activeCategoryFilter = "all";
-let maxPriceFilter = 30000;
-let ratingFilter = 0;
-let currentShowcaseTab = "trending";
-let currentSlideIndex = 0;
-let activeProductDetailsId = null;
-
-// ================= CORE APPARATUS INITIALIZATION ================= */
+// Application Global Inits
 document.addEventListener("DOMContentLoaded", () => {
-    // Hide Core System Loader
-    setTimeout(() => {
-        document.getElementById("loader").classList.add("hidden");
-    }, 600);
-
-    // Bind Header Event listeners
-    setupHeaderInteractions();
-    
-    // Core Component Data Engines Populate
-    renderHomeProductShowcase();
-    renderShopCatalog();
-    initHeroSlider();
-    updateGlobalBadges();
+    initRouting();
+    initGlobalUIElements();
+    initCustomPlayerControls();
+    renderPage("home"); // Init base layout mount
+    showToast("Welcome back to SAVEAN MOVIES!");
 });
 
-// ================= NAVDRAWER MOBILE ACTIONS ================= */
-function setupHeaderInteractions() {
-    const menuToggle = document.getElementById("menuToggle");
-    const closeMenu = document.getElementById("closeMenu");
-    const navMenu = document.getElementById("navMenu");
+/* ==========================================================================
+   SPA ROUTING SYSTEM ENGINE
+   ========================================================================== */
+function initRouting() {
+    // Intercept clicks on structural elements bound with data-page attributes
+    document.body.addEventListener("click", (e) => {
+        const target = e.target.closest("[data-page]");
+        if (target) {
+            e.preventDefault();
+            const page = target.getAttribute("data-page");
+            
+            // Sync side nav states
+            document.querySelectorAll(".nav-item").forEach(el => el.classList.remove("active"));
+            const currentNavMatch = document.querySelector(`.nav-item[data-page="${page}"]`);
+            if (currentNavMatch) currentNavMatch.classList.add("active");
 
-    menuToggle.addEventListener("click", () => navMenu.classList.add("open"));
-    closeMenu.addEventListener("click", () => navMenu.classList.remove("open"));
-    
-    // Close mobile nav drawer when links click
-    document.querySelectorAll(".nav-link").forEach(link => {
-        link.addEventListener("click", () => navMenu.classList.remove("open"));
+            renderPage(page);
+        }
+    });
+
+    // Device Responsive Hamburgers Toggle Linkage
+    const sidebar = document.getElementById("sidebar");
+    document.getElementById("sidebarToggle").addEventListener("click", () => {
+        sidebar.classList.toggle("mobile-open");
     });
 }
 
-// ================= CORE VIEW DEPLOYMENT METRICS (ROUTING) ================= */
-function switchView(viewTargetId) {
+function renderPage(pageKey) {
+    STATE.currentPage = pageKey;
+    const container = document.getElementById("pageContent");
     window.scrollTo({ top: 0, behavior: 'smooth' });
-    
-    // Toggle Section visibility active states
-    document.querySelectorAll(".view-section").forEach(sec => {
-        sec.classList.remove("active");
-    });
-    
-    const targetElement = document.getElementById(`view-${viewTargetId}`);
-    if (targetElement) {
-        targetElement.classList.add("active");
+
+    // Enforce layout view assembly matrix
+    switch (pageKey) {
+        case "home":
+            container.innerHTML = generateHomeView();
+            startHeroBannerLoop();
+            break;
+        case "movies":
+            container.innerHTML = generateCatalogView("Movies Only Catalog", m => m.type === "movie");
+            break;
+        case "tv-shows":
+            container.innerHTML = generateCatalogView("Premium TV Series", m => m.type === "series");
+            break;
+        case "trending":
+            container.innerHTML = generateCatalogView("Fire & Trending Right Now", m => m.trending);
+            break;
+        case "my-list":
+            container.innerHTML = generateCatalogView("Your Watchlist Backlog", m => STATE.myList.includes(m.id));
+            break;
+        case "history":
+            container.innerHTML = generateCatalogView("Your Streaming Consumption History", m => STATE.watchHistory.includes(m.id));
+            break;
+        case "profile":
+            container.innerHTML = generateProfileManagementView();
+            break;
+        case "subscription":
+            container.innerHTML = generateSubscriptionPlansView();
+            break;
+        case "settings":
+            container.innerHTML = generateSettingsView();
+            break;
+        case "admin":
+            container.innerHTML = generateAdminDashboardView();
+            break;
+        case "login":
+            container.innerHTML = generateAuthView(true);
+            break;
+        case "signup":
+            container.innerHTML = generateAuthView(false);
+            break;
+        default:
+            if (pageKey.startsWith("detail-")) {
+                const id = parseInt(pageKey.split("-")[1]);
+                container.innerHTML = generateMovieDetailsView(id);
+            } else if (pageKey === "search-results") {
+                container.innerHTML = generateSearchView();
+            }
     }
-
-    // Toggle Header Link highlighting status
-    document.querySelectorAll(".nav-link").forEach(link => {
-        link.classList.remove("active");
-    });
-
-    // Handle view specific sub-load procedures
-    if (viewTargetId === 'cart') {
-        renderCartLayout();
-    } else if (viewTargetId === 'wishlist') {
-        renderWishlistLayout();
-    } else if (viewTargetId === 'checkout') {
-        renderCheckoutSummary();
-    }
 }
 
-// ================= HERO AUTO SLIDING BANNER CAROUSEL ================= */
-function initHeroSlider() {
-    setInterval(() => {
-        currentSlideIndex = (currentSlideIndex + 1) % 3;
-        updateSliderUI();
-    }, 6000);
-}
-function setSlide(index) {
-    currentSlideIndex = index;
-    updateSliderUI();
-}
-function updateSliderUI() {
-    const slider = document.getElementById("heroSlider");
-    if (!slider) return;
-    const slides = slider.getElementsByClassName("slide");
-    const dots = slider.getElementsByClassName("dot");
-    
-    for (let i = 0; i < slides.length; i++) {
-        slides[i].classList.remove("active");
-        dots[i].classList.remove("active");
-    }
-    slides[currentSlideIndex].classList.add("active");
-    dots[currentSlideIndex].classList.add("active");
-}
+/* ==========================================================================
+   VIEW TEMPLATE COMPILERS (HYBRID DATA INJECTIONS)
+   ========================================================================== */
+function generateHomeView() {
+    // Dynamic generation with multi-shelf support
+    return `
+        <div class="hero-banner" id="heroBannerFrame"></div>
 
-// ================= TAB COMPONENT RENDER ENGINES (HOME) ================= */
-function filterShowcase(tabTag, buttonElement) {
-    currentShowcaseTab = tabTag;
-    const tabLinks = document.querySelectorAll(".tab-link");
-    tabLinks.forEach(b => b.classList.remove("active"));
-    if (buttonElement) buttonElement.classList.add("active");
-    renderHomeProductShowcase();
-}
-
-function renderHomeProductShowcase() {
-    const grid = document.getElementById("homeProductGrid");
-    if (!grid) return;
-    grid.innerHTML = "";
-    
-    // Filter sample catalog down to 8 entries based on active tab criteria
-    const filtered = sampleProducts.filter(p => p.tags.includes(currentShowcaseTab)).slice(0, 8);
-    
-    filtered.forEach(p => {
-        grid.appendChild(buildProductCardElement(p));
-    });
-}
-
-// ================= GLOBAL REUSABLE COMPONENT GENERATOR ================= */
-function buildProductCardElement(product) {
-    const card = document.createElement("div");
-    card.className = "product-card";
-    
-    const isSaved = wishlist.includes(product.id);
-    const hasDiscount = product.origPrice > product.price;
-    const discountBadge = hasDiscount ? `<div class="badge-sale">Archival Drop</div>` : "";
-    
-    let stars = "";
-    for(let i=1; i<=5; i++) {
-        stars += i <= product.rating ? '<i class="fa-solid fa-star"></i>' : '<i class="fa-regular fa-star"></i>';
-    }
-
-    card.innerHTML = `
-        <div class="product-image-wrap" onclick="openProductDetails(${product.id})">
-            ${discountBadge}
-            <img src="${product.img}" alt="${product.name}" loading="lazy">
-        </div>
-        <button class="wishlist-toggle-btn ${isSaved ? 'active' : ''}" onclick="toggleWishlist(event, ${product.id})" aria-label="Wishlist">
-            <i class="${isSaved ? 'fa-solid' : 'fa-regular'} fa-heart"></i>
-        </button>
-        <div class="product-info-wrap">
-            <span class="prod-cat">${product.category}</span>
-            <h4 class="prod-title" onclick="openProductDetails(${product.id})">${product.name}</h4>
-            <div class="rating-stars">${stars} <span>(${product.reviews})</span></div>
-            <div class="prod-price">
-                <span class="price-current">Rs. ${product.price.toLocaleString()}</span>
-                ${hasDiscount ? `<span class="price-original">Rs. ${product.origPrice.toLocaleString()}</span>` : ""}
+        <section class="movie-shelf">
+            <h3 class="shelf-title">Trending Now <i class="fa-solid fa-fire accent-text"></i></h3>
+            <div class="shelf-cards-container">
+                ${renderMovieCardsArray(STATE.movies.filter(m => m.trending))}
             </div>
-            <button class="card-action-btn" onclick="addToCart(event, ${product.id}, 1)">Add to Bag</button>
+        </section>
+
+        <section class="movie-shelf">
+            <h3 class="shelf-title">Popular on SAVEAN</h3>
+            <div class="shelf-cards-container">
+                ${renderMovieCardsArray(STATE.movies.filter(m => m.popular))}
+            </div>
+        </section>
+
+        <section class="movie-shelf">
+            <h3 class="shelf-title">Top Rated Masterpieces</h3>
+            <div class="shelf-cards-container">
+                ${renderMovieCardsArray(STATE.movies.filter(m => m.topRated))}
+            </div>
+        </section>
+
+        <section class="movie-shelf">
+            <h3 class="shelf-title">Sci-Fi Realism</h3>
+            <div class="shelf-cards-container">
+                ${renderMovieCardsArray(STATE.movies.filter(m => m.category === "Sci-Fi"))}
+            </div>
+        </section>
+    `;
+}
+
+function generateCatalogView(title, filterFunction) {
+    const matched = STATE.movies.filter(filterFunction);
+    return `
+        <h2 style="margin-bottom: 2rem; font-weight:800; font-size:2rem;">${title}</h2>
+        <div style="display:grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap:2rem;">
+            ${matched.length ? renderMovieCardsArray(matched) : '<p style="color:var(--text-muted)">No media assets cataloged in this matrix tier yet.</p>'}
         </div>
     `;
-    return card;
 }
 
-// ================= SYSTEM DATA COMPILATION METRICS (SHOP VIEW) ================= */
-function filterCategory(categoryName) {
-    activeCategoryFilter = categoryName;
-    // Reflect onto sidebar UI element highlights
-    const listItems = document.querySelectorAll("#categoryFilterList li");
-    listItems.forEach(li => {
-        if(li.textContent.toLowerCase().includes(categoryName.toLowerCase()) || (categoryName === 'all' && li.textContent.toLowerCase().includes('all'))) {
-            li.className = "active";
-        } else {
-            li.className = "";
-        }
-    });
-    renderShopCatalog();
-}
-
-function setCategoryFilter(cat, element) {
-    activeCategoryFilter = cat;
-    setSelectedFilterClass(element, "categoryFilterList");
-    renderShopCatalog();
-}
-
-function setRatingFilter(rating, element) {
-    ratingFilter = rating;
-    setSelectedFilterClass(element, "ratingFilterList");
-    renderShopCatalog();
-}
-
-function updatePriceLabel(value) {
-    maxPriceFilter = parseInt(value);
-    document.getElementById("priceValueLabel").textContent = `Rs. ${maxPriceFilter.toLocaleString()}`;
-    renderShopCatalog();
-}
-
-function setSelectedFilterClass(element, listId) {
-    const items = document.querySelectorAll(`#${listId} li`);
-    items.forEach(i => i.classList.remove("active"));
-    if(element) element.classList.add("active");
-}
-
-function resetAllFilters() {
-    activeCategoryFilter = "all";
-    maxPriceFilter = 30000;
-    ratingFilter = 0;
-    
-    document.getElementById("priceRange").value = 30000;
-    document.getElementById("priceValueLabel").textContent = "Rs. 30,000";
-    
-    setSelectedFilterClass(document.querySelectorAll("#categoryFilterList li")[0], "categoryFilterList");
-    setSelectedFilterClass(document.querySelectorAll("#ratingFilterList li")[0], "ratingFilterList");
-    
-    renderShopCatalog();
-}
-
-function toggleSidebar(openState) {
-    const side = document.getElementById("shopSidebar");
-    if(openState) side.classList.add("open");
-    else side.classList.remove("open");
-}
-
-function handleSortChange() {
-    renderShopCatalog();
-}
-
-function renderShopCatalog() {
-    const grid = document.getElementById("shopProductGrid");
-    if (!grid) return;
-    grid.innerHTML = "";
-
-    let catalog = [...sampleProducts];
-
-    // Filter Processing Sequences
-    if (activeCategoryFilter !== "all") {
-        catalog = catalog.filter(p => p.category.toLowerCase() === activeCategoryFilter.toLowerCase());
-    }
-    catalog = catalog.filter(p => p.price <= maxPriceFilter);
-    if (ratingFilter > 0) {
-        catalog = catalog.filter(p => p.rating >= ratingFilter);
-    }
-
-    // Sort Sequencing Array Mechanics
-    const sortBy = document.getElementById("sortSelect").value;
-    if (sortBy === "price-low") {
-        catalog.sort((a,b) => a.price - b.price);
-    } else if (sortBy === "price-high") {
-        catalog.sort((a,b) => b.price - a.price);
-    } else if (sortBy === "best-selling") {
-        catalog.sort((a,b) => b.reviews - a.reviews);
-    } else if (sortBy === "popular") {
-        catalog.sort((a,b) => b.rating - a.rating);
-    } // Default matches catalog order array sequencing implicitly for "newest"
-
-    // Update Counter metric
-    document.getElementById("resultsCount").textContent = `Showing ${catalog.length} structural results match.`;
-
-    catalog.forEach(p => {
-        grid.appendChild(buildProductCardElement(p));
-    });
-}
-
-// ================= GLOBAL ARCHITECTURAL SEARCH ENGINE ================= */
-function handleSearch(e) {
-    if(e.key === 'Enter') triggerSearch();
-}
-function triggerSearch() {
-    const term = document.getElementById("globalSearch").value.toLowerCase().trim();
-    if(!term) return;
-    
-    switchView('shop');
-    resetAllFilters();
-    
-    const grid = document.getElementById("shopProductGrid");
-    grid.innerHTML = "";
-    
-    const filtered = sampleProducts.filter(p => p.name.toLowerCase().includes(term) || p.desc.toLowerCase().includes(term));
-    document.getElementById("resultsCount").textContent = `Search matches for "${term}": Found ${filtered.length}`;
-    
-    filtered.forEach(p => {
-        grid.appendChild(buildProductCardElement(p));
-    });
-}
-
-// ================= PRODUCT CONSOLE SUBSYSTEM (DETAILS PAGE) ================= */
-function openProductDetails(productId) {
-    activeProductDetailsId = productId;
-    const target = sampleProducts.find(p => p.id === productId);
-    if(!target) return;
-    
-    const container = document.getElementById("productDetailsContent");
-    let starLayout = "";
-    for(let i=1; i<=5; i++) {
-        starLayout += i <= target.rating ? '<i class="fa-solid fa-star"></i>' : '<i class="fa-regular fa-star"></i>';
-    }
-
-    // Render internal architectural breakdown grid layouts
-    container.innerHTML = `
-        <div class="product-detail-grid">
-            <div class="gallery-wrapper">
-                <div class="gallery-thumbs">
-                    <div class="thumb-box active" onclick="swapDetailPreview('${target.img}', this)"><img src="${target.img}"></div>
-                    <div class="thumb-box" onclick="swapDetailPreview('https://images.unsplash.com/photo-1469334031218-e382a71b716b?auto=format&fit=crop&w=600&q=80', this)"><img src="https://images.unsplash.com/photo-1469334031218-e382a71b716b?auto=format&fit=crop&w=600&q=80"></div>
-                    <div class="thumb-box" onclick="swapDetailPreview('https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=600&q=80', this)"><img src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=600&q=80"></div>
-                </div>
-                <div class="main-preview-box" id="zoomPreviewPane" onmousemove="handleGalleryZoom(event)" onmouseleave="resetGalleryZoom()">
-                    <img src="${target.img}" id="mainDetailImage">
+function renderMovieCardsArray(movieArray) {
+    return movieArray.map(m => `
+        <div class="movie-card" onclick="renderPage('detail-${m.id}')">
+            <img src="${m.poster}" alt="${m.title}" loading="lazy">
+            <div class="card-details-overlay">
+                <h4 class="card-title">${m.title}</h4>
+                <div class="card-meta">
+                    <span>${m.year}</span>
+                    <span class="rating-pill">${m.rating}</span>
                 </div>
             </div>
-            
-            <div class="detail-info-pane">
-                <span class="detail-cat">${target.category} Collection</span>
-                <h2>${target.name}</h2>
-                <div class="rating-stars" style="font-size:0.9rem;">${starLayout} <span>(${target.reviews} Client Reviews)</span></div>
-                
-                <div class="price-row">
-                    <span class="curr">Rs. ${target.price.toLocaleString()}</span>
-                    <span class="orig">Rs. ${target.origPrice.toLocaleString()}</span>
-                </div>
-                
-                <p class="detail-desc">${target.desc} Crafted under absolute monochrome structural architecture quality standard procedures guidelines.</p>
-                
-                <table class="spec-table">
-                    <tr><td>Composition</td><td>Luxury Sourced Fine-Weave Matrix Fiber</td></tr>
-                    <tr><td>Stock Metrics</td><td>${target.stock} (High Priority Vector)</td></tr>
-                    <tr><td>Origin Point</td><td>Global Premium Atelier Design Labs</td></tr>
-                </table>
+        </div>
+    `).join('');
+}
 
-                <div class="config-group">
-                    <label>Available Sizes</label>
-                    <div class="size-selector">
-                        <button class="size-btn active" onclick="selectDetailSize(this)">S</button>
-                        <button class="size-btn" onclick="selectDetailSize(this)">M</button>
-                        <button class="size-btn" onclick="selectDetailSize(this)">L</button>
-                        <button class="size-btn" onclick="selectDetailSize(this)">XL</button>
-                    </div>
-                </div>
+function generateMovieDetailsView(id) {
+    const movie = STATE.movies.find(m => m.id === id);
+    if (!movie) return `<p>Asset Not Found.</p>`;
+    
+    const isInList = STATE.myList.includes(movie.id);
 
-                <div class="config-group">
-                    <label>Structural Color Architecture</label>
-                    <div class="color-selector">
-                        <div class="color-dot active" style="background-color: #000000;" onclick="selectDetailColor(this)"></div>
-                        <div class="color-dot" style="background-color: #FFFFFF;" onclick="selectDetailColor(this)"></div>
-                    </div>
+    return `
+        <div class="details-view-hero" style="background-image: linear-gradient(to bottom, rgba(5,17,31,0.2), var(--bg-deep-midnight)), url('${movie.banner}');">
+            <div style="position:absolute; bottom:2rem; left:2rem; max-width:700px;">
+                <span style="background:var(--accent-blue); padding:4px 12px; border-radius:20px; font-size:0.8rem; font-weight:700;">${movie.category}</span>
+                <h1 style="font-size:3.5rem; font-weight:800; margin:1rem 0;">${movie.title}</h1>
+                <div class="hero-meta">
+                    <span>${movie.year}</span>
+                    <span>${movie.duration}</span>
+                    <span style="color:#FCD34D;"><i class="fa-solid fa-star"></i> ${movie.rating}</span>
                 </div>
-
-                <div class="config-group">
-                    <label>Quantity</label>
-                    <div class="qty-input-box">
-                        <button onclick="adjustDetailQty(-1)">-</button>
-                        <input type="text" value="1" id="detailQtyInput" readonly>
-                        <button onclick="adjustDetailQty(1)">+</button>
-                    </div>
-                </div>
-
-                <div class="action-buttons-row">
-                    <button class="btn btn-black flex-grow: 1;" style="flex:1;" onclick="addDetailProductToCart(false)">Add to Bag</button>
-                    <button class="btn btn-white" style="flex:1;" onclick="addDetailProductToCart(true)">Buy Now</button>
+                <p style="margin-bottom:2rem; line-height:1.6; color:#D1D5DB;">${movie.desc}</p>
+                <div class="hero-btns">
+                    <button class="btn-primary" onclick="launchVideoPlayer('${movie.title}')"><i class="fa-solid fa-play"></i> Watch Now</button>
+                    <button class="btn-secondary" onclick="toggleWatchlist(${movie.id})">
+                        <i class="fa-solid ${isInList ? 'fa-check' : 'fa-plus'}"></i> ${isInList ? 'In Watchlist' : 'Add to List'}
+                    </button>
                 </div>
             </div>
         </div>
 
-        <div class="reviews-block">
-            <h3>Verified Client Reviews Manifest</h3>
-            <div class="review-item">
-                <div class="review-meta"><strong>Alexander V.</strong> <span>★★★★★</span></div>
-                <p style="font-size:0.85rem; color:#444;">Incredible visual architectural weights. Fits the body structure profile accurately. True monochrome excellence execution.</p>
+        <div class="details-split-layout">
+            <div>
+                <h3 style="font-size:1.4rem; margin-bottom:1rem;">Production Cinematic Trailer</h3>
+                <div style="width:100%; height:300px; background:var(--bg-navy); border:1px solid var(--glass-border); border-radius:12px; display:grid; place-items:center;">
+                    <button class="btn-secondary" onclick="launchVideoPlayer('${movie.title} [TRAILER]')"><i class="fa-solid fa-play"></i> Play Embedded Trailer Stream</button>
+                </div>
             </div>
-            <div class="review-item">
-                <div class="review-meta"><strong>Helena R.</strong> <span>★★★★☆</span></div>
-                <p style="font-size:0.85rem; color:#444;">The linear configuration pleats are flawlessly completed. High density threading feels completely elite.</p>
+            <div>
+                <h3 style="font-size:1.4rem; margin-bottom:1rem;">Top Billing Cast</h3>
+                <div class="cast-grid">
+                    <div class="cast-member">
+                        <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=100&q=80">
+                        <div><strong>Christian Bale</strong><p style="font-size:0.8rem; color:var(--text-muted)">Lead Protagonist</p></div>
+                    </div>
+                    <div class="cast-member">
+                        <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=100&q=80">
+                        <div><strong>Jessica Chastain</strong><p style="font-size:0.8rem; color:var(--text-muted)">Commander</p></div>
+                    </div>
+                </div>
             </div>
         </div>
     `;
-
-    switchView('product-details');
 }
 
-function swapDetailPreview(imgSrc, thumbElement) {
-    document.getElementById("mainDetailImage").src = imgSrc;
-    const thumbs = document.querySelectorAll(".thumb-box");
-    thumbs.forEach(t => t.classList.remove("active"));
-    if(thumbElement) thumbElement.classList.add("active");
+function generateSearchView() {
+    return `
+        <h2 style="margin-bottom:1.5rem;">Search Analytics Viewport</h2>
+        <div style="display:flex; gap:1rem; margin-bottom:2.5rem; flex-wrap:wrap;">
+            <select class="btn-secondary" id="filterGenre" onchange="applySearchFilters()">
+                <option value="all">All Genres</option>
+                <option value="Sci-Fi">Sci-Fi</option>
+                <option value="Horror">Horror</option>
+                <option value="Action">Action</option>
+                <option value="Comedy">Comedy</option>
+            </select>
+            <select class="btn-secondary" id="filterYear" onchange="applySearchFilters()">
+                <option value="all">All Release Years</option>
+                <option value="2025">2025</option>
+                <option value="2024">2024</option>
+                <option value="2023">2023</option>
+            </select>
+        </div>
+        <div id="searchResultsGrid" style="display:grid; grid-template-columns:repeat(auto-fill,minmax(200px,1fr)); gap:2rem;">
+            </div>
+    `;
 }
 
-function handleGalleryZoom(e) {
-    const img = document.getElementById("mainDetailImage");
-    const pane = document.getElementById("zoomPreviewPane");
-    const rect = pane.getBoundingClientRect();
-    const x = ((e.clientX - rect.left) / rect.width) * 100;
-    const y = ((e.clientY - rect.top) / rect.height) * 100;
-    img.style.transformOrigin = `${x}% ${y}%`;
-    img.style.transform = "scale(1.8)";
+function generateProfileManagementView() {
+    return `
+        <h2 style="text-align:center; margin-bottom:3rem; font-size:2rem;">Who's Streaming on SAVEAN?</h2>
+        <div style="display:flex; justify-content:center; gap:3rem; flex-wrap:wrap;">
+            <div style="text-align:center; cursor:pointer;" onclick="selectProfile('Alex')">
+                <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=150&q=80" style="width:120px; height:120px; border-radius:50%; border:4px solid var(--accent-blue);">
+                <h4 style="margin-top:1rem; font-size:1.2rem;">Alex</h4>
+            </div>
+            <div style="text-align:center; cursor:pointer;" onclick="selectProfile('Sarah')">
+                <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=150&q=80" style="width:120px; height:120px; border-radius:50%; border:4px solid transparent;">
+                <h4 style="margin-top:1rem; font-size:1.2rem; color:var(--text-muted)">Sarah</h4>
+            </div>
+        </div>
+    `;
 }
 
-function resetGalleryZoom() {
-    const img = document.getElementById("mainDetailImage");
-    img.style.transform = "scale(1)";
-    img.style.transformOrigin = "center center";
+function generateSubscriptionPlansView() {
+    return `
+        <h2 style="text-align:center; font-size:2.2rem;">Select Your Tier Level</h2>
+        <p style="text-align:center; color:var(--text-muted); margin-bottom:3rem;">Futuristic cinematic features unlocked immediately</p>
+        <div class="plans-matrix">
+            <div class="plan-card">
+                <h3>Standard Plan</h3>
+                <div class="plan-price">$9.99<span style="font-size:1rem">/mo</span></div>
+                <ul class="plan-features"><li>1080p Standard Streaming</li><li>2 Active Pipelines</li><li>Ad-Supported Breaks</li></ul>
+                <button class="btn-secondary" style="width:100%" onclick="showToast('Subscribed to Standard Tier')">Downgrade/Select</button>
+            </div>
+            <div class="plan-card premium-tier">
+                <h3>SAVEAN Ultra Max</h3>
+                <div class="plan-price">$19.99<span style="font-size:1rem">/mo</span></div>
+                <ul class="plan-features"><li>4K HDR Quantum Streaming</li><li>Spatial Atmos Pipelines</li><li>Unlimited Offline Downloads</li><li>Zero Advertising Arrays</li></ul>
+                <button class="btn-primary" style="width:100%" onclick="showToast('Subscribed to Ultra Max Tier')">Upgrade / Maintain Tier</button>
+            </div>
+        </div>
+    `;
 }
 
-function selectDetailSize(btn) {
-    document.querySelectorAll(".size-btn").forEach(b => b.classList.remove("active"));
-    btn.classList.add("active");
+function generateSettingsView() {
+    return `
+        <h2 style="margin-bottom:2rem">Account Engine Configurations</h2>
+        <div class="settings-section">
+            <h3>Playback Profiles</h3>
+            <div class="settings-row"><div><strong>Auto-Buffering Priority</strong><p style="font-size:0.85rem; color:var(--text-muted)">Force peak bitrate immediately</p></div><input type="checkbox" checked></div>
+            <div class="settings-row"><div><strong>Atmos Dynamic Passthrough</strong><p style="font-size:0.85rem; color:var(--text-muted)">Bypass default operating hardware rendering</p></div><input type="checkbox"></div>
+        </div>
+        <div class="settings-section">
+            <h3>Security Parameters</h3>
+            <div class="settings-row"><button class="btn-secondary" onclick="showToast('Hardware Session Vector Cleared')">Kill Active Auxiliary Hardware Sessions</button></div>
+        </div>
+    `;
 }
 
-function selectDetailColor(dot) {
-    document.querySelectorAll(".color-dot").forEach(d => d.classList.remove("active"));
-    dot.classList.add("active");
+function generateAuthView(isLogin) {
+    return `
+        <div class="auth-wrapper">
+            <h2>${isLogin ? 'Sign In' : 'Create Account'}</h2>
+            <form onsubmit="handleAuthTransaction(event, ${isLogin})">
+                <input type="email" placeholder="Email Pipeline Architecture" class="btn-secondary" style="border-radius:8px; padding:1rem;" required>
+                <input type="password" placeholder="Cryptographic Access Pin" class="btn-secondary" style="border-radius:8px; padding:1rem;" required>
+                <button type="submit" class="btn-primary" style="justify-content:center; padding:1rem;">${isLogin ? 'Unlock Account' : 'Initialize Profile Matrix'}</button>
+            </form>
+            <p style="text-align:center; margin-top:1.5rem; font-size:0.9rem; color:var(--text-muted)">
+                ${isLogin ? 'New to SAVEAN? <a href="#" data-page="signup" style="color:var(--accent-blue)">Initialize Here</a>' : 'Possess access parameters? <a href="#" data-page="login" style="color:var(--accent-blue)">Log In Here</a>'}
+            </p>
+        </div>
+    `;
 }
 
-function adjustDetailQty(delta) {
-    const input = document.getElementById("detailQtyInput");
-    let val = parseInt(input.value) + delta;
-    if(val < 1) val = 1;
-    input.value = val;
-}
+/* ==========================================================================
+   ADMINISTRATOR DASHBOARD GRAPHICS ENGINE
+   ========================================================================== */
+function generateAdminDashboardView() {
+    return `
+        <h2 style="margin-bottom:2rem;"><i class="fa-solid fa-lock-open accent-text"></i> Admin Operations Grid Panel</h2>
+        <div class="admin-grid">
+            <div class="stat-card"><i class="fa-solid fa-users stat-icon"></i><div><h3>14,892</h3><p style="color:var(--text-muted)">Active Sockets</p></div></div>
+            <div class="stat-card"><i class="fa-solid fa-dollar-sign stat-icon"></i><div><h3>$42,105</h3><p style="color:var(--text-muted)">Monthly Vector Net</p></div></div>
+            <div class="stat-card"><i class="fa-solid fa-server stat-icon"></i><div><h3>0.04ms</h3><p style="color:var(--text-muted)">Query Latency</p></div></div>
+        </div>
 
-function addDetailProductToCart(isBuyNowAction) {
-    const qty = parseInt(document.getElementById("detailQtyInput").value);
-    addToCart(null, activeProductDetailsId, qty);
-    if(isBuyNowAction) {
-        switchView('cart');
-    }
-}
-
-// ================= TRANSACTIONARY OPERATING QUANTUMS (CART METRICS) ================= */
-function addToCart(e, productId, qty) {
-    if(e) e.stopPropagation();
-    const target = sampleProducts.find(p => p.id === productId);
-    if(!target) return;
-    
-    const existing = cart.find(item => item.product.id === productId);
-    if(existing) {
-        existing.quantity += qty;
-    } else {
-        cart.push({ product: target, quantity: qty });
-    }
-    
-    updateGlobalBadges();
-    alert(`${target.name} securely added allocation metrics inside Shopping Bag.`);
-}
-
-function updateGlobalBadges() {
-    document.getElementById("cartCount").textContent = cart.reduce((sum, item) => sum + item.quantity, 0);
-    document.getElementById("wishlistCount").textContent = wishlist.length;
-}
-
-function adjustCartItemQty(productId, delta) {
-    const item = cart.find(i => i.product.id === productId);
-    if(!item) return;
-    item.quantity += delta;
-    if(item.quantity < 1) {
-        removeCartItem(productId);
-        return;
-    }
-    renderCartLayout();
-    updateGlobalBadges();
-}
-
-function removeCartItem(productId) {
-    cart = cart.filter(item => item.product.id !== productId);
-    renderCartLayout();
-    updateGlobalBadges();
-}
-
-function renderCartLayout() {
-    const container = document.getElementById("cartLayoutContainer");
-    if(!container) return;
-    
-    if(cart.length === 0) {
-        container.innerHTML = `<div style="grid-column: span 2; text-align: center; padding: 60px 0;">
-            <p style="font-size: 1.1rem; margin-bottom:20px; color:#555;">Your architectural bag is currently unallocated.</p>
-            <button class="btn btn-black" onclick="switchView('shop')">Browse Digital Catalog</button>
-        </div>`;
-        return;
-    }
-
-    let itemsHtml = "";
-    let subtotal = 0;
-
-    cart.forEach(item => {
-        const cost = item.product.price * item.quantity;
-        subtotal += cost;
-        itemsHtml += `
-            <tr>
-                <td>
-                    <div class="cart-item-info">
-                        <img src="${item.product.img}" alt="${item.product.name}">
-                        <div>
-                            <span class="cart-item-name">${item.product.name}</span><br>
-                            <button class="remove-cart-item" onclick="removeCartItem(${item.product.id})">Remove Allocation</button>
+        <div class="admin-split">
+            <div>
+                <h3>Inject New Movie Asset Vector</h3>
+                <form class="crud-form" onsubmit="handleAdminInsert(event)">
+                    <input type="text" id="adminTitle" placeholder="Movie Title Name" required>
+                    <input type="text" id="adminCategory" placeholder="Genre Cluster Label" required>
+                    <input type="text" id="adminRating" placeholder="Rating Matrix (e.g. 8.7)" required>
+                    <input type="text" id="adminYear" placeholder="Release Year Vector" required>
+                    <textarea id="adminDesc" placeholder="Text Descriptions Summary Matrix..." rows="3" required></textarea>
+                    <button type="submit" class="btn-primary"><i class="fa-solid fa-plus"></i> Inject Into Production Mainframe</button>
+                </form>
+            </div>
+            <div>
+                <h3>Active Global Movie Mainframe Log</h3>
+                <div style="background:var(--glass-bg); padding:1rem; border-radius:16px; border:1px solid var(--glass-border); max-height:350px; overflow-y:auto;" id="adminMovieTracker">
+                    ${STATE.movies.map(m => `
+                        <div style="display:flex; justify-content:between; align-items:center; padding:0.75rem 0; border-bottom:1px solid var(--glass-border);">
+                            <div><strong>${m.title}</strong><p style="font-size:0.8rem; color:var(--text-muted)">${m.category} | ${m.year}</p></div>
+                            <button class="btn-secondary" style="padding:0.4rem 0.8rem; font-size:0.8rem; margin-left:auto; background:rgba(239,68,68,0.2); color:#EF4444;" onclick="deleteMovieAssetVector(${m.id})">Wipe</button>
                         </div>
-                    </div>
-                </td>
-                <td>Rs. ${item.product.price.toLocaleString()}</td>
-                <td>
-                    <div class="qty-input-box" style="width:100px;">
-                        <button onclick="adjustCartItemQty(${item.product.id}, -1)">-</button>
-                        <input type="text" value="${item.quantity}" readonly>
-                        <button onclick="adjustCartItemQty(${item.product.id}, 1)">+</button>
-                    </div>
-                </td>
-                <td class="font-bold">Rs. ${cost.toLocaleString()}</td>
-            </tr>
-        `;
-    });
-
-    const shipping = subtotal > 15000 ? 0 : 750;
-    const grandTotal = subtotal + shipping;
-
-    container.innerHTML = `
-        <div class="table-responsive" style="overflow-x:auto;">
-            <table class="cart-table">
-                <thead>
-                    <tr>
-                        <th>Product Specs</th>
-                        <th>Unit Price</th>
-                        <th>Quantity</th>
-                        <th>Subtotal</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    ${itemsHtml}
-                </tbody>
-            </table>
-        </div>
-        
-        <div class="cart-summary-pane">
-            <h3>Logistical Allocation Summary</h3>
-            <div class="summary-row"><span>Bag Subtotal:</span> <span>Rs. ${subtotal.toLocaleString()}</span></div>
-            <div class="summary-row"><span>Tracked Premium Shipping:</span> <span>${shipping === 0 ? "FREE" : "Rs. " + shipping}</span></div>
-            <div class="summary-row total"><span>Grand Secure Manifest Total:</span> <span>Rs. ${grandTotal.toLocaleString()}</span></div>
-            <button class="btn btn-black w-100" style="margin-top: 20px;" onclick="switchView('checkout')">Proceed To Checkout Verification</button>
+                    `).join('')}
+                </div>
+            </div>
         </div>
     `;
 }
 
-// ================= FAVORITES POOL ARCHITECTURE (WISHLIST) ================= */
-function toggleWishlist(e, productId) {
-    if(e) e.stopPropagation();
-    const idx = wishlist.indexOf(productId);
-    if(idx > -1) {
-        wishlist.splice(idx, 1);
-    } else {
-        wishlist.push(productId);
-    }
-    updateGlobalBadges();
-    
-    // Auto re-sync rendering elements if currently visible inside views
-    renderHomeProductShowcase();
-    renderShopCatalog();
-    renderWishlistLayout();
+function handleAdminInsert(e) {
+    e.preventDefault();
+    const newMovie = {
+        id: STATE.movies.length + 1,
+        title: document.getElementById("adminTitle").value,
+        category: document.getElementById("adminCategory").value,
+        rating: document.getElementById("adminRating").value,
+        year: document.getElementById("adminYear").value,
+        desc: document.getElementById("adminDesc").value,
+        type: "movie",
+        duration: "2h 10m",
+        banner: "https://images.unsplash.com/photo-1506703719100-a0f3a48c0f86?auto=format&fit=crop&w=1200&q=80",
+        poster: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=400&q=80",
+        trending: true, popular: false, topRated: false
+    };
+    STATE.movies.push(newMovie);
+    renderPage("admin");
+    showToast(`Asset "${newMovie.title}" successfully compiled!`);
 }
 
-function moveWishlistToCart(productId) {
-    addToCart(null, productId, 1);
-    wishlist = wishlist.filter(id => id !== productId);
-    updateGlobalBadges();
-    renderWishlistLayout();
-}
+window.deleteMovieAssetVector = function(id) {
+    STATE.movies = STATE.movies.filter(m => m.id !== id);
+    renderPage("admin");
+    showToast("Movie asset purged from local cluster.");
+};
 
-function renderWishlistLayout() {
-    const container = document.getElementById("wishlistGridContainer");
-    if(!container) return;
-    container.innerHTML = "";
-    
-    if(wishlist.length === 0) {
-        container.style.display = "block";
-        container.innerHTML = `<p style="text-align: center; padding: 40px 0; color:#666;">No structured elements assigned to your global profile wishlist memory matrix.</p>`;
-        return;
-    }
-    
-    container.style.display = "grid";
-    wishlist.forEach(id => {
-        const prod = sampleProducts.find(p => p.id === id);
-        if(prod) {
-            const el = buildProductCardElement(prod);
-            // Patch internal layout action buttons inside wishlist scopes for seamless movement metric
-            const actions = el.querySelector(".product-info-wrap");
-            actions.querySelector(".card-action-btn").remove();
-            
-            const btnWrap = document.createElement("div");
-            btnWrap.style.display = "flex";
-            btnWrap.style.gap = "5px";
-            btnWrap.innerHTML = `
-                <button class="btn btn-black" style="padding:8px; font-size:0.7rem; flex:1;" onclick="moveWishlistToCart(${prod.id})">Move To Bag</button>
-                <button class="btn btn-white" style="padding:8px; font-size:0.7rem;" onclick="toggleWishlist(null, ${prod.id})"><i class="fa-solid fa-trash"></i></button>
-            `;
-            actions.appendChild(btnWrap);
-            container.appendChild(el);
+/* ==========================================================================
+   GLOBAL SEARCH & SYSTEM UI INTEGRATION
+   ========================================================================== */
+function initGlobalUIElements() {
+    // Interactive Dynamic Live Substring Search Engine
+    const searchInput = document.getElementById("globalSearch");
+    const suggestionBox = document.getElementById("searchSuggestions");
+
+    searchInput.addEventListener("input", (e) => {
+        const value = e.target.value.toLowerCase().trim();
+        if (!value) { suggestionBox.style.display = "none"; return; }
+
+        const matches = STATE.movies.filter(m => m.title.toLowerCase().includes(value) || m.category.toLowerCase().includes(value));
+        if (matches.length > 0) {
+            suggestionBox.innerHTML = matches.map(m => `<div class="suggestion-item" data-id="${m.id}">${m.title} <span style="font-size:0.75rem; color:var(--text-muted)">(${m.category})</span></div>`).join('');
+            suggestionBox.style.display = "block";
+        } else {
+            suggestionBox.innerHTML = `<div class="suggestion-item">No records found matching vector</div>`;
+            suggestionBox.style.display = "block";
         }
     });
-}
 
-// ================= SECURITY AUTHENTICATION SIMULATIONS ================= */
-function switchAuthTab(type, element) {
-    document.querySelectorAll(".auth-tab-btn").forEach(b => b.classList.remove("active"));
-    document.querySelectorAll(".auth-box").forEach(b => b.classList.remove("active"));
-    
-    if(element) element.classList.add("active");
-    document.getElementById(`auth-${type}-box`).classList.add("active");
-}
-
-function handleAuthSubmit(e, formMode) {
-    e.preventDefault();
-    // Inject mock user validation metrics directly into operational memory spaces
-    document.getElementById("account-auth-container").style.display = "none";
-    document.getElementById("account-dashboard-container").style.display = "block";
-    
-    if(formMode === 'register') {
-        document.getElementById("dashUserTitle").textContent = "Premium Archival Client";
-    }
-    renderMockOrderHistory();
-}
-
-function handleLogout() {
-    document.getElementById("account-dashboard-container").style.display = "none";
-    document.getElementById("account-auth-container").style.display = "block";
-}
-
-function switchDashTab(tabId, element) {
-    document.querySelectorAll(".dash-menu li").forEach(li => li.classList.remove("active"));
-    document.querySelectorAll(".dash-tab-content").forEach(c => c.classList.remove("active"));
-    
-    if(element) element.classList.add("active");
-    document.getElementById(`dash-${tabId}`).classList.add("active");
-}
-
-function renderMockOrderHistory() {
-    const tbody = document.getElementById("orderHistoryBody");
-    tbody.innerHTML = `
-        <tr>
-            <td>#SVN-2026-8841</td>
-            <td>June 14, 2026</td>
-            <td><span style="border: 1px solid #000; padding: 2px 6px; font-size: 0.7rem; font-weight:600;">DISPATCH ROUTED</span></td>
-            <td class="font-bold">Rs. 24,500</td>
-        </tr>
-    `;
-}
-
-// ================= OUTBOUND CHECKOUT GATEWAY INFRASTRUCTURE ================= */
-function renderCheckoutSummary() {
-    const itemsContainer = document.getElementById("checkoutSummaryItems");
-    if(!itemsContainer) return;
-    itemsContainer.innerHTML = "";
-    
-    let subtotal = 0;
-    cart.forEach(item => {
-        subtotal += item.product.price * item.quantity;
-        const div = document.createElement("div");
-        div.className = "summary-row";
-        div.style.fontSize = "0.85rem";
-        div.innerHTML = `<span>${item.product.name} (x${item.quantity})</span> <span>Rs. ${(item.product.price * item.quantity).toLocaleString()}</span>`;
-        itemsContainer.appendChild(div);
+    suggestionBox.addEventListener("click", (e) => {
+        const item = e.target.closest(".suggestion-item");
+        if (item && item.dataset.id) {
+            suggestionBox.style.display = "none";
+            searchInput.value = "";
+            renderPage(`detail-${item.dataset.id}`);
+        }
     });
-    
-    const shipping = subtotal > 15000 ? 0 : 750;
-    const total = subtotal + shipping;
-    document.getElementById("checkoutGrandTotal").textContent = `Rs. ${total.toLocaleString()}`;
-}
 
-function processCheckout(e) {
-    e.preventDefault();
-    if(cart.length === 0) {
-        alert("Transaction denied. Operational shopping bag contains zero allocation indexes.");
-        return;
-    }
-
-    // Capture user assignment references
-    const first = document.getElementById("chkFirst").value;
-    const last = document.getElementById("chkLast").value;
-    
-    let subtotal = 0;
-    const summaryTarget = document.getElementById("confProductsSummary");
-    summaryTarget.innerHTML = "";
-    
-    cart.forEach(item => {
-        subtotal += item.product.price * item.quantity;
-        const p = document.createElement("p");
-        p.style.fontSize = "0.85rem";
-        p.innerHTML = `• ${item.product.name} x${item.quantity} - <span class="font-bold">Rs. ${(item.product.price * item.quantity).toLocaleString()}</span>`;
-        summaryTarget.appendChild(p);
+    // Close overlays on exterior bounds click
+    document.addEventListener("click", (e) => {
+        if (!e.target.closest(".search-wrapper")) suggestionBox.style.display = "none";
+        if (!e.target.closest(".notification-dropdown")) document.getElementById("notiPanel").classList.remove("show");
+        if (!e.target.closest(".profile-menu-wrapper")) document.getElementById("profilePanel").classList.remove("show");
     });
-    
-    const shipping = subtotal > 15000 ? 0 : 750;
-    const grandTotal = subtotal + shipping;
 
-    // Direct binding updates inside Order complete fields screen
-    document.getElementById("confOrderNumber").textContent = `SVN-${Math.floor(100000 + Math.random() * 900000)}-2026`;
-    document.getElementById("confCustomerName").textContent = `${first} ${last}`;
-    document.getElementById("confTotalAmount").textContent = `Rs. ${grandTotal.toLocaleString()}`;
+    // Toggle Dropdown panels UI
+    document.getElementById("notiBtn").addEventListener("click", () => document.getElementById("notiPanel").classList.toggle("show"));
+    document.getElementById("profileDropdownBtn").addEventListener("click", () => document.getElementById("profilePanel").classList.toggle("show"));
 
-    // Clear local cache variables structural states
-    cart = [];
-    updateGlobalBadges();
-    
-    switchView('confirmation');
-}
+    // Micro Engine Profile Context Switcher
+    document.querySelectorAll(".switch-profile-action").forEach(el => {
+        el.addEventListener("click", (e) => {
+            e.preventDefault();
+            const prof = el.getAttribute("data-profile");
+            STATE.currentProfile = prof;
+            document.getElementById("navProfileName").innerText = prof;
+            if (prof === "Sarah") {
+                document.getElementById("navAvatar").src = "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=100&q=80";
+            } else {
+                document.getElementById("navAvatar").src = "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=100&q=80";
+            }
+            showToast(`Switched pipeline context to: ${prof}`);
+            renderPage("home");
+        });
+    });
 
-function subscribeNewsletter() {
-    const input = document.getElementById("newsletterEmail");
-    if(input.value) {
-        alert("Email verified. Core connection matrix added securely inside the SAVEAN STORE archive database network.");
-        input.value = "";
+    // Native Voice Recognition API Bridge Adaptation Loop
+    const voiceBtn = document.getElementById("voiceSearchBtn");
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (SpeechRecognition) {
+        const recog = new SpeechRecognition();
+        voiceBtn.addEventListener("click", () => {
+            recog.start();
+            showToast("Listening to audio pipeline input vector...");
+        });
+        recog.onresult = (event) => {
+            const resultText = event.results[0][0].transcript;
+            searchInput.value = resultText;
+            searchInput.dispatchEvent(new Event('input'));
+        };
+    } else {
+        voiceBtn.style.display = "none";
     }
 }
+
+/* ==========================================================================
+   PRODUCTION CUSTOM PLAYER CONTROL CONTROLLER MECHANICS
+   ========================================================================== */
+function initCustomPlayerControls() {
+    const video = document.getElementById("mainVideo");
+    const modal = document.getElementById("videoPlayerModal");
+    const playPauseBtn = document.getElementById("playPauseBtn");
+    const progressArea = document.getElementById("progressArea");
+    const currentProgress = document.querySelector(".current-progress");
+    const bufferedProgress = document.querySelector(".buffered-progress");
+    const volumeSlider = document.getElementById("volumeSlider");
+    const muteBtn = document.getElementById("muteBtn");
+    const fullscreenBtn = document.getElementById("fullscreenBtn");
+    const currentTimeText = document.getElementById("currentTime");
+    const durationTimeText = document.getElementById("durationTime");
+
+    window.launchVideoPlayer = function(title) {
+        document.getElementById("playerMovieTitle").innerText = title;
+        modal.classList.add("active");
+        video.play().catch(() => {});
+        playPauseBtn.innerHTML = `<i class="fa-solid fa-pause"></i>`;
+        showToast(`Streaming tunnel opened: ${title}`);
+        
+        // Simulating intro sequence tracking logic flag
+        const skipIntroBtn = document.getElementById("skipIntroBtn");
+        skipIntroBtn.classList.remove("hidden");
+        setTimeout(() => skipIntroBtn.classList.add("hidden"), 7000);
+    };
+
+    document.getElementById("closePlayerBtn").addEventListener("click", () => {
+        video.pause();
+        modal.classList.remove("active");
+    });
+
+    document.getElementById("skipIntroBtn").addEventListener("click", () => {
+        video.currentTime = 30; // Fast skip forward 30 seconds
+        document.getElementById("skipIntroBtn").classList.add("hidden");
+        showToast("Intro stream bypassed.");
+    });
+
+    // Core Player state controls mechanics wrappers
+    const togglePlay = () => {
+        if (video.paused) { video.play(); playPauseBtn.innerHTML = `<i class="fa-solid fa-pause"></i>`; }
+        else { video.pause(); playPauseBtn.innerHTML = `<i class="fa-solid fa-play"></i>`; }
+    };
+    playPauseBtn.addEventListener("click", togglePlay);
+    video.addEventListener("click", togglePlay);
+
+    // Track Time and Update Scrubber Track
+    video.addEventListener("timeupdate", () => {
+        const percent = (video.currentTime / video.duration) * 100;
+        currentProgress.style.width = `${percent}%`;
+        currentTimeText.innerText = formatTimeLayout(video.currentTime);
+        
+        // Buffer metrics tracking logic
+        if (video.buffered.length) {
+            const bufPercent = (video.buffered.end(0) / video.duration) * 100;
+            bufferedProgress.style.width = `${bufPercent}%`;
+        }
+    });
+
+    video.addEventListener("loadedmetadata", () => {
+        durationTimeText.innerText = formatTimeLayout(video.duration);
+    });
+
+    // Rewind / Fast Forward Control Links
+    document.getElementById("rewindBtn").addEventListener("click", () => video.currentTime -= 10);
+    document.getElementById("forwardBtn").addEventListener("click", () => video.currentTime += 10);
+
+    // Audio mixing controls
+    volumeSlider.addEventListener("input", (e) => {
+        video.volume = e.target.value;
+        video.muted = (video.volume === 0);
+        muteBtn.innerHTML = video.muted ? `<i class="fa-solid fa-volume-xmark"></i>` : `<i class="fa-solid fa-volume-high"></i>`;
+    });
+    muteBtn.addEventListener("click", () => {
+        video.muted = !video.muted;
+        muteBtn.innerHTML = video.muted ? `<i class="fa-solid fa-volume-xmark"></i>` : `<i class="fa-solid fa-volume-high"></i>`;
+    });
+
+    // Advanced dynamic playback controls selector loops
+    document.getElementById("speedBtn").addEventListener("click", (e) => {
+        const currents = [1.0, 1.25, 1.5, 2.0];
+        let idx = currents.indexOf(video.playbackRate);
+        let nextIdx = (idx + 1) % currents.length;
+        video.playbackRate = currents[nextIdx];
+        e.target.innerText = `${video.playbackRate}x`;
+    });
+
+    document.getElementById("qualityBtn").addEventListener("click", (e) => {
+        const options = ["4K", "1080p", "720p"];
+        let nextOpt = options[(options.indexOf(e.target.innerText) + 1) % options.length];
+        e.target.innerText = nextOpt;
+        showToast(`Video channel rendering prioritized to ${nextOpt}`);
+    });
+
+    // Scrubbing calculation handler logic
+    progressArea.addEventListener("click", (e) => {
+        const bounds = progressArea.getBoundingClientRect();
+        const clickX = e.clientX - bounds.left;
+        video.currentTime = (clickX / bounds.width) * video.duration;
+    });
+
+    // Standard Fullscreen Layer Hook
+    fullscreenBtn.addEventListener("click", () => {
+        if (!document.fullscreenElement) document.getElementById("videoContainer").requestFullscreen();
+        else document.exitFullscreen();
+    });
+
+    // Engineering global hotkey matrices listener rules mapping
+    window.addEventListener("keydown", (e) => {
+        if (!modal.classList.contains("active")) return;
+        if (e.code === "Space") { e.preventDefault(); togglePlay(); }
+        if (e.code === "ArrowLeft") video.currentTime -= 5;
+        if (e.code === "ArrowRight") video.currentTime += 5;
+        if (e.code === "Escape") { modal.classList.remove("active"); video.pause(); }
+    });
+}
+
+/* ==========================================================================
+   UTILITY HELPER ALGORITHMS
+   ========================================================================== */
+function formatTimeLayout(seconds) {
+    if (isNaN(seconds)) return "0:00";
+    const mins = Math.floor(seconds / 60);
+    const secs = Math.floor(seconds % 60).toString().padStart(2, '0');
+    return `${mins}:${secs}`;
+}
+
+window.toggleWatchlist = function(id) {
+    const idx = STATE.myList.indexOf(id);
+    if (idx > -1) { STATE.myList.splice(idx, 1); showToast("Asset purged from Your Watchlist."); }
+    else { STATE.myList.push(id); showToast("Asset cached inside Your Watchlist."); }
+    renderPage(`detail-${id}`);
+};
+
+window.showToast = function(message) {
+    const box = document.getElementById("toastContainer");
+    const el = document.createElement("div");
+    el.className = "toast";
+    el.innerText = message;
+    box.appendChild(el);
+    setTimeout(() => el.remove(), 4000);
+};
+
+// Continuous Hero Banner Carousel Interceptor Slider loop Engine
+let heroIndex = 0;
+let loopId = null;
+function startHeroBannerLoop() {
+    if (loopId) clearInterval(loopId);
+    const bannerFrame = document.getElementById("heroBannerFrame");
+    if (!bannerFrame) return;
+
+    const renderHeroFrame = () => {
+        const item = STATE.movies[heroIndex];
+        bannerFrame.innerHTML = `
+            <div class="hero-overlay">
+                <span style="background:var(--accent-blue); padding:4px 12px; border-radius:20px; font-size:0.8rem; font-weight:700; width:fit-content; margin-bottom:1rem;">FEATURED HIT</span>
+                <h1 class="hero-title">${item.title}</h1>
+                <div class="hero-meta"><span>${item.year}</span><span>${item.duration}</span><span style="color:#FCD34D;"><i class="fa-solid fa-star"></i> ${item.rating}</span></div>
+                <p class="hero-desc">${item.desc}</p>
+                <div class="hero-btns">
+                    <button class="btn-primary" onclick="launchVideoPlayer('${item.title}')"><i class="fa-solid fa-play"></i> Stream Now</button>
+                    <button class="btn-secondary" onclick="renderPage('detail-${item.id}')"><i class="fa-solid fa-circle-info"></i> View Details</button>
+                </div>
+            </div>
+        `;
+        bannerFrame.style.backgroundImage = `url('${item.banner}')`;
+        heroIndex = (heroIndex + 1) % STATE.movies.length;
+    };
+
+    renderHeroFrame();
+    loopId = setInterval(renderHeroFrame, 7000); // Transitions seamlessly every 7 seconds
+}
+
+window.handleAuthTransaction = function(e, isLogin) {
+    e.preventDefault();
+    showToast(isLogin ? "Session token assigned successfully." : "Profile parameters committed to node.");
+    renderPage("home");
+};
