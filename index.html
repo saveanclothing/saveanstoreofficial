@@ -3,551 +3,139 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="SAVEAN STORE - Style That Saves. Premium monochrome fashion marketplace for Men, Women, Shoes, Bags, and Luxury Accessories.">
-    <title>SAVEAN STORE | Style That Saves</title>
-    
-    <meta property="og:title" content="SAVEAN STORE | Style That Saves">
-    <meta property="og:description" content="Premium monochrome fashion marketplace for Men, Women, Shoes, Bags, and Luxury Accessories.">
-    <meta property="og:type" content="website">
-    
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
+    <title>SAVEAN MOVIES - Premium Futuristic Streaming</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
 
-    <div class="loader-container" id="loader">
-        <div class="loader"></div>
+    <div class="app-container">
+        
+        <aside class="sidebar" id="sidebar">
+            <div class="logo-container">
+                <i class="fa-solid from-bracket fa-clapperboard logo-icon"></i>
+                <span class="logo-text">SAVEAN<span class="accent-text">MOVIES</span></span>
+            </div>
+            <nav class="nav-menu">
+                <p class="menu-label">Menu</p>
+                <a href="#" class="nav-item active" data-page="home"><i class="fa-solid fa-house"></i> <span>Home</span></a>
+                <a href="#" class="nav-item" data-page="movies"><i class="fa-solid fa-film"></i> <span>Movies</span></a>
+                <a href="#" class="nav-item" data-page="tv-shows"><i class="fa-solid fa-tv"></i> <span>TV Shows</span></a>
+                <a href="#" class="nav-item" data-page="trending"><i class="fa-solid fa-fire"></i> <span>Trending</span></a>
+                
+                <p class="menu-label">Library</p>
+                <a href="#" class="nav-item" data-page="my-list"><i class="fa-solid fa-bookmark"></i> <span>My List</span></a>
+                <a href="#" class="nav-item" data-page="history"><i class="fa-solid fa-clock-rotate-left"></i> <span>Watch History</span></a>
+                
+                <p class="menu-label">General</p>
+                <a href="#" class="nav-item" data-page="profile"><i class="fa-solid fa-user"></i> <span>Profiles</span></a>
+                <a href="#" class="nav-item" data-page="subscription"><i class="fa-solid fa-credit-card"></i> <span>Plans</span></a>
+                <a href="#" class="nav-item" data-page="settings"><i class="fa-solid fa-gear"></i> <span>Settings</span></a>
+                <a href="#" class="nav-item admin-only" data-page="admin"><i class="fa-solid fa-lock"></i> <span>Admin Panel</span></a>
+            </nav>
+        </aside>
+
+        <main class="main-viewport">
+            
+            <header class="top-navbar">
+                <div class="left-nav">
+                    <button class="toggle-sidebar-btn" id="sidebarToggle"><i class="fa-solid fa-bars"></i></button>
+                    <div class="search-wrapper">
+                        <i class="fa-solid fa-magnifying-glass search-icon"></i>
+                        <input type="text" id="globalSearch" placeholder="Search titles, genres, people..." autocomplete="off">
+                        <button id="voiceSearchBtn" title="Voice Search"><i class="fa-solid fa-microphone"></i></button>
+                        <div class="search-suggestions" id="searchSuggestions"></div>
+                    </div>
+                </div>
+                
+                <div class="right-nav">
+                    <div class="notification-dropdown">
+                        <button class="nav-icon-btn" id="notiBtn"><i class="fa-solid fa-bell"></i><span class="badge"></span></button>
+                        <div class="dropdown-panel" id="notiPanel">
+                            <h4>Notifications</h4>
+                            <div class="noti-list">
+                                <div class="noti-item unread"><strong>New Release:</strong> Interstellar 2 trailer is live!</div>
+                                <div class="noti-item">Subscription renewal successful.</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="profile-menu-wrapper">
+                        <div class="current-profile" id="profileDropdownBtn">
+                            <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=100&q=80" alt="Avatar" id="navAvatar">
+                            <span id="navProfileName">Alex</span>
+                            <i class="fa-solid fa-chevron-down"></i>
+                        </div>
+                        <div class="dropdown-panel profile-panel" id="profilePanel">
+                            <a href="#" class="switch-profile-action" data-profile="Alex"><img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=100&q=80"> Alex</a>
+                            <a href="#" class="switch-profile-action" data-profile="Sarah"><img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=100&q=80"> Sarah</a>
+                            <hr>
+                            <a href="#" data-page="login" class="nav-item"><i class="fa-solid fa-sign-out-alt"></i> Logout</a>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <div id="pageContent" class="page-content-wrapper">
+                </div>
+            
+            <footer class="app-footer">
+                <div class="footer-links">
+                    <a href="#">Audio Description</a>
+                    <a href="#">Help Center</a>
+                    <a href="#">Gift Cards</a>
+                    <a href="#">Terms of Use</a>
+                    <a href="#">Privacy Statements</a>
+                </div>
+                <p class="footer-copyright">© 2026 SAVEAN MOVIES. Futuristic Premium Cinema Experience. All Rights Reserved.</p>
+            </footer>
+        </main>
     </div>
 
-    <header class="main-header">
-        <div class="header-container">
-            <button class="mobile-menu-toggle" id="menuToggle" aria-label="Toggle Menu">
-                <i class="fa-solid fa-bars"></i>
-            </button>
+    <div class="video-player-modal" id="videoPlayerModal">
+        <div class="video-container" id="videoContainer">
+            <video id="mainVideo" src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4" preload="auto"></video>
             
-            <div class="logo">
-                <a href="#" onclick="switchView('home')">SAVEAN STORE</a>
-                <span class="tagline">Style That Saves</span>
-            </div>
-
-            <nav class="nav-menu" id="navMenu">
-                <button class="close-menu" id="closeMenu"><i class="fa-solid fa-xmark"></i></button>
-                <ul>
-                    <li><a href="#" onclick="switchView('home')" class="nav-link active">Home</a></li>
-                    <li><a href="#" onclick="switchView('shop'); filterCategory('all')" class="nav-link">Shop All</a></li>
-                    <li><a href="#" onclick="switchView('shop'); filterCategory('Men')" class="nav-link">Men</a></li>
-                    <li><a href="#" onclick="switchView('shop'); filterCategory('Women')" class="nav-link">Women</a></li>
-                    <li><a href="#" onclick="switchView('shop'); filterCategory('Shoes')" class="nav-link">Shoes</a></li>
-                    <li><a href="#" onclick="switchView('shop'); filterCategory('Accessories')" class="nav-link">Accessories</a></li>
-                </ul>
-            </nav>
-
-            <div class="header-actions">
-                <div class="search-container">
-                    <input type="text" id="globalSearch" placeholder="Search curated fashion..." onkeyup="handleSearch(event)">
-                    <button onclick="triggerSearch()"><i class="fa-solid fa-magnifying-glass"></i></button>
+            <div class="video-controls-overlay">
+                <div class="controls-top">
+                    <button class="back-from-player" id="closePlayerBtn"><i class="fa-solid fa-arrow-left"></i> <span id="playerMovieTitle">Movie Title</span></button>
                 </div>
-                <button class="action-btn" onclick="switchView('account')" title="Account"><i class="fa-solid fa-user"></i></button>
-                <button class="action-btn" onclick="switchView('wishlist')" title="Wishlist">
-                    <i class="fa-solid fa-heart"></i>
-                    <span class="badge" id="wishlistCount">0</span>
-                </button>
-                <button class="action-btn" onclick="switchView('cart')" title="Cart">
-                    <i class="fa-solid fa-bag-shopping"></i>
-                    <span class="badge" id="cartCount">0</span>
-                </button>
-            </div>
-        </div>
-    </header>
-
-    <main class="main-content">
-
-        <section id="view-home" class="view-section active">
-            <div class="hero-slider" id="heroSlider">
-                <div class="slide active" style="background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('https://images.unsplash.com/photo-1469334031218-e382a71b716b?auto=format&fit=crop&w=1600&q=80')">
-                    <div class="slide-content">
-                        <h2>THE MONOCHROME ESSENTIALS</h2>
-                        <p>Discover timeless structural luxury silhouettes designed for the modern avant-garde.</p>
-                        <button class="btn btn-white" onclick="switchView('shop')">Shop Collection</button>
-                    </div>
-                </div>
-                <div class="slide" style="background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1600&q=80')">
-                    <div class="slide-content">
-                        <h2>CURATED HIGH-FASHION</h2>
-                        <p>Elevate your everyday wardrobe architecture with our iconic minimalist arrivals.</p>
-                        <button class="btn btn-white" onclick="switchView('shop')">Explore Now</button>
-                    </div>
-                </div>
-                <div class="slide" style="background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=1600&q=80')">
-                    <div class="slide-content">
-                        <h2>STYLE THAT SAVES</h2>
-                        <p>Luxury craftsmanship matches accessible value. Enjoy premium global delivery options.</p>
-                        <button class="btn btn-white" onclick="switchView('shop')">Discover Sale</button>
-                    </div>
-                </div>
-                <div class="slider-dots">
-                    <span class="dot active" onclick="setSlide(0)"></span>
-                    <span class="dot" onclick="setSlide(1)"></span>
-                    <span class="dot" onclick="setSlide(2)"></span>
-                </div>
-            </div>
-
-            <section class="section-container">
-                <h3 class="section-title">Shop by Category</h3>
-                <div class="category-grid">
-                    <div class="category-card" onclick="switchView('shop'); filterCategory('Men')">
-                        <img src="https://images.unsplash.com/photo-1488161628813-04466f872be2?auto=format&fit=crop&w=500&q=80" alt="Men's Fashion" loading="lazy">
-                        <div class="cat-overlay"><span>Men's Fashion</span></div>
-                    </div>
-                    <div class="category-card" onclick="switchView('shop'); filterCategory('Women')">
-                        <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=500&q=80" alt="Women's Fashion" loading="lazy">
-                        <div class="cat-overlay"><span>Women's Fashion</span></div>
-                    </div>
-                    <div class="category-card" onclick="switchView('shop'); filterCategory('Shoes')">
-                        <img src="https://images.unsplash.com/photo-1549298916-b41d501d3772?auto=format&fit=crop&w=500&q=80" alt="Shoes" loading="lazy">
-                        <div class="cat-overlay"><span>Shoes</span></div>
-                    </div>
-                    <div class="category-card" onclick="switchView('shop'); filterCategory('Bags')">
-                        <img src="https://images.unsplash.com/photo-1584917865442-de89df76afd3?auto=format&fit=crop&w=500&q=80" alt="Bags" loading="lazy">
-                        <div class="cat-overlay"><span>Bags</span></div>
-                    </div>
-                    <div class="category-card" onclick="switchView('shop'); filterCategory('Accessories')">
-                        <img src="https://images.unsplash.com/photo-1509319117193-57bab727e09d?auto=format&fit=crop&w=500&q=80" alt="Accessories" loading="lazy">
-                        <div class="cat-overlay"><span>Accessories</span></div>
-                    </div>
-                    <div class="category-card" onclick="switchView('shop'); filterCategory('Watches')">
-                        <img src="https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?auto=format&fit=crop&w=500&q=80" alt="Watches" loading="lazy">
-                        <div class="cat-overlay"><span>Watches</span></div>
-                    </div>
-                    <div class="category-card" onclick="switchView('shop'); filterCategory('Beauty')">
-                        <img src="https://images.unsplash.com/photo-1596462502278-27bfdc403348?auto=format&fit=crop&w=500&q=80" alt="Beauty" loading="lazy">
-                        <div class="cat-overlay"><span>Beauty</span></div>
-                    </div>
-                    <div class="category-card" onclick="switchView('shop'); filterCategory('Sportswear')">
-                        <img src="https://images.unsplash.com/photo-1517838277536-f5f99be501cd?auto=format&fit=crop&w=500&q=80" alt="Sportswear" loading="lazy">
-                        <div class="cat-overlay"><span>Sportswear</span></div>
-                    </div>
-                </div>
-            </section>
-
-            <section class="featured-banner">
-                <div class="featured-image" style="background-image: url('https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1200&q=80');"></div>
-                <div class="featured-text">
-                    <span class="tag">Curated Archive</span>
-                    <h3>THE ARCHIVAL EDIT</h3>
-                    <p>Meticulously sourced, elite tailoring structures built to outlast seasonal trends. Discover striking visual harmony across complete monochrome layouts.</p>
-                    <button class="btn btn-black" onclick="switchView('shop')">Explore Archive</button>
-                </div>
-            </section>
-
-            <section class="section-container">
-                <div class="showcase-tabs">
-                    <button class="tab-link active" onclick="filterShowcase('trending', this)">Trending Products</button>
-                    <button class="tab-link" onclick="filterShowcase('new', this)">New Arrivals</button>
-                    <button class="tab-link" onclick="filterShowcase('best', this)">Best Sellers</button>
-                    <button class="tab-link" onclick="filterShowcase('flash', this)">Flash Sale</button>
-                    <button class="tab-link" onclick="filterShowcase('deals', this)">Today's Deals</button>
-                </div>
-                <div class="product-grid" id="homeProductGrid">
-                    </div>
-            </section>
-
-            <section class="benefits-container">
-                <div class="benefit-item">
-                    <i class="fa-solid fa-truck-fast"></i>
-                    <h4>Free Premium Shipping</h4>
-                    <p>Complimentary trackable delivery on orders across the country.</p>
-                </div>
-                <div class="benefit-item">
-                    <i class="fa-solid fa-shield-halved"></i>
-                    <h4>Secure Encrypted Payment</h4>
-                    <p>Your transactions are fortified with absolute premium multi-layer security.</p>
-                </div>
-                <div class="benefit-item">
-                    <i class="fa-solid fa-arrow-rotate-left"></i>
-                    <h4>Easy Returns</h4>
-                    <p>Complimentary 30-day structural inspection and product exchange return.</p>
-                </div>
-                <div class="benefit-item">
-                    <i class="fa-solid fa-headset"></i>
-                    <h4>24/7 Concierge Support</h4>
-                    <p>Direct communication interface with our premium styling experts anytime.</p>
-                </div>
-            </section>
-
-            <section class="newsletter-section">
-                <h3>JOIN THE ARCHIVE</h3>
-                <p>Subscribe to access exclusive preview releases, curated collection manifests, and secret private sales.</p>
-                <div class="newsletter-form">
-                    <input type="email" placeholder="Enter your email address" id="newsletterEmail">
-                    <button class="btn btn-black" onclick="subscribeNewsletter()">Subscribe</button>
-                </div>
-            </section>
-        </section>
-
-        <section id="view-shop" class="view-section">
-            <div class="shop-layout">
-                <aside class="shop-sidebar" id="shopSidebar">
-                    <div class="sidebar-header">
-                        <h3>FILTERS</h3>
-                        <button class="close-sidebar" onclick="toggleSidebar(false)"><i class="fa-solid fa-xmark"></i></button>
-                    </div>
-                    
-                    <div class="filter-group">
-                        <h4>Category</h4>
-                        <ul class="filter-list" id="categoryFilterList">
-                            <li class="active" onclick="setCategoryFilter('all', this)">All Products</li>
-                            <li onclick="setCategoryFilter('Men', this)">Men's Fashion</li>
-                            <li onclick="setCategoryFilter('Women', this)">Women's Fashion</li>
-                            <li onclick="setCategoryFilter('Shoes', this)">Shoes</li>
-                            <li onclick="setCategoryFilter('Bags', this)">Bags</li>
-                            <li onclick="setCategoryFilter('Accessories', this)">Accessories</li>
-                            <li onclick="setCategoryFilter('Watches', this)">Watches</li>
-                            <li onclick="setCategoryFilter('Beauty', this)">Beauty</li>
-                            <li onclick="setCategoryFilter('Sportswear', this)">Sportswear</li>
-                        </ul>
-                    </div>
-
-                    <div class="filter-group">
-                        <h4>Max Price (Rs.)</h4>
-                        <div class="price-range-container">
-                            <input type="range" id="priceRange" min="500" max="30000" step="500" value="30000" oninput="updatePriceLabel(this.value)">
-                            <div class="price-labels">
-                                <span>Rs. 500</span>
-                                <span id="priceValueLabel">Rs. 30,000</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="filter-group">
-                        <h4>Minimum Rating</h4>
-                        <ul class="filter-list" id="ratingFilterList">
-                            <li class="active" onclick="setRatingFilter(0, this)">All Ratings</li>
-                            <li onclick="setRatingFilter(5, this)">★★★★★ (5 Stars)</li>
-                            <li onclick="setRatingFilter(4, this)">★★★★☆ & Up</li>
-                            <li onclick="setRatingFilter(3, this)">★★★☆☆ & Up</li>
-                        </ul>
-                    </div>
-                    
-                    <button class="btn btn-black w-100" onclick="resetAllFilters()">Clear All Filters</button>
-                </aside>
-
-                <div class="shop-main">
-                    <div class="shop-toolbar">
-                        <button class="filter-toggle-btn" onclick="toggleSidebar(true)">
-                            <i class="fa-solid fa-sliders"></i> Filters
-                        </button>
-                        <div class="results-count" id="resultsCount">Showing all products</div>
-                        <div class="sort-container">
-                            <label for="sortSelect">Sort By:</label>
-                            <select id="sortSelect" onchange="handleSortChange()">
-                                <option value="newest">Newest</option>
-                                <option value="price-low">Price: Low to High</option>
-                                <option value="price-high">Price: High to Low</option>
-                                <option value="best-selling">Best Selling</option>
-                                <option value="popular">Most Popular</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="product-grid" id="shopProductGrid">
-                        </div>
-                </div>
-            </div>
-        </section>
-
-        <section id="view-product-details" class="view-section">
-            <div class="details-container" id="productDetailsContent">
-                </div>
-        </section>
-
-        <section id="view-cart" class="view-section section-container">
-            <h2 class="page-title">YOUR SHOPPING BAG</h2>
-            <div class="cart-layout" id="cartLayoutContainer">
-                </div>
-        </section>
-
-        <section id="view-wishlist" class="view-section section-container">
-            <h2 class="page-title">YOUR WISHLIST</h2>
-            <div class="product-grid" id="wishlistGridContainer">
-                </div>
-        </section>
-
-        <section id="view-account" class="view-section section-container">
-            <div id="account-auth-container">
-                <div class="auth-tabs">
-                    <button class="auth-tab-btn active" onclick="switchAuthTab('login', this)">Login</button>
-                    <button class="auth-tab-btn" onclick="switchAuthTab('register', this)">Register</button>
-                </div>
-
-                <div id="auth-login-box" class="auth-box active">
-                    <form onsubmit="handleAuthSubmit(event, 'login')">
-                        <div class="form-group">
-                            <label>Email Address *</label>
-                            <input type="email" required placeholder="name@example.com">
-                        </div>
-                        <div class="form-group">
-                            <label>Password *</label>
-                            <input type="password" required placeholder="••••••••">
-                        </div>
-                        <div class="auth-actions">
-                            <a href="#" onclick="switchAuthTab('forgot', null)">Forgot password?</a>
-                        </div>
-                        <button type="submit" class="btn btn-black w-100">SIGN IN</button>
-                    </form>
-                </div>
-
-                <div id="auth-register-box" class="auth-box">
-                    <form onsubmit="handleAuthSubmit(event, 'register')">
-                        <div class="form-group">
-                            <label>Full Name *</label>
-                            <input type="text" required placeholder="John Doe">
-                        </div>
-                        <div class="form-group">
-                            <label>Email Address *</label>
-                            <input type="email" required placeholder="john@example.com">
-                        </div>
-                        <div class="form-group">
-                            <label>Password *</label>
-                            <input type="password" required placeholder="Minimum 8 characters">
-                        </div>
-                        <button type="submit" class="btn btn-black w-100">CREATE ACCOUNT</button>
-                    </form>
-                </div>
-
-                <div id="auth-forgot-box" class="auth-box">
-                    <h3>Reset Password</h3>
-                    <p style="margin-bottom: 20px; font-size: 0.9rem; color: #666;">Enter your email below to receive secure authentication parameters for structural recovery.</p>
-                    <form onsubmit="handleAuthSubmit(event, 'forgot')">
-                        <div class="form-group">
-                            <label>Email Address *</label>
-                            <input type="email" required placeholder="name@example.com">
-                        </div>
-                        <button type="submit" class="btn btn-black w-100">SUBMIT PASSWORD RESET</button>
-                        <button type="button" class="btn btn-white w-100" style="margin-top: 10px;" onclick="switchAuthTab('login', null)">Back to Login</button>
-                    </form>
-                </div>
-            </div>
-
-            <div id="account-dashboard-container" style="display: none;">
-                <div class="dashboard-layout">
-                    <aside class="dashboard-sidebar">
-                        <div class="user-info-summary">
-                            <i class="fa-solid fa-circle-user"></i>
-                            <h4 id="dashUserTitle">Premium Client</h4>
-                            <p id="dashUserEmail">client@saveanstore.com</p>
-                        </div>
-                        <ul class="dash-menu">
-                            <li class="active" onclick="switchDashTab('history', this)"><i class="fa-solid fa-clock-history"></i> Order History</li>
-                            <li onclick="switchDashTab('addresses', this)"><i class="fa-solid fa-location-dot"></i> Saved Addresses</li>
-                            <li onclick="switchDashTab('profile', this)"><i class="fa-solid fa-sliders"></i> Profile Settings</li>
-                            <li onclick="handleLogout()"><i class="fa-solid fa-right-from-bracket"></i> Sign Out</li>
-                        </ul>
-                    </aside>
-                    <div class="dashboard-content">
-                        <div id="dash-history" class="dash-tab-content active">
-                            <h3>Your Architectural Orders</h3>
-                            <div class="table-responsive" style="margin-top:20px;">
-                                <table class="custom-table">
-                                    <thead>
-                                        <tr>
-                                            <th>Order ID</th>
-                                            <th>Date</th>
-                                            <th>Status</th>
-                                            <th>Total Price</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="orderHistoryBody">
-                                        </tbody>
-                                </table>
-                            </div>
-                        </div>
-
-                        <div id="dash-addresses" class="dash-tab-content">
-                            <h3>Default Shipping Manifest</h3>
-                            <div class="address-card" style="margin-top: 20px;">
-                                <strong>John Doe</strong><br>
-                                45 Premium Boulevard, Suite 700<br>
-                                Colombo, 00700<br>
-                                Sri Lanka<br>
-                                Phone: +94 77 123 4567
-                            </div>
-                        </div>
-
-                        <div id="dash-profile" class="dash-tab-content">
-                            <h3>Update Security Credentials</h3>
-                            <form style="margin-top:20px;" onsubmit="event.preventDefault(); alert('Profile Configuration Saved.');">
-                                <div class="form-group">
-                                    <label>Full Name</label>
-                                    <input type="text" value="John Doe">
-                                </div>
-                                <div class="form-group">
-                                    <label>Email Address</label>
-                                    <input type="email" value="client@saveanstore.com" disabled>
-                                </div>
-                                <div class="form-group">
-                                    <label>New Password</label>
-                                    <input type="password" placeholder="Leave empty to remain unchanged">
-                                </div>
-                                <button class="btn btn-black">Save Changes</button>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section id="view-checkout" class="view-section section-container">
-            <h2 class="page-title">SECURE GATEWAY CHECKOUT</h2>
-            <div class="checkout-layout">
-                <form id="checkoutForm" onsubmit="processCheckout(event)">
-                    <div class="checkout-section">
-                        <h3>1. Shipping & Billing Allocation</h3>
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label>First Name *</label>
-                                <input type="text" required id="chkFirst">
-                            </div>
-                            <div class="form-group">
-                                <label>Last Name *</label>
-                                <input type="text" required id="chkLast">
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label>Phone Number *</label>
-                                <input type="tel" required id="chkPhone">
-                            </div>
-                            <div class="form-group">
-                                <label>Email Address *</label>
-                                <input type="email" required id="chkEmail">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label>Street Address *</label>
-                            <input type="text" required placeholder="House number and street name" id="chkAddress">
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label>City *</label>
-                                <input type="text" required id="chkCity">
-                            </div>
-                            <div class="form-group">
-                                <label>Postal Code *</label>
-                                <input type="text" required id="chkZip">
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="checkout-section" style="margin-top: 30px;">
-                        <h3>2. Financial Gateway Verification</h3>
-                        <div class="payment-options">
-                            <label class="payment-option">
-                                <input type="radio" name="paymentMethod" value="Cash on Delivery" checked>
-                                <span>Cash on Delivery (COD)</span>
-                            </label>
-                            <label class="payment-option">
-                                <input type="radio" name="paymentMethod" value="Credit Card">
-                                <span>Credit Card</span>
-                            </label>
-                            <label class="payment-option">
-                                <input type="radio" name="paymentMethod" value="Debit Card">
-                                <span>Debit Card</span>
-                            </label>
-                            <label class="payment-option">
-                                <input type="radio" name="paymentMethod" value="Bank Transfer">
-                                <span>Direct Bank Wire Transfer</span>
-                            </label>
-                        </div>
-                    </div>
-                    
-                    <button type="submit" class="btn btn-black w-100" style="margin-top: 30px; font-size: 1.1rem; padding: 15px;">AUTHORIZE SECURE PURCHASE</button>
-                </form>
-
-                <div class="checkout-summary-box">
-                    <h3>Order Inventory Summary</h3>
-                    <div id="checkoutSummaryItems">
-                        </div>
-                    <hr>
-                    <div class="summary-row font-bold">
-                        <span>Total Checkout Obligation:</span>
-                        <span id="checkoutGrandTotal">Rs. 0</span>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section id="view-confirmation" class="view-section section-container text-center">
-            <div class="confirmation-box">
-                <i class="fa-solid fa-circle-check confirmation-icon"></i>
-                <h2>TRANSACTION COMPLETE</h2>
-                <p class="success-msg">Your fashion acquisition request has been securely archived and processed.</p>
                 
-                <div class="conf-details-card">
-                    <p><strong>Order Serial Reference:</strong> <span id="confOrderNumber">SVN-984712-2026</span></p>
-                    <p><strong>Client Representative:</strong> <span id="confCustomerName">John Doe</span></p>
-                    <p><strong>Authorized Allocation Sum:</strong> <span id="confTotalAmount" class="font-bold">Rs. 0</span></p>
-                </div>
+                <button class="skip-intro-btn hidden" id="skipIntroBtn">Skip Intro</button>
 
-                <h3>Acquired Manifest</h3>
-                <div id="confProductsSummary" style="margin: 20px 0; text-align: left;">
+                <div class="controls-bottom">
+                    <div class="progress-area" id="progressArea">
+                        <div class="progress-bar">
+                            <div class="buffered-progress"></div>
+                            <div class="current-progress"></div>
+                        </div>
                     </div>
-
-                <button class="btn btn-black" onclick="switchView('home')">Return to Digital Archive Home</button>
-            </div>
-        </section>
-
-    </main>
-
-    <footer class="main-footer">
-        <div class="footer-grid">
-            <div class="footer-brand-col">
-                <h4>SAVEAN STORE</h4>
-                <p class="tagline">Style That Saves</p>
-                <p class="desc">A premier high-fashion ecosystem. Merging striking structural monochrome geometries with curated elite luxury silhouettes.</p>
-            </div>
-            <div>
-                <h4>Navigation Hub</h4>
-                <ul>
-                    <li><a href="#" onclick="switchView('shop')">Shop Digital Catalog</a></li>
-                    <li><a href="#" onclick="switchView('account')">Account Portals</a></li>
-                    <li><a href="#" onclick="switchView('wishlist')">Wishlist Index</a></li>
-                    <li><a href="#" onclick="switchView('cart')">Shopping Bag</a></li>
-                </ul>
-            </div>
-            <div>
-                <h4>Client Policy Guidelines</h4>
-                <ul>
-                    <li><a href="#" onclick="alert('Complimentary premium tracked shipping options apply on local orders.')">Shipping Architecture</a></li>
-                    <li><a href="#" onclick="alert('30-day structural inspection return protocol enabled.')">Return Manifests</a></li>
-                    <li><a href="#" onclick="alert('Secure modern cryptographic personal privacy guidelines enforced.')">Privacy Policy</a></li>
-                    <li><a href="#" onclick="alert('Terms and conditions governed by global luxury enterprise regulations.')">Terms & Conditions</a></li>
-                </ul>
-            </div>
-            <div>
-                <h4>Support Infrastructure</h4>
-                <ul>
-                    <li><a href="#" onclick="alert('Direct communication line open via client@saveanstore.com')">Contact Specialist</a></li>
-                    <li><a href="#" onclick="alert('Frequently Asked Questions database updating structural metrics.')">FAQ Repository</a></li>
-                    <li><a href="#" onclick="alert('Physical flagship experience centers opening globally in late 2026.')">Our Locations</a></li>
-                </ul>
+                    
+                    <div class="controls-row">
+                        <div class="controls-left">
+                            <button id="playPauseBtn"><i class="fa-solid fa-play"></i></button>
+                            <button id="rewindBtn"><i class="fa-solid fa-backward"></i></button>
+                            <button id="forwardBtn"><i class="fa-solid fa-forward"></i></button>
+                            <div class="volume-wrapper">
+                                <button id="muteBtn"><i class="fa-solid fa-volume-high"></i></button>
+                                <input type="range" id="volumeSlider" min="0" max="1" step="0.1" value="1">
+                            </div>
+                            <span class="time-display"><span id="currentTime">0:00</span> / <span id="durationTime">0:00</span></span>
+                        </div>
+                        
+                        <div class="controls-right">
+                            <button id="subtitleBtn" title="Subtitles"><i class="fa-solid fa-closed-captioning"></i></button>
+                            <button id="speedBtn" title="Playback Speed">1.0x</button>
+                            <button id="qualityBtn" title="Video Quality">1080p</button>
+                            <button id="fullscreenBtn"><i class="fa-solid fa-expand"></i></button>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-        <div class="footer-bottom">
-            <div class="social-links">
-                <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
-                <a href="#" aria-label="X/Twitter"><i class="fa-brands fa-x-twitter"></i></a>
-                <a href="#" aria-label="Pinterest"><i class="fa-brands fa-pinterest"></i></a>
-                <a href="#" aria-label="LinkedIn"><i class="fa-brands fa-linkedin"></i></a>
-            </div>
-            <p>&copy; 2026 SAVEAN STORE Luxury Fashion Network Inc. All Architectural Concepts Registered.</p>
-        </div>
-    </footer>
+    </div>
 
-    <script src="script.js"></script>
+    <div class="toast-container" id="toastContainer"></div>
+
 </body>
 </html>
